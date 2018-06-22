@@ -1,7 +1,36 @@
-﻿  Shader.cpp
-d:\digipen\other stuff\opengl\openglengine\openglengine\src\shader.cpp(7): error C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
-  Main.cpp
-d:\digipen\other stuff\opengl\openglengine\openglengine\src\main.cpp(176): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-  VertexBufferObject.cpp
-  Generating Code...
+﻿Shader.obj : error LNK2001: unresolved external symbol __imp___glewAttachShader
+Shader.obj : error LNK2001: unresolved external symbol __imp___glewCompileShader
+Shader.obj : error LNK2001: unresolved external symbol __imp___glewCreateProgram
+Shader.obj : error LNK2001: unresolved external symbol __imp___glewCreateShader
+Shader.obj : error LNK2001: unresolved external symbol __imp___glewDeleteProgram
+Shader.obj : error LNK2001: unresolved external symbol __imp___glewDeleteShader
+Shader.obj : error LNK2001: unresolved external symbol __imp___glewGetProgramiv
+Shader.obj : error LNK2001: unresolved external symbol __imp___glewGetShaderInfoLog
+Shader.obj : error LNK2001: unresolved external symbol __imp___glewGetShaderiv
+Shader.obj : error LNK2001: unresolved external symbol __imp___glewLinkProgram
+Shader.obj : error LNK2001: unresolved external symbol __imp___glewShaderSource
+Shader.obj : error LNK2001: unresolved external symbol __imp___glewUseProgram
+Shader.obj : error LNK2001: unresolved external symbol __imp___glewValidateProgram
+Main.obj : error LNK2019: unresolved external symbol __imp_glewInit referenced in function main
+Main.obj : error LNK2019: unresolved external symbol glfwInit referenced in function main
+Main.obj : error LNK2019: unresolved external symbol glfwTerminate referenced in function main
+Main.obj : error LNK2019: unresolved external symbol glfwCreateWindow referenced in function main
+Main.obj : error LNK2019: unresolved external symbol glfwWindowShouldClose referenced in function main
+Main.obj : error LNK2019: unresolved external symbol glfwSetWindowShouldClose referenced in function "void __cdecl processinput(struct GLFWwindow *)" (?processinput@@YAXPEAUGLFWwindow@@@Z)
+Main.obj : error LNK2019: unresolved external symbol glfwPollEvents referenced in function main
+Main.obj : error LNK2019: unresolved external symbol glfwGetKey referenced in function "void __cdecl processinput(struct GLFWwindow *)" (?processinput@@YAXPEAUGLFWwindow@@@Z)
+Main.obj : error LNK2019: unresolved external symbol glfwMakeContextCurrent referenced in function main
+Main.obj : error LNK2019: unresolved external symbol glfwSwapBuffers referenced in function main
+Main.obj : error LNK2019: unresolved external symbol glfwSwapInterval referenced in function main
+Main.obj : error LNK2001: unresolved external symbol __imp___glewBindBuffer
+Main.obj : error LNK2001: unresolved external symbol __imp___glewBufferData
+Main.obj : error LNK2001: unresolved external symbol __imp___glewGenBuffers
+Main.obj : error LNK2001: unresolved external symbol __imp___glewEnableVertexAttribArray
+Main.obj : error LNK2001: unresolved external symbol __imp___glewGetUniformLocation
+Main.obj : error LNK2001: unresolved external symbol __imp___glewUniform4f
+Main.obj : error LNK2001: unresolved external symbol __imp___glewVertexAttribPointer
+Main.obj : error LNK2001: unresolved external symbol __imp___glewBindVertexArray
+Main.obj : error LNK2001: unresolved external symbol __imp___glewGenVertexArrays
+D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\Dependencies\GLFW\lib-vc2015\glfw3.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
+D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\Dependencies\GLEW\glew-2.1.0-win32\glew-2.1.0\lib\Release\Win32\glew32.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
+D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\x64\Debug\OpenGLEngine.exe : fatal error LNK1120: 33 unresolved externals
