@@ -90,6 +90,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLM\glm-0.9.9.0\glm\glm;$(SolutionDir)Dependencies\GLFW\include\GLFW;$(SolutionDir)Dependencies\GLEW\glew-2.1.0-win32\glew-2.1.0\include\GL;$(SolutionDir)Dependencies\GLAD\glad\include\KHR;$(SolutionDir)Dependencies\GLAD\glad\include\glad;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -118,6 +120,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLM\glm-0.9.9.0\glm\glm;$(SolutionDir)Dependencies\GLFW\include\GLFW;$(SolutionDir)Dependencies\GLEW\glew-2.1.0-win32\glew-2.1.0\include\GL;$(SolutionDir)Dependencies\GLAD\glad\include\KHR;$(SolutionDir)Dependencies\GLAD\glad\include\glad;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
