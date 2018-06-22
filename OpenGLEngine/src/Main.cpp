@@ -15,6 +15,15 @@ using namespace glm;
 #define Screen_Height  480 
 
 
+//#define's 
+
+//#define DrawTriangle
+//#define DrawSquareIBO
+//#define DrawSquareVAO
+#define DrawTextureSquare
+
+
+//To find the error's
 void GetError()
 {
 	while (GLenum error = glGetError())
@@ -23,6 +32,7 @@ void GetError()
 	}
 }
 
+//TO take input's
 void processinput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -35,6 +45,9 @@ void processinput(GLFWwindow* window)
 unsigned int vao;//Vertex Array Object
 unsigned int vbo;//Vertex Buffer Object
 unsigned int ibo;//Index or Element Buffer Object
+
+
+#ifdef DrawTriangle
 
 void Draw_Triangle()
 {
@@ -56,6 +69,10 @@ void Draw_Triangle()
 
 
 }
+
+#endif // Draw_Triangle
+
+#ifdef DrawSquareIBO
 
 void Draw_Square_IBO()
 {
@@ -89,6 +106,10 @@ void Draw_Square_IBO()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
 
 }
+
+#endif // Draw_Square_IBO
+
+#ifdef DrawSquareVAO
 
 void Draw_Square_VAO()
 {
@@ -132,6 +153,16 @@ void Draw_Square_VAO()
 
 }
 
+#endif // Draw_Square_VAO
+
+#ifdef DrawTextureSquare
+
+void Draw_Texture_Square()
+{
+
+}
+
+#endif // Draw_Texture_Square
 
 
 
@@ -177,8 +208,8 @@ int main(void)
 
 	//Draw_Triangle();
 	//Draw_Square_IBO();
-	Draw_Square_VAO();
-
+	//Draw_Square_VAO();
+	Draw_Texture_Square();
 
 
 	/*
