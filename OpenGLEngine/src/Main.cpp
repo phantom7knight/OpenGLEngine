@@ -19,8 +19,8 @@ using namespace glm;
 
 //#define DrawTriangle
 //#define DrawSquareIBO
-//#define DrawSquareVAO
-#define DrawTextureSquare
+#define DrawSquareVAO
+//#define DrawTextureSquare
 
 
 //To find the error's
@@ -155,11 +155,14 @@ void Draw_Square_VAO()
 
 #endif // Draw_Square_VAO
 
+
+
+
 #ifdef DrawTextureSquare
 
 void Draw_Texture_Square()
 {
-
+	
 }
 
 #endif // Draw_Texture_Square
@@ -200,16 +203,20 @@ int main(void)
 
 	
 	Shader *useShader;
-	useShader = new Shader("Shaders/Triangle_Variations.vs", "Shaders/Triangle_Variations.fs");//Triangle_Variations  Default
+	useShader = new Shader("Shaders/Default_Variations.vs", "Shaders/Default_Variations.fs");//Default_Variations  Default
 	useShader->Use();
 	
 	//Uniform variables
 	glUniform4f(glGetUniformLocation(useShader->GetShaderID(), "Color_Send"), 0.5, 0.3, 0.4, 1.0);
 
+	glm::mat4 worldmat = glm::mat4(1);
+	worldmat = glm::translate(worldmat, glm::vec3(0.2, 0, 0)) * glm::scale(worldmat, glm::vec3(0.2));
+	glUniformMatrix4fv(glGetUniformLocation(useShader->GetShaderID(), "worldmat"), 1, GL_FALSE, glm::value_ptr(worldmat));
+
 	//Draw_Triangle();
 	//Draw_Square_IBO();
-	//Draw_Square_VAO();
-	Draw_Texture_Square();
+	Draw_Square_VAO();
+	//Draw_Texture_Square();
 
 
 	/*
@@ -254,6 +261,9 @@ int main(void)
 			GetError();
 
 		}
+		
+		
+		
 		glBindVertexArray(vao);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
