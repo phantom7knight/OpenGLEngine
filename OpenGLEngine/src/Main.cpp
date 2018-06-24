@@ -5,6 +5,7 @@
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
+#include "../Renderer.h"
 
 
 using namespace std;
@@ -15,11 +16,12 @@ using namespace glm;
 #define Screen_Height  480 
 
 
+
 //#define's 
 
 //#define DrawTriangle
 //#define DrawSquareIBO
-#define DrawSquareVAO
+//#define DrawSquareVAO
 //#define DrawTextureSquare
 
 
@@ -42,9 +44,9 @@ void processinput(GLFWwindow* window)
 }
 
 
-unsigned int vao;//Vertex Array Object
-unsigned int vbo;//Vertex Buffer Object
-unsigned int ibo;//Index or Element Buffer Object
+//unsigned int vao;//Vertex Array Object
+//unsigned int vbo;//Vertex Buffer Object
+//unsigned int ibo;//Index or Element Buffer Object
 
 
 #ifdef DrawTriangle
@@ -156,8 +158,6 @@ void Draw_Square_VAO()
 #endif // Draw_Square_VAO
 
 
-
-
 #ifdef DrawTextureSquare
 
 void Draw_Texture_Square()
@@ -202,20 +202,20 @@ int main(void)
 	}
 
 	
-	Shader *useShader;
-	useShader = new Shader("Shaders/Default_Variations.vs", "Shaders/Default_Variations.fs");//Default_Variations  Default
-	useShader->Use();
-	
-	//Uniform variables
-	glUniform4f(glGetUniformLocation(useShader->GetShaderID(), "Color_Send"), 0.5, 0.3, 0.4, 1.0);
+	//Shader *useShader;
+	//useShader = new Shader("Shaders/Default_Variations.vs", "Shaders/Default_Variations.fs");//Default_Variations  Default
+	//useShader->Use();
+	//
+	////Uniform variables
+	//glUniform4f(glGetUniformLocation(useShader->GetShaderID(), "Color_Send"), 0.5, 0.3, 0.4, 1.0);
 
-	glm::mat4 worldmat = glm::mat4(1);
-	worldmat = glm::translate(worldmat, glm::vec3(0.2, 0, 0)) * glm::scale(worldmat, glm::vec3(0.2));
-	glUniformMatrix4fv(glGetUniformLocation(useShader->GetShaderID(), "worldmat"), 1, GL_FALSE, glm::value_ptr(worldmat));
+	//glm::mat4 worldmat = glm::mat4(1);
+	//worldmat = glm::translate(worldmat, glm::vec3(0.2, 0, 0)) * glm::scale(worldmat, glm::vec3(0.2));
+	//glUniformMatrix4fv(glGetUniformLocation(useShader->GetShaderID(), "worldmat"), 1, GL_FALSE, glm::value_ptr(worldmat));
 
 	//Draw_Triangle();
 	//Draw_Square_IBO();
-	Draw_Square_VAO();
+	//Draw_Square_VAO();
 	//Draw_Texture_Square();
 
 
@@ -241,6 +241,7 @@ int main(void)
 
 	*/
 
+	Renderer::getInstance()->Init("Shaders/Default_Variations.vs", "Shaders/Default_Variations.fs", glm::vec3(0.2, 0, 0), 0.2);
 	
 	int counter = 0;
 	/* Loop until the user closes the window */
@@ -264,10 +265,10 @@ int main(void)
 		
 		
 		
-		glBindVertexArray(vao);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		//glBindVertexArray(vao);
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
-
+		Renderer::getInstance()->RendererUpdate();
 		
 	
 		/* Swap front and back buffers */
@@ -276,7 +277,7 @@ int main(void)
 		/* Poll for and process events */
 		glfwPollEvents();
 	}
-	useShader->ClearShader();
+	//useShader->ClearShader();
 	glfwTerminate();
 	return 0;
 }
