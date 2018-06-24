@@ -1,3 +1,6 @@
 ﻿  Renderer.cpp
-d:\digipen\other stuff\opengl\openglengine\openglengine\renderer.cpp(41): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(44): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+  Main.cpp
+d:\digipen\other stuff\opengl\openglengine\openglengine\src\main.cpp(243): warning C4305: 'argument': truncation from 'double' to 'float'
+  Generating Code...
   OpenGLEngine.vcxproj -> D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\Debug\OpenGLEngine.exe

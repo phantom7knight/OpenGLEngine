@@ -6,7 +6,7 @@
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 #include "glew.h"
-#include "src\Shader.h"
+#include "../src/Shader.h"
 
 
 class Shader;
