@@ -2,6 +2,8 @@
 
 
 
+void Draw_Square_VAO();
+
 
 Renderer* Renderer::m_Instance = nullptr;
 
@@ -39,6 +41,8 @@ void Renderer::Init(const GLchar* vertexshaderpath, const GLchar* fragmentshader
 	m_useShader = new Shader(vertexshaderpath, fragmentshaderpath);
 	m_useShader->Use();
 
+	//Draw call
+	Draw_Square_VAO();
 
 	//Uniform variables
 	glUniform4f(glGetUniformLocation(m_useShader->GetShaderID(), "Color_Send"), 0.5, 0.3, 0.4, 1.0);
@@ -51,11 +55,11 @@ void Renderer::Init(const GLchar* vertexshaderpath, const GLchar* fragmentshader
 
 //This will be used by the draw functions
 unsigned int vao;
-unsigned int vbo;
-unsigned int ibo;
 
 void Draw_Square_VAO()
 {
+	unsigned int vbo;
+	unsigned int ibo;
 
 	float triangle_vertices[] = {
 		-0.5f,  -0.5f,
@@ -97,7 +101,7 @@ void Draw_Square_VAO()
 
 void Renderer::RendererUpdate()
 {
-	Draw_Square_VAO();
+	//Draw_Square_VAO();
 
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	//glDrawArrays(GL_TRIANGLES, 0, 3);
