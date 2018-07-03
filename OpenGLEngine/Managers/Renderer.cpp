@@ -150,7 +150,7 @@ void Draw_Textured_Square()
 
 	//Now send the pointer values to the shader
 
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, NULL);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, NULL);
 	glEnableVertexAttribArray(0);
 
 	//Unbind all the buffers and vao except for ibo(ebo)
