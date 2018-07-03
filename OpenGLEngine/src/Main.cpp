@@ -16,6 +16,15 @@ using namespace glm;
 #define Screen_Height  480 
 
 
+//Lerp Template function
+
+template <class T>
+T Lerp(T v0, T v1, float t)
+{
+	return (1 - t) * v0 + t * v1;
+}
+
+
 
 //#define's 
 
@@ -241,7 +250,7 @@ int main(void)
 
 	*/
 
-	Renderer::getInstance()->Init("Shaders/Default_Variations.vs", "Shaders/Default_Variations.fs", glm::vec3(0.2, 0, 0), 0.2);
+	Renderer::getInstance()->Init("Shaders/Default_Variations.vs", "Shaders/Default_Variations.fs", glm::vec3(0, 0, 0), 0.5);
 	
 	int counter = 0;
 	/* Loop until the user closes the window */

@@ -139,13 +139,13 @@
     <ClCompile Include="Managers\Renderer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="stb_image.cpp" />
+    <ClCompile Include="src\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Managers\InputManager.h" />
     <ClInclude Include="Managers\Renderer.h" />
     <ClInclude Include="src\Shader.h" />
-    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="src\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll" />
@@ -154,6 +154,9 @@
     <None Include="Shaders\Default.vs" />
     <None Include="Shaders\Default_Variations.fs" />
     <None Include="Shaders\Default_Variations.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Textures\spaceship.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
