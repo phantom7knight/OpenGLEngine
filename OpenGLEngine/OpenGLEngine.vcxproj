@@ -156,6 +156,7 @@
     <None Include="Shaders\Default_Variations.vs" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Assets\Textures\LetterA.png" />
     <Image Include="Assets\Textures\spaceship.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

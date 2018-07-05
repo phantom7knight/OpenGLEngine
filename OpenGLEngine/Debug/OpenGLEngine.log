@@ -1,3 +1,4 @@
 ﻿  Renderer.cpp
 d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(56): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(115): warning C4101: 'textCoords': unreferenced local variable
   OpenGLEngine.vcxproj -> D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\Debug\OpenGLEngine.exe

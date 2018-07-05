@@ -70,7 +70,7 @@ void Draw_Square_VAO()
 	unsigned int vbo;
 	unsigned int ibo;
 
-	float triangle_vertices[] = {
+	float Square_vertices[] = {
 		-0.5f,  -0.5f,
 		0.5f,  -0.5f,
 		0.5f,  0.5f,
@@ -92,7 +92,7 @@ void Draw_Square_VAO()
 	glBindVertexArray(vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(triangle_vertices), triangle_vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Square_vertices), Square_vertices, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
@@ -112,17 +112,19 @@ void Draw_Textured_Square()
 {
 	unsigned int vbo;
 	unsigned int ibo;
+	unsigned int textCoords;
 
-	float triangle_vertices[] = {
-		-0.5f,  -0.5f,	0.0f,	0.0f,
-	     0.5f,  -0.5f,	0.0f,	1.0f,
-		 0.5f,   0.5f,	1.0f,	1.0f,
-		-0.5f,   0.5f,	0.0f,	1.0f
+	float Square_vertices[] = {
+		//Cordinates	//Tex_Cords
+		-1.0f,  -1.0f,	0.0f,	0.0f,
+	     1.0f,  -1.0f,	1.0f,	0.0f,
+		 1.0f,   1.0f,	1.0f,	1.0f,
+		-1.0f,   1.0f,	0.0f,	1.0f
 	};
 	unsigned int indeces[] =
 	{
 		0,1,2,
-		0,3,2
+		2,3,0
 	};
 
 	float Texture_Coords[] =
@@ -137,21 +139,31 @@ void Draw_Textured_Square()
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
 	glGenBuffers(1, &ibo);
+	//glGenBuffers(1, &textCoords);
 
 	//Bind all of them
 
 	glBindVertexArray(vao);
 
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(triangle_vertices), triangle_vertices, GL_STATIC_DRAW);
 
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(Square_vertices), Square_vertices,GL_STATIC_DRAW);
+	//Now send the pointer values to the shader
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
-
-	//Now send the pointer values to the shader
-
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, NULL);
+	
+	
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 4, 0);
 	glEnableVertexAttribArray(0);
+
+
+	//glBindBuffer(GL_ARRAY_BUFFER, textCoords);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(Square_vertices), Square_vertices, GL_STATIC_DRAW);
+
+	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float)*4, (void*)(sizeof(float) * 2));
+	//glEnableVertexAttribArray(1);
+
+
 
 	//Unbind all the buffers and vao except for ibo(ebo)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -161,6 +173,7 @@ void Draw_Textured_Square()
 	//Texture Part
 	//=======================================================================================================
 	
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//Generate Texture
 	glGenTextures(1, &texture);
@@ -176,12 +189,12 @@ void Draw_Textured_Square()
 
 	//Loading the Texture
 	int width, height, channel;
-	unsigned char* loaded_texture_image = stbi_load("Assets/Textures/spaceship.png", &width, &height, &channel, 0);
-	
+	stbi_set_flip_vertically_on_load(true);
+	unsigned char* loaded_texture_image = stbi_load("Assets/Textures/LetterA.png", &width, &height, &channel, 0);
 	if (loaded_texture_image)
 	{
 		std::cout << "Succesful texture loaded " << std::endl;
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, loaded_texture_image);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, loaded_texture_image);
 		glGenerateMipmap(GL_TEXTURE20);
 	}
 	else
@@ -193,18 +206,17 @@ void Draw_Textured_Square()
 
 	//Send data to the Shader
 
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, NULL);
-	glEnableVertexAttribArray(1);
+	/*glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, NULL);
+	glEnableVertexAttribArray(1);*/
 
 	
 }
 
 void Renderer::RendererUpdate()
 {
-
+	glEnable(GL_BLEND);
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	//glDrawArrays(GL_TRIANGLES, 0, 3);
-
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);

@@ -9,5 +9,5 @@ uniform sampler2D texture_result;
 
 void main()
 {
-	dfragColor = texture(texture_result,cords_tex);			// vertcolor;
+	dfragColor = vec4(texture(texture_result,cords_tex));			// vertcolor;
 }

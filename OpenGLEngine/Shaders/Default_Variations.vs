@@ -1,7 +1,7 @@
 #version 330 core
 
-layout(location = 0) in vec3 triangle_vertices;
-layout(location = 1) in vec2 TexCords;
+layout(location = 0) in vec4 triangle_vertices;
+//layout(location = 1) in vec2 TexCords;
 
 out vec4 vertcolor;
 
@@ -12,7 +12,7 @@ out vec2 cords_tex;
 
 void main()
 {
-	gl_Position = worldmat*vec4(triangle_vertices,1.0);
+	gl_Position = worldmat*vec4(triangle_vertices.xy,1.0,1.0);
 	vertcolor = Color_Send;
-	cords_tex = TexCords;
+	cords_tex = triangle_vertices.zw;//TexCords;
 }

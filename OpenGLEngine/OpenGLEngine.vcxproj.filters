@@ -57,5 +57,8 @@
     <Image Include="Assets\Textures\spaceship.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Assets\Textures\LetterA.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
