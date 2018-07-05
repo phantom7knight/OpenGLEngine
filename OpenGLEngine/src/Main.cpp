@@ -31,7 +31,6 @@ T Lerp(T v0, T v1, float t)
 //#define DrawTriangle
 //#define DrawSquareIBO
 //#define DrawSquareVAO
-//#define DrawTextureSquare
 
 
 //To find the error's
@@ -167,14 +166,6 @@ void Draw_Square_VAO()
 #endif // Draw_Square_VAO
 
 
-#ifdef DrawTextureSquare
-
-void Draw_Texture_Square()
-{
-	
-}
-
-#endif // Draw_Texture_Square
 
 
 
@@ -290,17 +281,3 @@ int main(void)
 	glfwTerminate();
 	return 0;
 }
-
-
-
-//=================================================================
-
-/*Render Triangle Legacy Code (Don't Use it)*/
-
-/*glBegin(GL_TRIANGLES);
-glVertex2f(-0.5, -0.5);
-glVertex2f(0.0, 0.5);
-glVertex2f(0.5, -0.5);
-glEnd();*/
-
-//=================================================================

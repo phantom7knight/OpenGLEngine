@@ -57,7 +57,7 @@ void Renderer::Init(const GLchar* vertexshaderpath, const GLchar* fragmentshader
 
 	//For variations in translation and Scaling
 	glm::mat4 worldmat = glm::mat4(1);
-	worldmat = glm::translate(worldmat, translate_value) * glm::scale(worldmat, glm::vec3(scale_factor));	//glm::vec3(0.2, 0, 0)   0.2
+	worldmat = glm::translate(worldmat, translate_value) * glm::scale(worldmat, glm::vec3(scale_factor));	//glm::vec3(0.2, 0, 0)   0.2 //TRS
 	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "worldmat"), 1, GL_FALSE, glm::value_ptr(worldmat));
 
 	//for texture
@@ -139,33 +139,26 @@ void Draw_Textured_Square()
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
 	glGenBuffers(1, &ibo);
-	//glGenBuffers(1, &textCoords);
+	
 
 	//Bind all of them
 
 	glBindVertexArray(vao);
-
-
+	
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER,sizeof(Square_vertices), Square_vertices,GL_STATIC_DRAW);
-	//Now send the pointer values to the shader
+	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
 	
+	//Now send the pointer values to the shader
 	
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 4, 0);
 	glEnableVertexAttribArray(0);
 
 
-	//glBindBuffer(GL_ARRAY_BUFFER, textCoords);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(Square_vertices), Square_vertices, GL_STATIC_DRAW);
-
-	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float)*4, (void*)(sizeof(float) * 2));
-	//glEnableVertexAttribArray(1);
-
-
-
 	//Unbind all the buffers and vao except for ibo(ebo)
+	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
@@ -173,6 +166,7 @@ void Draw_Textured_Square()
 	//Texture Part
 	//=======================================================================================================
 	
+	//Blend Function
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//Generate Texture
@@ -189,8 +183,11 @@ void Draw_Textured_Square()
 
 	//Loading the Texture
 	int width, height, channel;
+	
 	stbi_set_flip_vertically_on_load(true);
+	
 	unsigned char* loaded_texture_image = stbi_load("Assets/Textures/LetterA.png", &width, &height, &channel, 0);
+	
 	if (loaded_texture_image)
 	{
 		std::cout << "Succesful texture loaded " << std::endl;
@@ -204,19 +201,13 @@ void Draw_Textured_Square()
 
 	stbi_image_free(loaded_texture_image);
 
-	//Send data to the Shader
-
-	/*glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, NULL);
-	glEnableVertexAttribArray(1);*/
-
+	
 	
 }
 
 void Renderer::RendererUpdate()
 {
-	glEnable(GL_BLEND);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	//glDrawArrays(GL_TRIANGLES, 0, 3);
+	glEnable(GL_BLEND);//Since we used blend function
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
