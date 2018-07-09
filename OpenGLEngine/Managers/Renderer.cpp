@@ -1,7 +1,11 @@
 #include "Renderer.h"
 #include "../src/stb_image.h"
 
+//Declerations of all the buffers
 unsigned int vao;
+unsigned int vbo;
+unsigned int ibo;
+
 unsigned int texture;
 void Draw_Square_VAO();
 void Draw_Textured_Square();
@@ -30,7 +34,15 @@ Renderer::~Renderer()
 		delete m_Instance;
 	m_Instance = nullptr;
 
-	delete m_useShader;
+	//delete m_useShader;
+
+	//Check all this once 
+	//delete all the buffers and delete the shader pgrm ID
+
+	glDeleteBuffers(1, &vao);
+	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(1, &ibo);
+	glDeleteShader(m_useShader->GetShaderID());
 
 }
 
@@ -110,8 +122,8 @@ void Draw_Square_VAO()
 
 void Draw_Textured_Square()
 {
-	unsigned int vbo;
-	unsigned int ibo;
+	/*unsigned int vbo;
+	unsigned int ibo;*/
 	unsigned int textCoords;
 
 	float Square_vertices[] = {
@@ -127,13 +139,13 @@ void Draw_Textured_Square()
 		2,3,0
 	};
 
-	float Texture_Coords[] =
+	/*float Texture_Coords[] =
 	{
 		0.0f,	0.0f,
 		1.0f,	0.0f,
 		1.0f,	1.0f,
 		0.0f,	1.0f
-	};
+	};*/
 
 	//Generate all the buffers and array
 	glGenVertexArrays(1, &vao);
