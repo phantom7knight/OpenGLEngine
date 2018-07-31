@@ -18,6 +18,7 @@ Renderer* Renderer::getInstance()
 	if (!m_Instance)
 		m_Instance = new Renderer();
 
+
 	return m_Instance;
 }
 

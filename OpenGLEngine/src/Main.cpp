@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 //#include <glad.h>
 #include "../src/Shader.h"
 #include "glfw3.h"
@@ -10,6 +11,8 @@
 
 using namespace std;
 using namespace glm;
+
+
 
 
 #define Screen_Width  640

@@ -9,6 +9,12 @@
 #include "../src/Shader.h"
 
 
+enum types
+{
+	E_type1,
+	E_type2
+};
+
 
 class Shader;
 
