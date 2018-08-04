@@ -83,6 +83,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2015;$(SolutionDir)Dependencies\GLEW\glew-2.1.0-win32\glew-2.1.0\lib\Release\Win32</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;glfw3.lib;%(AdditionalDependencies);opengl32.lib;user32.lib;Gdi32.lib;shell32.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy Shaders  ..\Debug\Shaders\   /s /e /y /i</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -115,6 +118,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2015;$(SolutionDir)Dependencies\GLEW\glew-2.1.0-win32\glew-2.1.0\lib\Release\Win32</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;glfw3.lib;%(AdditionalDependencies);opengl32.lib;user32.lib;Gdi32.lib;shell32.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy Shaders  ..\Debug\Shaders\   /s /e /y /i</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -150,6 +156,8 @@
   <ItemGroup>
     <None Include="glew32.dll" />
     <None Include="glfw3.dll" />
+    <None Include="Shaders\Cube.fs" />
+    <None Include="Shaders\Cube.vs" />
     <None Include="Shaders\Default.fs" />
     <None Include="Shaders\Default.vs" />
     <None Include="Shaders\Default_Variations.fs" />

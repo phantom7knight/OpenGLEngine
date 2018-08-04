@@ -244,16 +244,19 @@ int main(void)
 
 	*/
 
-	Renderer::getInstance()->Init("Shaders/Default_Variations.vs", "Shaders/Default_Variations.fs", glm::vec3(0, 0, 0), 0.5);
+	Renderer::getInstance()->Init("Shaders/Cube.vs", "Shaders/Cube.fs", glm::vec3(0, 0, 0), 0.5);	//Default_Variations		Cube		Default
 	
 	int counter = 0;
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
+
+
+			
 		//This closes the window if Esc key is pressed Like an exit condition
 		processinput(window);
-		glClear(GL_COLOR_BUFFER_BIT);		
-		
+		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);		
+		//glClearColor(1.0, 0.0, 0.0, 1.0);
 		/* Render here */
 
 		++counter;
@@ -271,7 +274,7 @@ int main(void)
 		//glBindVertexArray(vao);
 		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
-		Renderer::getInstance()->RendererUpdate();
+		Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.1);
 		
 	
 		/* Swap front and back buffers */

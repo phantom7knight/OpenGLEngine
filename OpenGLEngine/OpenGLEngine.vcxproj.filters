@@ -52,6 +52,8 @@
     <None Include="glfw3.dll" />
     <None Include="Shaders\Default_Variations.fs" />
     <None Include="Shaders\Default_Variations.vs" />
+    <None Include="Shaders\Cube.vs" />
+    <None Include="Shaders\Cube.fs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\spaceship.png">

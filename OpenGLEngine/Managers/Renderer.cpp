@@ -9,6 +9,7 @@ unsigned int ibo;
 unsigned int texture;
 void Draw_Square_VAO();
 void Draw_Textured_Square();
+void Draw_Cube();
 
 Renderer* Renderer::m_Instance = nullptr;
 
@@ -59,22 +60,22 @@ void Renderer::Init(const GLchar* vertexshaderpath, const GLchar* fragmentshader
 	//Draw call
 	//=======================================================================================================
 	//Draw_Square_VAO();
-	Draw_Textured_Square();
-
+	//Draw_Textured_Square();
+	Draw_Cube();
 	//=======================================================================================================
 	//Uniform variables
 	//=======================================================================================================
 
 	//for Color
-	glUniform4f(glGetUniformLocation(m_useShader->GetShaderID(), "Color_Send"), 0.5, 0.3, 0.4, 1.0);
+	//glUniform4f(glGetUniformLocation(m_useShader->GetShaderID(), "Color_Send"), 0.5, 0.3, 0.4, 1.0);
 
-	//For variations in translation and Scaling
-	glm::mat4 worldmat = glm::mat4(1);
-	worldmat = glm::translate(worldmat, translate_value) * glm::scale(worldmat, glm::vec3(scale_factor));	//glm::vec3(0.2, 0, 0)   0.2 //TRS
-	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "worldmat"), 1, GL_FALSE, glm::value_ptr(worldmat));
+	////For variations in translation and Scaling
+	//glm::mat4 worldmat = glm::mat4(1);
+	//worldmat = glm::translate(worldmat, translate_value) * glm::scale(worldmat, glm::vec3(scale_factor));	//glm::vec3(0.2, 0, 0)   0.2 //TRS
+	//glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "worldmat"), 1, GL_FALSE, glm::value_ptr(worldmat));
 
 	//for texture
-	glUniform1i(glGetUniformLocation(m_useShader->GetShaderID(), "texture_result"), 0);
+	//glUniform1i(glGetUniformLocation(m_useShader->GetShaderID(), "texture_result"), 0);
 																				  //This is the texture slot number
 }
 
@@ -123,9 +124,7 @@ void Draw_Square_VAO()
 
 void Draw_Textured_Square()
 {
-	/*unsigned int vbo;
-	unsigned int ibo;*/
-	unsigned int textCoords;
+	
 
 	float Square_vertices[] = {
 		//Cordinates	//Tex_Cords
@@ -218,12 +217,193 @@ void Draw_Textured_Square()
 	
 }
 
-void Renderer::RendererUpdate()
+void Draw_Cube()
 {
-	glEnable(GL_BLEND);//Since we used blend function
-	glBindTexture(GL_TEXTURE_2D, texture);
+	float width_, height_, depth_;
+
+	width_ = 0.5;
+	height_= 0.5;
+	depth_ = 0.5;
+
+	float vertices[] = {
+		-width_, -height_, -depth_,
+		width_, -height_, -depth_,
+		width_,  height_, -depth_,
+		width_,  height_, -depth_,
+		-width_,  height_, -depth_,
+		-width_, -height_, -depth_,
+		// width_ height_	depth_
+		-width_, -height_,  depth_,
+		width_, -height_,  depth_,
+		width_,  height_,  depth_,
+		width_,  height_,  depth_,
+		-width_,  height_,  depth_,
+		-width_, -height_,  depth_,
+		//	 width_	  height_	depth_
+		-width_,  height_,  depth_,
+		-width_,  height_, -depth_,
+		-width_, -height_, -depth_,
+		-width_, -height_, -depth_,
+		-width_, -height_,  depth_,
+		-width_,  height_,  depth_,
+		// width_ height_	depth_
+		width_,  height_,  depth_,
+		width_,  height_, -depth_,
+		width_, -height_, -depth_,
+		width_, -height_, -depth_,
+		width_, -height_,  depth_,
+		width_,  height_,  depth_,
+		//width_ height_	depth_
+		-width_, -height_, -depth_,
+		width_, -height_, -depth_,
+		width_, -height_,  depth_,
+		width_, -height_,  depth_,
+		-width_, -height_,  depth_,
+		-width_, -height_, -depth_,
+		// width_ height_	depth_
+		-width_,  height_, -depth_,
+		width_,  height_, -depth_,
+		width_,  height_,  depth_,
+		width_,  height_,  depth_,
+		-width_,  height_,  depth_,
+		-width_,  height_, -depth_,
+	};
+	
+	unsigned int indices[] = {
+		//front
+		0, 1, 2,
+		2, 3, 0,
+		// top
+		1, 5, 6,
+		6, 2, 1,
+		// back
+		7, 6, 5,
+		5, 4, 7,
+		// bottom
+		4, 0, 3,
+		3, 7, 4,
+		// left
+		4, 5, 1,
+		1, 0, 4,
+		// right
+		3, 2, 6,
+		6, 7, 3,
+	};
+
+
+	/*float normals[] = {
+		0.0f,  0.0f, -1.0f,
+		0.0f,  0.0f, -1.0f,
+		0.0f,  0.0f, -1.0f,
+		0.0f,  0.0f, -1.0f,
+		0.0f,  0.0f, -1.0f,
+		0.0f,  0.0f, -1.0f,
+
+		0.0f,  0.0f,  1.0f,
+		0.0f,  0.0f,  1.0f,
+		0.0f,  0.0f,  1.0f,
+		0.0f,  0.0f,  1.0f,
+		0.0f,  0.0f,  1.0f,
+		0.0f,  0.0f,  1.0f,
+
+		-1.0f,  0.0f,  0.0f,
+		-1.0f,  0.0f,  0.0f,
+		-1.0f,  0.0f,  0.0f,
+		-1.0f,  0.0f,  0.0f,
+		-1.0f,  0.0f,  0.0f,
+		-1.0f,  0.0f,  0.0f,
+
+		1.0f,  0.0f,  0.0f,
+		1.0f,  0.0f,  0.0f,
+		1.0f,  0.0f,  0.0f,
+		1.0f,  0.0f,  0.0f,
+		1.0f,  0.0f,  0.0f,
+		1.0f,  0.0f,  0.0f,
+
+		0.0f, -1.0f,  0.0f,
+		0.0f, -1.0f,  0.0f,
+		0.0f, -1.0f,  0.0f,
+		0.0f, -1.0f,  0.0f,
+		0.0f, -1.0f,  0.0f,
+		0.0f, -1.0f,  0.0f,
+
+		0.0f,  1.0f,  0.0f,
+		0.0f,  1.0f,  0.0f,
+		0.0f,  1.0f,  0.0f,
+		0.0f,  1.0f,  0.0f,
+		0.0f,  1.0f,  0.0f,
+		0.0f,  1.0f,  0.0f
+	};*/
+	
+	
+	//Generate Buffers
+
+	glGenVertexArrays(1, &vao);
+
+	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &ibo);
+
+
+	//Binding
+
 	glBindVertexArray(vao);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, NULL);
+	glEnableVertexAttribArray(0);
+
+	//Required when usin colors
+	//glVertexAttribPointer(1, 3, NULL, GL_FALSE, sizeof(float) * 3, 0);
+	//glEnableVertexAttribArray(1);
+
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
 
 }
 
+
+void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
+{
+	//====================================================================
+	//Only If texture is used
+	//====================================================================
+	glEnable(GL_BLEND);//Since we used blend function
+	//glBindTexture(GL_TEXTURE_2D, texture);
+	//====================================================================
+
+
+	glUniform4f(glGetUniformLocation(m_useShader->GetShaderID(), "Color_Send"), 0.5, 0.3, 0.4, 1.0);
+
+	//For variations in translation and Scaling
+	glm::mat4 worldmat = glm::mat4(1);
+	worldmat = glm::translate(worldmat, translate_value) * glm::scale(worldmat, glm::vec3(scale_factor));	//glm::vec3(0.2, 0, 0)   0.2 //TRS
+	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "worldmat"), 1, GL_FALSE, glm::value_ptr(worldmat));
+
+
+	glBindVertexArray(vao);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+	//glDrawElements(GL_TRIANGLES, 12*3, GL_UNSIGNED_INT, nullptr);
+
+	//2nd copy
+
+	glUniform4f(glGetUniformLocation(m_useShader->GetShaderID(), "Color_Send"), 1.0, 0.0,0.0, 1.0);
+
+	worldmat = glm::mat4(1);
+	worldmat = glm::translate(worldmat, glm::vec3(0.9,0.,0.1)) * glm::scale(worldmat, glm::vec3(scale_factor));	//glm::vec3(0.2, 0, 0)   0.2 //TRS
+	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "worldmat"), 1, GL_FALSE, glm::value_ptr(worldmat));
+
+	glBindVertexArray(vao);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+
+}
+
+//instance rendering
+//glDrawArraysInstanced()
