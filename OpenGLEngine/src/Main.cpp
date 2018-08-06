@@ -244,7 +244,7 @@ int main(void)
 
 	*/
 
-	Renderer::getInstance()->Init("Shaders/Cube.vs", "Shaders/Cube.fs", glm::vec3(0, 0, 0), 0.5);	//Default_Variations		Cube		Default
+	Renderer::getInstance()->Init("Shaders/Cube.vs", "Shaders/Cube.fs");	//Default_Variations		Cube		Default
 	
 	int counter = 0;
 	/* Loop until the user closes the window */
@@ -268,13 +268,8 @@ int main(void)
 			GetError();
 
 		}
-		
-		
-		
-		//glBindVertexArray(vao);
-		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
-		Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.1);
+		Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.5);	//, glm::vec3(0, 0, 0), 0.5
 		
 	
 		/* Swap front and back buffers */

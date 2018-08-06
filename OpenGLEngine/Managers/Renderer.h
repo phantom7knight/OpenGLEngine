@@ -9,13 +9,6 @@
 #include "../src/Shader.h"
 
 
-enum types
-{
-	E_type1,
-	E_type2
-};
-
-
 class Shader;
 
 class Renderer
@@ -32,7 +25,7 @@ public:
 	static Renderer* getInstance();
 
 	void RendererUpdate(glm::vec3 translate_value, float scale_factor);
- 	void Init(const GLchar* vertexshaderpath, const GLchar* fragmentshaderpath, glm::vec3 translate_value, float scale_factor);
+ 	void Init(const GLchar* vertexshaderpath, const GLchar* fragmentshaderpath);
 
 };
 
