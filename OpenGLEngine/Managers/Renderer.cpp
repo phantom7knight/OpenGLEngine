@@ -15,6 +15,7 @@ unsigned int texture;
 void Draw_Square_VAO();
 void Draw_Textured_Square();
 void Draw_Cube();
+void LightCube();
 
 Renderer* Renderer::m_Instance = nullptr;
 
@@ -69,6 +70,7 @@ void Renderer::Init(const GLchar* vertexshaderpath, const GLchar* fragmentshader
 		Draw_Textured_Square();
 	#endif
 	Draw_Cube();
+	LightCube();
 	
 
 	
@@ -359,12 +361,17 @@ void Draw_Cube()
 
 	
 
-
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
 }
 
+void LightCube()
+{
+	unsigned int light_vao;
+	unsigned int light_vbo;
+	
+}
 
 void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 {
@@ -387,11 +394,40 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	//Modelling Matrix
 	//For variations in translation and Scaling
 	//=======================================================================================================
-	glm::mat4 worldmat = glm::mat4(1);
-	worldmat = glm::translate(worldmat, translate_value) * glm::scale(worldmat, glm::vec3(scale_factor));
-	worldmat = glm::rotate(worldmat , 30.0f, glm::vec3(1.0f, 0.0f, 0.0f)) * glm::scale(worldmat, glm::vec3(scale_factor));	//glm::vec3(0.2, 0, 0)   0.2 //TRS
-	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "worldmat"), 1, GL_FALSE, glm::value_ptr(worldmat));
+	glm::mat4 modelmat = glm::mat4(1);
+	modelmat = glm::translate(modelmat, translate_value);
+	modelmat = glm::rotate(modelmat, 50.0f, glm::vec3(1.0f, 0.0f, 0.0f)) * glm::scale(modelmat, glm::vec3(scale_factor));	//glm::vec3(0.2, 0, 0)   0.2 //TRS
 	
+	//=======================================================================================================
+	//View Matrix
+	//=======================================================================================================
+
+	glm::mat4 viewmat;
+	//viewmat = glm::translate(modelmat, glm::vec3(0.0, 0.0, 2.0));
+	viewmat = glm::lookAt(glm::vec3(0.0, 2.0, 2.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0, 1, 0));
+
+	//=======================================================================================================
+	//Projection Matrix
+	//=======================================================================================================
+
+	glm::mat4 projectionmat;
+	float angle = 45.0f;
+	float fov_ = glm::radians(angle);
+	float AspectRatio = (4.0f / 3.0f);
+	float NearPlane = 0.1f;
+	float FarPlane = 100.0f;
+
+	projectionmat = glm::perspective(glm::radians(45.0f), AspectRatio, NearPlane, FarPlane);
+
+	//=======================================================================================================
+	//ModelViewProjection Matix
+	//=======================================================================================================
+
+	glm::mat4 MVP_matrix = projectionmat * viewmat * modelmat;
+	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "MVP_matrix"), 1, GL_FALSE, glm::value_ptr(MVP_matrix));
+
+
+
 #ifdef Enable_Texture
 
 	glUniform1i(glGetUniformLocation(m_useShader->GetShaderID(), "texture_result"), 0);

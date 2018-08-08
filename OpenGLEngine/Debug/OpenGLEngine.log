@@ -1,10 +1,14 @@
 ﻿  Renderer.cpp
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(383): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(372): warning C4101: 'light_vbo': unreferenced local variable
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(371): warning C4101: 'light_vao': unreferenced local variable
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(390): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
   OpenGLEngine.vcxproj -> D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\Debug\OpenGLEngine.exe
+  Shaders\BRDFLight.fs
+  Shaders\BRDFLight.vs
   Shaders\Cube.fs
   Shaders\Cube.vs
   Shaders\Default.fs
   Shaders\Default.vs
   Shaders\Default_Variations.fs
   Shaders\Default_Variations.vs
-  6 File(s) copied
+  8 File(s) copied

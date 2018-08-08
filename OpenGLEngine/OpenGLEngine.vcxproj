@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Managers\Camera.cpp" />
     <ClCompile Include="Managers\InputManager.cpp" />
     <ClCompile Include="Managers\Renderer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="src\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Managers\Camera.h" />
     <ClInclude Include="Managers\InputManager.h" />
     <ClInclude Include="Managers\Renderer.h" />
     <ClInclude Include="src\Shader.h" />
@@ -156,6 +158,8 @@
   <ItemGroup>
     <None Include="glew32.dll" />
     <None Include="glfw3.dll" />
+    <None Include="Shaders\BRDFLight.fs" />
+    <None Include="Shaders\BRDFLight.vs" />
     <None Include="Shaders\Cube.fs" />
     <None Include="Shaders\Cube.vs" />
     <None Include="Shaders\Default.fs" />

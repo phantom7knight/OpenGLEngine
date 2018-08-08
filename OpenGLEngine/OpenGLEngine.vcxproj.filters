@@ -30,6 +30,9 @@
     <ClCompile Include="src\stb_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Managers\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Shader.h">
@@ -44,6 +47,9 @@
     <ClInclude Include="src\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Managers\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Default.vs" />
@@ -54,6 +60,8 @@
     <None Include="Shaders\Default_Variations.vs" />
     <None Include="Shaders\Cube.vs" />
     <None Include="Shaders\Cube.fs" />
+    <None Include="Shaders\BRDFLight.vs" />
+    <None Include="Shaders\BRDFLight.fs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\spaceship.png">

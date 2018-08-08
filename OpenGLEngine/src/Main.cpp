@@ -8,6 +8,7 @@
 #include <gtc/type_ptr.hpp>
 #include "../Managers/Renderer.h"
 #include "../Managers/InputManager.h"
+#include "../Managers/Camera.h"
 
 using namespace std;
 using namespace glm;
@@ -246,6 +247,7 @@ int main(void)
 
 	Renderer::getInstance()->Init("Shaders/Cube.vs", "Shaders/Cube.fs");	//Default_Variations		Cube		Default
 	
+
 	int counter = 0;
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
