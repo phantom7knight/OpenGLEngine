@@ -258,9 +258,7 @@ int main(void)
 		//This closes the window if Esc key is pressed Like an exit condition
 		processinput(window);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);		
-		//glClearColor(1.0, 0.0, 0.0, 1.0);
-		/* Render here */
-
+		
 		++counter;
 		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		//glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -271,9 +269,9 @@ int main(void)
 
 		}
 
+		
 		Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.5);	//, glm::vec3(0, 0, 0), 0.5
 		
-	
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
 

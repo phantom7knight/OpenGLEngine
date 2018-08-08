@@ -404,8 +404,8 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 
 	glm::mat4 viewmat;
 	//viewmat = glm::translate(modelmat, glm::vec3(0.0, 0.0, 2.0));
-	viewmat = glm::lookAt(glm::vec3(0.0, 2.0, 2.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0, 1, 0));
-
+	viewmat = glm::lookAt(glm::vec3(0.0, 2.0, 2.0) , glm::vec3(0.0, 0.0, 0.0), glm::vec3(0, 1, 0));
+							//Camera_POS			  //Camera_Target			//Head_value
 	//=======================================================================================================
 	//Projection Matrix
 	//=======================================================================================================
@@ -418,6 +418,8 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	float FarPlane = 100.0f;
 
 	projectionmat = glm::perspective(glm::radians(45.0f), AspectRatio, NearPlane, FarPlane);
+	
+	//projectionmat = glm::ortho();
 
 	//=======================================================================================================
 	//ModelViewProjection Matix
@@ -446,3 +448,4 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 
 //instance rendering
 //glDrawArraysInstanced()
+//camera view->update
