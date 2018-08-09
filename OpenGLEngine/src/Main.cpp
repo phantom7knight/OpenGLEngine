@@ -7,8 +7,8 @@
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 #include "../Managers/Renderer.h"
-#include "../Managers/InputManager.h"
 #include "../Managers/Camera.h"
+#include "../Managers/InputManager.h"
 
 using namespace std;
 using namespace glm;
@@ -269,9 +269,14 @@ int main(void)
 
 		}
 
-		
+		//Updates
+
 		Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.5);	//, glm::vec3(0, 0, 0), 0.5
-		
+		InputManager::getInstance()->InputmanagerUpdate(window);
+		Camera::getInstance()->CameraUpdate();
+
+
+
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
 

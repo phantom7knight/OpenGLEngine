@@ -1,4 +1,12 @@
 #pragma once
+
+#include "../Managers/Camera.h"
+#include "../GL/glew.h"
+#include "glfw3.h"
+
+
+class Camera;
+
 class InputManager
 {
 private:
@@ -11,7 +19,12 @@ public:
 
 	static InputManager* getInstance();
 
-	void InputmanagerUpdate();
+	float posx;
+	float posy;
+	float posz;
+
+	void InputmanagerUpdate(GLFWwindow* window);
+
 
 
 };

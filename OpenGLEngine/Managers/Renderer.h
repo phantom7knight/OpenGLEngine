@@ -7,6 +7,7 @@
 #include <gtc/type_ptr.hpp>
 #include "glew.h"
 #include "../src/Shader.h"
+#include "../Managers/Camera.h"
 
 
 class Shader;
