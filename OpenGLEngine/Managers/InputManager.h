@@ -18,14 +18,7 @@ public:
 	~InputManager();
 
 	static InputManager* getInstance();
-
-	float posx;
-	float posy;
-	float posz;
-
 	void InputmanagerUpdate(GLFWwindow* window);
-
-
 
 };
 

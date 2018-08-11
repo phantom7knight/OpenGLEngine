@@ -1,6 +1,13 @@
-﻿  ImguiManager.cpp
-  Main.cpp
+﻿  Camera.cpp
+  InputManager.cpp
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(38): warning C4305: '+=': truncation from 'double' to 'float'
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(44): warning C4305: '-=': truncation from 'double' to 'float'
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(51): warning C4305: '+=': truncation from 'double' to 'float'
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(58): warning C4305: '-=': truncation from 'double' to 'float'
+  Renderer.cpp
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(390): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
   Generating Code...
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   OpenGLEngine.vcxproj -> D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\Debug\OpenGLEngine.exe
   Shaders\BRDFLight.fs
   Shaders\BRDFLight.vs
