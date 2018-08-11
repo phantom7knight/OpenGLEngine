@@ -274,10 +274,11 @@ int main(void)
 
 		//Updates
 
+		InputManager::getInstance()->InputmanagerUpdate(window);
+		Camera::getInstance()->CameraUpdate();
 		Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.5);	//, glm::vec3(0, 0, 0), 0.5
+		Renderer::getInstance()->RendererUpdate(glm::vec3(0.7, 0, 0.0), 0.8);
 		ImguiManager::getInstance()->ImguiUpdate();
-		//InputManager::getInstance()->InputmanagerUpdate(window);
-		//Camera::getInstance()->CameraUpdate();
 
 
 

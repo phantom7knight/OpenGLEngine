@@ -395,8 +395,7 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	//For variations in translation and Scaling
 	//=======================================================================================================
 	glm::mat4 modelmat = glm::mat4(1);
-	modelmat = glm::translate(modelmat, translate_value);
-	modelmat = glm::rotate(modelmat, 50.0f, glm::vec3(1.0f, 0.0f, 0.0f)) * glm::scale(modelmat, glm::vec3(scale_factor));	//glm::vec3(0.2, 0, 0)   0.2 //TRS
+	modelmat = glm::translate(modelmat, translate_value) *glm::rotate(glm::mat4(1), 50.0f, glm::vec3(1.0f, 0.0f, 0.0f)) * glm::scale(glm::mat4(1), glm::vec3(scale_factor));	//glm::vec3(0.2, 0, 0)   0.2 //TRS
 	
 	//=======================================================================================================
 	//View Matrix
@@ -404,22 +403,22 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 
 	glm::mat4 viewmat;
 	//viewmat = glm::translate(modelmat, glm::vec3(0.0, 0.0, 2.0));
-	viewmat = glm::lookAt(glm::vec3(0.0, 2.0, 2.0) , glm::vec3(0.0, 0.0, 0.0), glm::vec3(0, 1, 0));
+	//viewmat = glm::lookAt(glm::vec3(0.0, 2.0, 2.0) , glm::vec3(0.0, 0.0, 0.0), glm::vec3(0, 1, 0));
 							//Camera_POS			  //Camera_Target			//Head_value
-	//viewmat = Camera::getInstance()->GetViewmat();
+							viewmat = Camera::getInstance()->GetViewmat();
 
 	//=======================================================================================================
 	//Projection Matrix
 	//=======================================================================================================
 
 	glm::mat4 projectionmat;
-	float angle = 45.0f;
+	float angle = 20.0f;
 	float fov_ = glm::radians(angle);
 	float AspectRatio = (4.0f / 3.0f);
 	float NearPlane = 0.1f;
 	float FarPlane = 100.0f;
 
-	projectionmat = glm::perspective(glm::radians(45.0f), AspectRatio, NearPlane, FarPlane);
+	projectionmat = glm::perspective(fov_, AspectRatio, NearPlane, FarPlane);
 	
 	//projectionmat = glm::ortho();
 
@@ -427,7 +426,7 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	//ModelViewProjection Matix
 	//=======================================================================================================
 
-	glm::mat4 MVP_matrix = projectionmat * viewmat * modelmat;
+	glm::mat4 MVP_matrix =  projectionmat* viewmat*modelmat;
 	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "MVP_matrix"), 1, GL_FALSE, glm::value_ptr(MVP_matrix));
 
 
