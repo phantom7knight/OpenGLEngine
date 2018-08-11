@@ -19,8 +19,8 @@ using namespace glm;
 
 
 
-#define Screen_Width  640
-#define Screen_Height  480 
+#define Screen_Width  1000
+#define Screen_Height  800 
 
 
 //Lerp Template function
