@@ -1,4 +1,6 @@
 #pragma once
+
+#include <iostream>
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
@@ -22,8 +24,12 @@ public:
 	float camera_move_speed_;
 	glm::vec3 Camera_Pos_;
 	glm::vec3 Camera_Target_;
-	glm::vec3 Camera_Head_;
+	glm::vec3 Camera_Direction_;
 	glm::mat4 viewmat;
+
+	glm::vec3 up;
+	glm::vec3 CameraUp;
+	glm::vec3 CameraRight;
 
 	void CameraUpdate();
 	glm::mat4 GetViewmat()

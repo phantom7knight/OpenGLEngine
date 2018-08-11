@@ -9,6 +9,9 @@
 #include "../Managers/Renderer.h"
 #include "../Managers/Camera.h"
 #include "../Managers/InputManager.h"
+#include "../Managers/ImguiManager.h"
+
+
 
 using namespace std;
 using namespace glm;
@@ -246,7 +249,7 @@ int main(void)
 	*/
 
 	Renderer::getInstance()->Init("Shaders/Cube.vs", "Shaders/Cube.fs");	//Default_Variations		Cube		Default
-	
+	ImguiManager::getInstance()->ImguiInit(window);
 
 	int counter = 0;
 	/* Loop until the user closes the window */
@@ -272,8 +275,9 @@ int main(void)
 		//Updates
 
 		Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.5);	//, glm::vec3(0, 0, 0), 0.5
-		InputManager::getInstance()->InputmanagerUpdate(window);
-		Camera::getInstance()->CameraUpdate();
+		ImguiManager::getInstance()->ImguiUpdate();
+		//InputManager::getInstance()->InputmanagerUpdate(window);
+		//Camera::getInstance()->CameraUpdate();
 
 
 
@@ -283,6 +287,8 @@ int main(void)
 		/* Poll for and process events */
 		glfwPollEvents();
 	}
+
+	ImguiManager::getInstance()->ImguiDestroy();
 	//useShader->ClearShader();
 	glfwTerminate();
 	return 0;

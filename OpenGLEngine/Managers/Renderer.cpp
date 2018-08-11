@@ -406,7 +406,8 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	//viewmat = glm::translate(modelmat, glm::vec3(0.0, 0.0, 2.0));
 	viewmat = glm::lookAt(glm::vec3(0.0, 2.0, 2.0) , glm::vec3(0.0, 0.0, 0.0), glm::vec3(0, 1, 0));
 							//Camera_POS			  //Camera_Target			//Head_value
-	viewmat = Camera::getInstance()->GetViewmat();
+	//viewmat = Camera::getInstance()->GetViewmat();
+
 	//=======================================================================================================
 	//Projection Matrix
 	//=======================================================================================================
@@ -443,9 +444,9 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
 	//glDrawElements(GL_TRIANGLES, 12*3, GL_UNSIGNED_INT, nullptr);
 
-	glBindVertexArray(vao);
+	/*glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);*/
 
 }
 

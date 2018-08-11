@@ -141,19 +141,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Managers\ImguiManager.cpp" />
     <ClCompile Include="Managers\Camera.cpp" />
     <ClCompile Include="Managers\InputManager.cpp" />
     <ClCompile Include="Managers\Renderer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
+    <ClCompile Include="Vendors\ImGui\imgui.cpp" />
+    <ClCompile Include="Vendors\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="Vendors\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="Vendors\ImGui\imgui_impl_glfw_gl3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Managers\ImguiManager.h" />
     <ClInclude Include="Managers\Camera.h" />
     <ClInclude Include="Managers\InputManager.h" />
     <ClInclude Include="Managers\Renderer.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\stb_image.h" />
+    <ClInclude Include="Vendors\ImGui\imconfig.h" />
+    <ClInclude Include="Vendors\ImGui\imgui.h" />
+    <ClInclude Include="Vendors\ImGui\imgui_impl_glfw_gl3.h" />
+    <ClInclude Include="Vendors\ImGui\imgui_internal.h" />
+    <ClInclude Include="Vendors\ImGui\stb_rect_pack.h" />
+    <ClInclude Include="Vendors\ImGui\stb_textedit.h" />
+    <ClInclude Include="Vendors\ImGui\stb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll" />

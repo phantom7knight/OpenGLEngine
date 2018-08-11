@@ -5,9 +5,19 @@ Camera* Camera::m_Instance = nullptr;
 Camera::Camera()
 {
 
-	Camera_Pos_ = glm::vec3(0.0f, 2.0f, 2.0f);
-	Camera_Target_ = glm::vec3(0.0f, 0.0f, 0.0f);
-	Camera_Head_ = glm::vec3(0, 1, 0);
+	Camera_Pos_ = glm::vec3(0.0f, 0.0f, 2.0f);
+	Camera_Target_ = glm::vec3(0.0f, 0.0f, -1.0f);
+	Camera_Direction_ = glm::vec3(0.0f, 1.0f, 0.0f);//glm::normalize(Camera_Pos_ - Camera_Target_);
+
+	camera_move_speed_ = 0.05f;
+
+
+	//Camera Up and RIght vector
+	up = glm::vec3(0.0, 1.0, 0.0);
+	CameraRight = glm::normalize(glm::cross(up, Camera_Direction_));
+
+	CameraUp = glm::cross(Camera_Direction_, CameraRight);
+
 }
 
 
@@ -27,16 +37,17 @@ Camera * Camera::getInstance()
 
 void Camera::CameraUpdate()
 {
-	//glm::vec3 cameraDirection = Camera_Pos_ - Camera_Target_;
-
-	Camera_Pos_ = glm::vec3(InputManager::getInstance()->posx, 0.0f, InputManager::getInstance()->posz);
-	//Camera_Target_
-	//Camera_Head_ =
-
-
-
-	viewmat = glm::lookAt(Camera_Pos_, Camera_Target_, Camera_Head_);
+	
+	/*float radius = 10.0f;
+	float camx = sinf(glfwGetTime()) * radius;
+	float camz = cos(glfwGetTime()) * radius;*/
+	//viewmat = glm::lookAt(glm::vec3(camx, 0.0f, camz), Camera_Target_, Camera_Direction_);
 
 
+	
+	viewmat = glm::lookAt(glm::normalize(Camera_Pos_), glm::normalize(Camera_Pos_ + Camera_Target_) , glm::normalize( Camera_Direction_));
+
+	std::cout << "Camera X =" <<Camera_Pos_.x << "  Camera Y = " << Camera_Pos_.y<<"  Camera Z = " << Camera_Pos_.z <<std::endl ;
+	std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
 
 }
