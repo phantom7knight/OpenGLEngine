@@ -59,9 +59,6 @@ void processinput(GLFWwindow* window)
 }
 
 
-//unsigned int vao;//Vertex Array Object
-//unsigned int vbo;//Vertex Buffer Object
-//unsigned int ibo;//Index or Element Buffer Object
 
 
 #ifdef DrawTriangle
@@ -225,28 +222,6 @@ int main(void)
 	//Draw_Square_VAO();
 	//Draw_Texture_Square();
 
-
-	/*
-	GlGenVert
-	BindVertex
-	
-	//position
-	genBUffer
-	Bind
-	BindData
-	EnableVertexAttribPpoiunter
-	Enablever
-
-
-	//color
-	Gen
-	BInd
-	BIData
-	Enable1
-	Enable2
-
-
-	*/
 
 	Renderer::getInstance()->Init("Shaders/Cube.vs", "Shaders/Cube.fs");	//Default_Variations		Cube		Default
 	ImguiManager::getInstance()->ImguiInit(window);

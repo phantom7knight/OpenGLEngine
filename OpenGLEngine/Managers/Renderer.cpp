@@ -9,7 +9,7 @@
 unsigned int vao;
 unsigned int vbo;
 unsigned int ibo;
-unsigned int color_vbo;
+//unsigned int color_vbo;
 
 unsigned int texture;
 void Draw_Square_VAO();
@@ -226,47 +226,48 @@ void Draw_Cube()
 	depth_ = 0.5;
 
 	float vertices[] = {
-		-width_, -height_, -depth_,
-		width_, -height_, -depth_,
-		width_,  height_, -depth_,
-		width_,  height_, -depth_,
-		-width_,  height_, -depth_,
-		-width_, -height_, -depth_,
+		//Coordinates					//Normals				//Color
+		-width_, -height_, -depth_,		0.0f,  0.0f, -1.0f,		1.0f, 1.0f, 1.0f,
+		 width_, -height_, -depth_,		0.0f,  0.0f, -1.0f,		0.1f, 0.8f, 0.6f,
+		 width_,  height_, -depth_,		0.0f,  0.0f, -1.0f,		0.3f, 0.3f, 0.9f,
+		 width_,  height_, -depth_,		0.0f,  0.0f, -1.0f,		1.0f, 1.0f, 1.0f,
+		-width_,  height_, -depth_,		0.0f,  0.0f, -1.0f,		1.0f, 1.0f, 1.0f,
+		-width_, -height_, -depth_,		0.0f,  0.0f, -1.0f,		0.3f, 0.3f, 0.9f,
 		// width_ height_	depth_
-		-width_, -height_,  depth_,
-		width_, -height_,  depth_,
-		width_,  height_,  depth_,
-		width_,  height_,  depth_,
-		-width_,  height_,  depth_,
-		-width_, -height_,  depth_,
+		-width_, -height_,  depth_,		0.0f,  0.0f,  1.0f,		1.0f, 1.0f, 1.0f,
+		 width_, -height_,  depth_,		0.0f,  0.0f,  1.0f,		0.1f, 0.8f, 0.6f,
+		 width_,  height_,  depth_,		0.0f,  0.0f,  1.0f,		0.3f, 0.3f, 0.9f,
+		 width_,  height_,  depth_,		0.0f,  0.0f,  1.0f,		1.0f, 1.0f, 1.0f,
+		-width_,  height_,  depth_,		0.0f,  0.0f,  1.0f,		0.1f, 0.8f, 0.6f,
+		-width_, -height_,  depth_,		0.0f,  0.0f,  1.0f,		0.3f, 0.3f, 0.9f,
 		//	 width_	  height_	depth_
-		-width_,  height_,  depth_,
-		-width_,  height_, -depth_,
-		-width_, -height_, -depth_,
-		-width_, -height_, -depth_,
-		-width_, -height_,  depth_,
-		-width_,  height_,  depth_,
+		-width_,  height_,  depth_,		-1.0f,  0.0f,  0.0f,	1.0f, 1.0f, 1.0f,
+		-width_,  height_, -depth_,		-1.0f,  0.0f,  0.0f,	0.1f, 0.8f, 0.6f,
+		-width_, -height_, -depth_,		-1.0f,  0.0f,  0.0f,	0.3f, 0.3f, 0.9f,
+		-width_, -height_, -depth_,		-1.0f,  0.0f,  0.0f,	1.0f, 1.0f, 1.0f,
+		-width_, -height_,  depth_,		-1.0f,  0.0f,  0.0f,	0.1f, 0.8f, 0.6f,
+		-width_,  height_,  depth_,		-1.0f,  0.0f,  0.0f,	0.3f, 0.3f, 0.9f,
 		// width_ height_	depth_
-		width_,  height_,  depth_,
-		width_,  height_, -depth_,
-		width_, -height_, -depth_,
-		width_, -height_, -depth_,
-		width_, -height_,  depth_,
-		width_,  height_,  depth_,
+		width_,  height_,  depth_,		1.0f,  0.0f,  0.0f,		1.0f, 1.0f, 1.0f,
+		width_,  height_, -depth_,		1.0f,  0.0f,  0.0f,		0.1f, 0.8f, 0.6f,
+		width_, -height_, -depth_,		1.0f,  0.0f,  0.0f,		0.3f, 0.3f, 0.9f,
+		width_, -height_, -depth_,		1.0f,  0.0f,  0.0f,		1.0f, 1.0f, 1.0f,
+		width_, -height_,  depth_,		1.0f,  0.0f,  0.0f,		0.1f, 0.8f, 0.6f,
+		width_,  height_,  depth_,		1.0f,  0.0f,  0.0f,		0.3f, 0.3f, 0.9f,
 		//width_ height_	depth_
-		-width_, -height_, -depth_,
-		width_, -height_, -depth_,
-		width_, -height_,  depth_,
-		width_, -height_,  depth_,
-		-width_, -height_,  depth_,
-		-width_, -height_, -depth_,
+		-width_, -height_, -depth_,		0.0f, -1.0f,  0.0f,		1.0f, 1.0f, 1.0f,
+		 width_, -height_, -depth_,		0.0f, -1.0f,  0.0f,		0.1f, 0.8f, 0.6f,
+		 width_, -height_,  depth_,		0.0f, -1.0f,  0.0f,		0.3f, 0.3f, 0.9f,
+		 width_, -height_,  depth_,		0.0f, -1.0f,  0.0f,		1.0f, 1.0f, 1.0f,
+		-width_, -height_,  depth_,		0.0f, -1.0f,  0.0f,		0.1f, 0.8f, 0.6f,
+		-width_, -height_, -depth_,		0.0f, -1.0f,  0.0f,		0.3f, 0.3f, 0.9f,
 		// width_ height_	depth_
-		-width_,  height_, -depth_,
-		width_,  height_, -depth_,
-		width_,  height_,  depth_,
-		width_,  height_,  depth_,
-		-width_,  height_,  depth_,
-		-width_,  height_, -depth_,
+		-width_,  height_, -depth_,		0.0f,  1.0f,  0.0f,		1.0f, 1.0f, 1.0f,
+		 width_,  height_, -depth_,		0.0f,  1.0f,  0.0f,		0.1f, 0.8f, 0.6f,
+		 width_,  height_,  depth_,		0.0f,  1.0f,  0.0f,		0.3f, 0.3f, 0.9f,
+		 width_,  height_,  depth_,		0.0f,  1.0f,  0.0f,		1.0f, 1.0f, 1.0f,
+		-width_,  height_,  depth_,		0.0f,  1.0f,  0.0f,		0.1f, 0.8f, 0.6f,
+		-width_,  height_, -depth_,		0.0f,  1.0f,  0.0f,		0.3f, 0.3f, 0.9f,
 	};
 	
 	unsigned int indices[] = {
@@ -290,59 +291,13 @@ void Draw_Cube()
 		6, 7, 3,
 	};
 
-	//for colors
-	/*GLfloat colors[] = {
-		// front colors
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-	};*/
-
-
+	
 	//Generate Buffers
 
 	glGenVertexArrays(1, &vao);
 
 	glGenBuffers(1, &vbo);
-	glGenBuffers(1, &color_vbo);
+	//glGenBuffers(1, &color_vbo);
 	glGenBuffers(1, &ibo);
 
 
@@ -356,14 +311,19 @@ void Draw_Cube()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, NULL);
-	glEnableVertexAttribArray(0);
-
-	
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, NULL);
+	glEnableVertexAttribArray(0);									
+													//**				
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);									
+																	
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
+	//** - Amount of size required to reach next vertex
 }
 
 //void LightCube()

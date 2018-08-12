@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Managers\LightManger.cpp" />
     <ClCompile Include="Managers\ImguiManager.cpp" />
     <ClCompile Include="Managers\Camera.cpp" />
     <ClCompile Include="Managers\InputManager.cpp" />
@@ -154,6 +155,7 @@
     <ClCompile Include="Vendors\ImGui\imgui_impl_glfw_gl3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Managers\LightManager.h" />
     <ClInclude Include="Managers\ImguiManager.h" />
     <ClInclude Include="Managers\Camera.h" />
     <ClInclude Include="Managers\InputManager.h" />
