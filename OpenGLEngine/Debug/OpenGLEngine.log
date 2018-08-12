@@ -1,5 +1,13 @@
-﻿  LightManger.cpp
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+﻿  InputManager.cpp
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(33): warning C4305: '+=': truncation from 'double' to 'float'
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(39): warning C4305: '-=': truncation from 'double' to 'float'
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(45): warning C4305: '+=': truncation from 'double' to 'float'
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(51): warning C4305: '-=': truncation from 'double' to 'float'
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(58): warning C4305: '+=': truncation from 'double' to 'float'
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(63): warning C4305: '-=': truncation from 'double' to 'float'
+  Main.cpp
+d:\digipen\other stuff\opengl\openglengine\openglengine\src\main.cpp(257): warning C4305: 'argument': truncation from 'double' to 'float'
+  Generating Code...
   OpenGLEngine.vcxproj -> D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\Debug\OpenGLEngine.exe
   Shaders\BRDFLight.fs
   Shaders\BRDFLight.vs

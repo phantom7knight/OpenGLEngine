@@ -27,7 +27,7 @@ public:
 	static LightManager* getInstance();
 
 	void LightInit(const GLchar* vertexshaderpath, const GLchar* fragmentshaderpath);
-	void LightUpdate();
+	void LightUpdate(glm::vec3 translate_value, float scale_factor);
 
 	void CubeLight();
 

@@ -10,6 +10,7 @@
 #include "../Managers/Camera.h"
 #include "../Managers/InputManager.h"
 #include "../Managers/ImguiManager.h"
+#include "../Managers/LightManager.h"
 
 
 
@@ -224,6 +225,7 @@ int main(void)
 
 
 	Renderer::getInstance()->Init("Shaders/Cube.vs", "Shaders/Cube.fs");	//Default_Variations		Cube		Default
+	LightManager::getInstance()->LightInit("Shaders/BRDFLight.vs", "Shaders/BRDFLight.fs");
 	ImguiManager::getInstance()->ImguiInit(window);
 
 	int counter = 0;
@@ -252,7 +254,7 @@ int main(void)
 		InputManager::getInstance()->InputmanagerUpdate(window);
 		Camera::getInstance()->CameraUpdate();
 		Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.5);	//, glm::vec3(0, 0, 0), 0.5
-		Renderer::getInstance()->RendererUpdate(glm::vec3(0.7, 0, 0.0), 0.8);
+		LightManager::getInstance()->LightUpdate(glm::vec3(0.3, 0, 0.0), 0.2);
 		ImguiManager::getInstance()->ImguiUpdate();
 
 
