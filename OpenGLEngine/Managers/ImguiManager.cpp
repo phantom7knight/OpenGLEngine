@@ -27,6 +27,8 @@ void ImguiManager::ImguiInit(GLFWwindow* window)
 	ImGui_ImplGlfwGL3_Init(window, true);
 	ImGui::StyleColorsDark();
 
+	show_another_window = false;
+
 }
 
 void ImguiManager::ImguiUpdate()
@@ -36,11 +38,20 @@ void ImguiManager::ImguiUpdate()
 	//Info to be printed on IMGUI
 	
 	{
-		ImGui::Text("Debug Info!");
+		
+		ImGui::Checkbox("Controls", &show_another_window);
 		
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::Text("Camera Position X = %.2f Y = %.2f Z = %.2f",
 					(Camera::getInstance()->Camera_Pos_.x), Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
+	}
+	if (show_another_window)
+	{
+		ImGui::Begin("Camera Control's", &show_another_window);
+		ImGui::Text("	NUMPAD7	 NUMPAD8	NUMPAD9\n");
+		ImGui::Text("		NUMPAD4 NUMPAD5 NUMPAD6\n");
+ 
+		ImGui::End();
 	}
 
 	//===============================================================
@@ -61,4 +72,5 @@ void ImguiManager::ImguiDestroy()
 
 //To Add in the Imgui Manger
 //1. View Camera Position
-//2. 
+//2. Object Instancing for rendering objects
+//3.

@@ -17,6 +17,8 @@ public:
 
 	static ImguiManager* getInstance();
 
+	bool show_another_window;
+
 	void ImguiInit(GLFWwindow* window);
 	void ImguiUpdate();
 	void ImguiDestroy();

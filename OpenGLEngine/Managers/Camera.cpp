@@ -40,7 +40,4 @@ void Camera::CameraUpdate()
 	
 	viewmat = glm::translate(glm::mat4(1), Camera_Pos_);// glm::lookAt(glm::normalize(Camera_Pos_), glm::normalize(Camera_Pos_ + Camera_Target_), glm::normalize(Camera_Direction_));
 	
-	//std::cout << "Camera X =" <<Camera_Pos_.x << "  Camera Y = " << Camera_Pos_.y<<"  Camera Z = " << Camera_Pos_.z <<std::endl ;
-	//std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-
 }
