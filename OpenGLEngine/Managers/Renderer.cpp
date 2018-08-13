@@ -386,7 +386,7 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	//ModelViewProjection Matix
 	//=======================================================================================================
 
-	glm::mat4 MVP_matrix =  projectionmat* viewmat*modelmat;
+	glm::mat4 MVP_matrix =  projectionmat* viewmat* modelmat;
 	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "MVP_matrix"), 1, GL_FALSE, glm::value_ptr(MVP_matrix));
 
 

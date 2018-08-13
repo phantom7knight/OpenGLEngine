@@ -23,6 +23,8 @@ public:
 	LightManager();
 	~LightManager();
 
+	glm::vec3 LightPos_;
+	float lightsize_;
 
 	static LightManager* getInstance();
 

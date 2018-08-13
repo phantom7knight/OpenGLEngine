@@ -16,6 +16,7 @@ LightManager::LightManager()
 
 LightManager::~LightManager()
 {
+	
 }
 
 
@@ -32,6 +33,9 @@ void LightManager::LightInit(const GLchar* vertexshaderpath, const GLchar* fragm
 
 	m_useShader = new Shader(vertexshaderpath, fragmentshaderpath);
 	m_useShader->Use();
+
+	LightPos_ = glm::vec3(0.3, 0, 0.0);
+	lightsize_ = 0.2f;
 
 	CubeLight();
 
@@ -150,14 +154,41 @@ void LightManager::CubeLight()
 
 void LightManager::LightUpdate(glm::vec3 translate_value,float scale_factor)
 {
+
 	//=======================================================================================================
 	//Modelling Matrix
 	//For variations in translation and Scaling
 	//=======================================================================================================
 	glm::mat4 modelmat = glm::mat4(1);
-	modelmat = glm::translate(modelmat, translate_value) *glm::rotate(glm::mat4(1), 50.0f, glm::vec3(1.0f, 0.0f, 0.0f)) * glm::scale(glm::mat4(1), glm::vec3(scale_factor));	//glm::vec3(0.2, 0, 0)   0.2 //TRS
+	modelmat = glm::translate(modelmat, LightPos_) *glm::rotate(glm::mat4(1), 50.0f, glm::vec3(1.0f, 0.0f, 0.0f)) * glm::scale(glm::mat4(1), glm::vec3(scale_factor));	//glm::vec3(0.2, 0, 0)   0.2 //TRS
+	
+	//=======================================================================================================
+	//View Matrix
+	//=======================================================================================================
 
-	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "modelmat"), 1, GL_FALSE, glm::value_ptr(modelmat));
+	glm::mat4 viewmat;
+	//viewmat = glm::translate(modelmat, glm::vec3(0.0, 0.0, 2.0));
+	//viewmat = glm::lookAt(glm::vec3(0.0, 2.0, 2.0) , glm::vec3(0.0, 0.0, 0.0), glm::vec3(0, 1, 0));
+							//Camera_POS			  //Camera_Target			//Head_value
+	viewmat = glm::translate(glm::mat4(1), LightPos_);
+
+	//=======================================================================================================
+	//Projection Matrix
+	//=======================================================================================================
+
+	glm::mat4 projectionmat;
+	float angle = 20.0f;
+	float fov_ = glm::radians(angle);
+	float AspectRatio = (4.0f / 3.0f);
+	float NearPlane = 0.1f;
+	float FarPlane = 100.0f;
+
+	projectionmat = glm::perspective(fov_, AspectRatio, NearPlane, FarPlane);
+
+
+
+	glm::mat4 MVP_mat =  modelmat;
+	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "modelmat"), 1, GL_FALSE, glm::value_ptr(MVP_mat));
 
 	glBindVertexArray(lightvao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lightibo);

@@ -27,6 +27,7 @@ public:
 	glm::vec3 Camera_Direction_;
 	glm::mat4 viewmat;
 
+
 	glm::vec3 up;
 	glm::vec3 CameraUp;
 	glm::vec3 CameraRight;

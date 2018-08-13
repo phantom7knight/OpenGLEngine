@@ -4,6 +4,8 @@
 #include "../GL/glew.h"
 #include "glfw3.h"
 
+#include "../Managers/LightManager.h"
+
 
 class Camera;
 
