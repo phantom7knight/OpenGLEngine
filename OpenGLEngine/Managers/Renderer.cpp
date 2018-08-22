@@ -333,6 +333,7 @@ void Draw_Cube()
 //	
 //}
 
+float rotate = 0.0f;
 void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 {
 	
@@ -350,13 +351,23 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	glUniform4f(glGetUniformLocation(m_useShader->GetShaderID(), "Color_Send"), 0.5, 0.3, 0.4, 1.0);
 
 
+	//eye pos
+	glUniform3f(glGetUniformLocation(m_useShader->GetShaderID(), "eyepos"), Camera::getInstance()->Camera_Pos_.x, Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
+	//light pos
+	glUniform3f(glGetUniformLocation(m_useShader->GetShaderID(), "lightpos"), LightManager::getInstance()->LightPos_.x, LightManager::getInstance()->LightPos_.y, LightManager::getInstance()->LightPos_.z);
+
+
+
+
 	//=======================================================================================================
 	//Modelling Matrix
 	//For variations in translation and Scaling
 	//=======================================================================================================
 	glm::mat4 modelmat = glm::mat4(1);
-	modelmat = glm::translate(modelmat, translate_value) *glm::rotate(glm::mat4(1), 50.0f, glm::vec3(1.0f, 0.0f, 0.0f)) * glm::scale(glm::mat4(1), glm::vec3(scale_factor));	//glm::vec3(0.2, 0, 0)   0.2 //TRS
-	
+	modelmat = glm::translate(modelmat, translate_value) *glm::rotate(glm::mat4(1), 50.0f, glm::vec3(0.0f, 1.0f, 0.0f)) * glm::scale(glm::mat4(1), glm::vec3(scale_factor));	//glm::vec3(0.2, 0, 0)   0.2 //TRS
+	//rotate += .01f;
+
+	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "modelmat"), 1, GL_FALSE, glm::value_ptr(modelmat));
 	//=======================================================================================================
 	//View Matrix
 	//=======================================================================================================

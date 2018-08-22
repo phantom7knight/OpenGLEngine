@@ -34,7 +34,7 @@ void LightManager::LightInit(const GLchar* vertexshaderpath, const GLchar* fragm
 	m_useShader = new Shader(vertexshaderpath, fragmentshaderpath);
 	m_useShader->Use();
 
-	LightPos_ = glm::vec3(0.3, 0, 0.0);
+	LightPos_ = glm::vec3(0.0, 0, -2.0);
 	lightsize_ = 0.2f;
 
 	CubeLight();
@@ -154,6 +154,13 @@ void LightManager::CubeLight()
 
 void LightManager::LightUpdate(glm::vec3 translate_value,float scale_factor)
 {
+	glUniform4f(glGetUniformLocation(m_useShader->GetShaderID(), "Color_send"), 1.0, 1.0, 1.0, 1.0);	//1.0, 1.0, 1.0
+
+	//BRDF light shader variable's
+	//eye pos
+	glUniform3f(glGetUniformLocation(m_useShader->GetShaderID(), "eyepos"), Camera::getInstance()->Camera_Pos_.x, Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
+	//light pos
+	glUniform3f(glGetUniformLocation(m_useShader->GetShaderID(), "lightpos"), LightPos_.x, LightPos_.y, LightPos_.z);
 
 	//=======================================================================================================
 	//Modelling Matrix
@@ -162,6 +169,9 @@ void LightManager::LightUpdate(glm::vec3 translate_value,float scale_factor)
 	glm::mat4 modelmat = glm::mat4(1);
 	modelmat = glm::translate(modelmat, LightPos_) *glm::rotate(glm::mat4(1), 50.0f, glm::vec3(1.0f, 0.0f, 0.0f)) * glm::scale(glm::mat4(1), glm::vec3(scale_factor));	//glm::vec3(0.2, 0, 0)   0.2 //TRS
 	
+	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "modelmat"), 1, GL_FALSE, glm::value_ptr(modelmat));
+
+
 	//=======================================================================================================
 	//View Matrix
 	//=======================================================================================================
@@ -187,7 +197,7 @@ void LightManager::LightUpdate(glm::vec3 translate_value,float scale_factor)
 
 
 
-	glm::mat4 MVP_mat =  modelmat;
+	glm::mat4 MVP_mat = projectionmat* viewmat* modelmat;
 	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "modelmat"), 1, GL_FALSE, glm::value_ptr(MVP_mat));
 
 	glBindVertexArray(lightvao);

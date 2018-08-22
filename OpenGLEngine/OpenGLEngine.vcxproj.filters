@@ -107,6 +107,8 @@
     <None Include="Shaders\Cube.fs" />
     <None Include="Shaders\BRDFLight.vs" />
     <None Include="Shaders\BRDFLight.fs" />
+    <None Include="Shaders\Light.vs" />
+    <None Include="Shaders\Light.fs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\spaceship.png">

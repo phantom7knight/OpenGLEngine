@@ -225,7 +225,7 @@ int main(void)
 
 
 	Renderer::getInstance()->Init("Shaders/Cube.vs", "Shaders/Cube.fs");	//Default_Variations		Cube		Default
-	LightManager::getInstance()->LightInit("Shaders/BRDFLight.vs", "Shaders/BRDFLight.fs");
+	LightManager::getInstance()->LightInit("Shaders/Light.vs", "Shaders/Light.fs");
 	ImguiManager::getInstance()->ImguiInit(window);
 
 	int counter = 0;
@@ -237,7 +237,9 @@ int main(void)
 			
 		//This closes the window if Esc key is pressed Like an exit condition
 		processinput(window);
+		//glClearColor(1.0, 1.0, 0.0, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);		
+		glEnable(GL_DEPTH);
 		
 		++counter;
 		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -253,8 +255,10 @@ int main(void)
 
 		InputManager::getInstance()->InputmanagerUpdate(window);
 		Camera::getInstance()->CameraUpdate();
+		Renderer::getInstance()->m_useShader->Use();
 		Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.5);	//, glm::vec3(0, 0, 0), 0.5
-		LightManager::getInstance()->LightUpdate(glm::vec3(0.3, 0, 0.0), 0.2);
+		LightManager::getInstance()->m_useShader->Use();
+		LightManager::getInstance()->LightUpdate(glm::vec3(0.0, 0, 0.0), 0.2);
 		ImguiManager::getInstance()->ImguiUpdate();
 
 

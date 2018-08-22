@@ -1,4 +1,5 @@
-﻿  ImguiManager.cpp
+﻿  Renderer.cpp
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(351): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
   OpenGLEngine.vcxproj -> D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\Debug\OpenGLEngine.exe
   Shaders\BRDFLight.fs
   Shaders\BRDFLight.vs
@@ -8,4 +9,6 @@
   Shaders\Default.vs
   Shaders\Default_Variations.fs
   Shaders\Default_Variations.vs
-  8 File(s) copied
+  Shaders\Light.fs
+  Shaders\Light.vs
+  10 File(s) copied

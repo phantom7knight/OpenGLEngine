@@ -181,6 +181,8 @@
     <None Include="Shaders\Default.vs" />
     <None Include="Shaders\Default_Variations.fs" />
     <None Include="Shaders\Default_Variations.vs" />
+    <None Include="Shaders\Light.fs" />
+    <None Include="Shaders\Light.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\LetterA.png" />
