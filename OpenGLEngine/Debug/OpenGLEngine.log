@@ -1,5 +1,7 @@
-﻿  Renderer.cpp
+﻿  LightManger.cpp
+  Renderer.cpp
 d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(351): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+  Generating Code...
   OpenGLEngine.vcxproj -> D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\Debug\OpenGLEngine.exe
   Shaders\BRDFLight.fs
   Shaders\BRDFLight.vs

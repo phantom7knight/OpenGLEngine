@@ -22,18 +22,14 @@ void main()
 	vec4 diffuse = diff * vec4(1,1,1,1);
 
 	//Specular Lighting
+	float specular_strength = 0.5;
+	vec3 viewdir = normalize(aeyepos - FragPos);
+	vec3 reflectdir = reflect(-lightdir,norm);
+	float spec = pow(max(dot(viewdir,reflectdir),0.0),32);
+	vec4 Specular = specular_strength * spec * vec4(1,1,1,1);
 
-
-	vec4 res =  (ambient + diffuse) * vertcolor;//vec4(1,0.5,0.31,1.0);
-	//fragColor = vec4(aNormal,1.0);//res;
+	vec4 res =  (ambient + diffuse + Specular) * vertcolor;//vec4(1,0.5,0.31,1.0);
+	//fragColor = vec4(aNormal,1.0);
 	fragColor  = res;
 }
 
-
-
-//out vec4 outfragcolor;
-//
-//void main()
-//{
-//		outfragcolor = vertColor;//vec4(1.0,0.0,0.0,1.0);//vertColor;
-//}

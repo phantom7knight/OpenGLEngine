@@ -33,15 +33,3 @@ void main()
 
 
 
-
-//out vec4 vertColor;
-//
-//void main()
-//{
-//
-//	gl_Position = MVP_matrix * vec4(cube_vert,1.0);
-//	vertColor = (Color_Send);//Color_Send//vec4(cube_normal,1.0)
-//
-//}
-//
-//
