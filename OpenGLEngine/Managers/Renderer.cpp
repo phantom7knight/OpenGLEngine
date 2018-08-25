@@ -2,7 +2,7 @@
 #include "../src/stb_image.h"
 
 
-//#define Enable_Texture
+#define Enable_Texture
 
 
 //Declerations of all the buffers
@@ -69,7 +69,7 @@ void Renderer::Init(const GLchar* vertexshaderpath, const GLchar* fragmentshader
 	#ifdef Enable_Texture
 		Draw_Textured_Square();
 	#endif
-	Draw_Cube();
+	//Draw_Cube();
 	
 	
 
@@ -432,13 +432,8 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	//=======================================================================================================
 
 	glm::mat4 projectionmat;
-	float angle = 20.0f;
-	float fov_ = glm::radians(angle);
-	float AspectRatio = (4.0f / 3.0f);
-	float NearPlane = 0.1f;
-	float FarPlane = 100.0f;
 
-	projectionmat = glm::perspective(fov_, AspectRatio, NearPlane, FarPlane);
+	projectionmat = Camera::getInstance()->GetProjmat();
 	
 	//projectionmat = glm::ortho();
 
@@ -459,9 +454,9 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	
 	
 	glBindVertexArray(vao);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
-	//glDrawElements(GL_TRIANGLES, 12*3, GL_UNSIGNED_INT, nullptr);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	//glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+	glDrawElements(GL_TRIANGLES, 12*3, GL_UNSIGNED_INT, nullptr);
 
 }
 

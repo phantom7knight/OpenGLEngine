@@ -26,6 +26,7 @@ public:
 	glm::vec3 Camera_Target_;
 	glm::vec3 Camera_Direction_;
 	glm::mat4 viewmat;
+	glm::mat4 projectionmat;
 
 
 	glm::vec3 up;
@@ -36,6 +37,10 @@ public:
 	glm::mat4 GetViewmat()
 	{
 		return viewmat;
+	}
+	glm::mat4 GetProjmat()
+	{
+		return projectionmat;
 	}
 
 };

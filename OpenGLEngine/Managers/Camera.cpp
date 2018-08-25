@@ -18,6 +18,15 @@ Camera::Camera()
 
 	CameraUp = glm::cross(Camera_Direction_, CameraRight);
 
+	
+	float angle = 20.0f;
+	float fov_ = glm::radians(angle);
+	float AspectRatio = (4.0f / 3.0f);
+	float NearPlane = 0.1f;
+	float FarPlane = 100.0f;
+
+	projectionmat = glm::perspective(fov_, AspectRatio, NearPlane, FarPlane);
+
 }
 
 

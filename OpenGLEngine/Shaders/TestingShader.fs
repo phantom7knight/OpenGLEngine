@@ -26,7 +26,7 @@ void main()
 	vec4 diffuse = diff * vec4(1,1,1,1);
 
 	//Specular Lighting
-	float specular_strength = 0.5;
+	float specular_strength = 1.0;
 	vec3 viewdir = normalize(aeyepos - FragPos);
 	vec3 reflectdir = reflect(-lightdir,norm);
 	float spec = pow(max(dot(viewdir,reflectdir),0.0),128);

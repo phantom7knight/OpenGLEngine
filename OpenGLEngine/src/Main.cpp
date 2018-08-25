@@ -205,27 +205,13 @@ int main(void)
 	
 		std::cout << "failed to initialize glew!!";
 	}
-
 	
-	//Shader *useShader;
-	//useShader = new Shader("Shaders/Default_Variations.vs", "Shaders/Default_Variations.fs");//Default_Variations  Default
-	//useShader->Use();
-	//
-	////Uniform variables
-	//glUniform4f(glGetUniformLocation(useShader->GetShaderID(), "Color_Send"), 0.5, 0.3, 0.4, 1.0);
+	
+	
 
-	//glm::mat4 worldmat = glm::mat4(1);
-	//worldmat = glm::translate(worldmat, glm::vec3(0.2, 0, 0)) * glm::scale(worldmat, glm::vec3(0.2));
-	//glUniformMatrix4fv(glGetUniformLocation(useShader->GetShaderID(), "worldmat"), 1, GL_FALSE, glm::value_ptr(worldmat));
-
-	//Draw_Triangle();
-	//Draw_Square_IBO();
-	//Draw_Square_VAO();
-	//Draw_Texture_Square();
-
-
-	Renderer::getInstance()->Init("Shaders/Cube.vs", "Shaders/Cube.fs");	//Default_Texture		Cube		Default		TestingShader
+	//Renderer::getInstance()->Init("Shaders/TestingShader.vs", "Shaders/TestingShader.fs");	//Default_Texture		Cube		Default		TestingShader
 	LightManager::getInstance()->LightInit("Shaders/Light.vs", "Shaders/Light.fs");
+	Renderer::getInstance()->Init("Shaders/Default_Texture.vs", "Shaders/Default_Texture.fs");
 	ImguiManager::getInstance()->ImguiInit(window);
 
 
@@ -260,6 +246,7 @@ int main(void)
 		Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.5);	//, glm::vec3(0, 0, 0), 0.5
 		LightManager::getInstance()->m_useShader->Use();
 		LightManager::getInstance()->LightUpdate(glm::vec3(0.0, 0, 0.0), 0.2);
+		
 		ImguiManager::getInstance()->ImguiUpdate();
 
 
