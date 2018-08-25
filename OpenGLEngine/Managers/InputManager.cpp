@@ -31,6 +31,7 @@ void InputManager::InputmanagerUpdate(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_KP_8) == GLFW_PRESS)
 	{
 		Camera::getInstance()->Camera_Pos_.y += .1;// glm;// camera_speed * Camera::getInstance()->Camera_Target_;
+	
 	}
 
 	//Down
@@ -94,5 +95,8 @@ void InputManager::InputmanagerUpdate(GLFWwindow* window)
 	{
 		LightManager::getInstance()->LightPos_.z -= .01;
 	}
+
+
+	Camera::getInstance()->CameraUpdate();
 
 }

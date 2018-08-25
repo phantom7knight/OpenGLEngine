@@ -173,14 +173,14 @@
   <ItemGroup>
     <None Include="glew32.dll" />
     <None Include="glfw3.dll" />
-    <None Include="Shaders\BRDFLight.fs" />
-    <None Include="Shaders\BRDFLight.vs" />
+    <None Include="Shaders\TestingShader.fs" />
+    <None Include="Shaders\TestingShader.vs" />
     <None Include="Shaders\Cube.fs" />
     <None Include="Shaders\Cube.vs" />
     <None Include="Shaders\Default.fs" />
     <None Include="Shaders\Default.vs" />
-    <None Include="Shaders\Default_Variations.fs" />
-    <None Include="Shaders\Default_Variations.vs" />
+    <None Include="Shaders\Default_Texture.fs" />
+    <None Include="Shaders\Default_Texture.vs" />
     <None Include="Shaders\Light.fs" />
     <None Include="Shaders\Light.vs" />
   </ItemGroup>

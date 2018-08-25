@@ -224,9 +224,10 @@ int main(void)
 	//Draw_Texture_Square();
 
 
-	Renderer::getInstance()->Init("Shaders/Cube.vs", "Shaders/Cube.fs");	//Default_Variations		Cube		Default
+	Renderer::getInstance()->Init("Shaders/Cube.vs", "Shaders/Cube.fs");	//Default_Texture		Cube		Default		TestingShader
 	LightManager::getInstance()->LightInit("Shaders/Light.vs", "Shaders/Light.fs");
 	ImguiManager::getInstance()->ImguiInit(window);
+
 
 	int counter = 0;
 	/* Loop until the user closes the window */
@@ -237,7 +238,7 @@ int main(void)
 			
 		//This closes the window if Esc key is pressed Like an exit condition
 		processinput(window);
-		//glClearColor(1.0, 1.0, 0.0, 1.0);
+		glClearColor(0.2,0.2,0.2, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);		
 		glEnable(GL_DEPTH);
 		
@@ -254,7 +255,7 @@ int main(void)
 		//Updates
 
 		InputManager::getInstance()->InputmanagerUpdate(window);
-		Camera::getInstance()->CameraUpdate();
+		//Camera::getInstance()->CameraUpdate();
 		Renderer::getInstance()->m_useShader->Use();
 		Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.5);	//, glm::vec3(0, 0, 0), 0.5
 		LightManager::getInstance()->m_useShader->Use();

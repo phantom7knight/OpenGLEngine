@@ -10,6 +10,10 @@ in vec3 alightpos;
 
 void main()
 {
+
+//=============================================================================================
+//Light Calculations
+//=============================================================================================
 	//Ambient Lighting
 	float ambient_strength = 1.0;
 	vec4 lite_color = vec4(1.0,1.0,0.0,1.0);
@@ -28,10 +32,17 @@ void main()
 	float spec = pow(max(dot(viewdir,reflectdir),0.0),128);
 	vec4 Specular = specular_strength * spec * vec4(1,1,1,1);
 
-	vec4 res =  (ambient + diffuse + Specular) * vertcolor;//vec4(1,0.5,0.31,1.0);
-	//fragColor = vec4((aNormal),1.0);
-	
-	
-	fragColor  = res;
+	vec4 Light_res =  (ambient + diffuse + Specular) * vertcolor;//vec4(1,0.5,0.31,1.0);
+//=============================================================================================
+
+
+
+
+	//Temprary
+	vec4 colo_temp = vec4(noise2(FragPos.xy * 0.5),0.0,1.0)+Light_res;	//Noise returns random value between [-1,1]
+
+
+	fragColor  = colo_temp;//res;
+	//fragColor = vec4(aNormal,1.0);
 }
 

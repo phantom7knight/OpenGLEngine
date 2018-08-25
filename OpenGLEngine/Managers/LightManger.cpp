@@ -180,7 +180,7 @@ void LightManager::LightUpdate(glm::vec3 translate_value,float scale_factor)
 	//viewmat = glm::translate(modelmat, glm::vec3(0.0, 0.0, 2.0));
 	//viewmat = glm::lookAt(glm::vec3(0.0, 2.0, 2.0) , glm::vec3(0.0, 0.0, 0.0), glm::vec3(0, 1, 0));
 							//Camera_POS			  //Camera_Target			//Head_value
-	viewmat = glm::translate(glm::mat4(1), LightPos_);
+	viewmat = Camera::getInstance()->GetViewmat(); //glm::translate(glm::mat4(1), LightPos_);
 
 	//=======================================================================================================
 	//Projection Matrix

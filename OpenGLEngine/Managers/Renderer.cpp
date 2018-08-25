@@ -15,7 +15,7 @@ unsigned int texture;
 void Draw_Square_VAO();
 void Draw_Textured_Square();
 void Draw_Cube();
-//void LightCube();
+
 
 Renderer* Renderer::m_Instance = nullptr;
 
@@ -70,7 +70,7 @@ void Renderer::Init(const GLchar* vertexshaderpath, const GLchar* fragmentshader
 		Draw_Textured_Square();
 	#endif
 	Draw_Cube();
-	//LightCube();
+	
 	
 
 	
@@ -137,14 +137,7 @@ void Draw_Textured_Square()
 		2,3,0
 	};
 
-	/*float Texture_Coords[] =
-	{
-		0.0f,	0.0f,
-		1.0f,	0.0f,
-		1.0f,	1.0f,
-		0.0f,	1.0f
-	};*/
-
+	
 	//Generate all the buffers and array
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
@@ -225,51 +218,108 @@ void Draw_Cube()
 	height_= 0.5;
 	depth_ = 0.5;
 
-	float vertices[] = {
+		//front
+		// top
+		// back
+		// bottom
+		// left
+		// right
+		
+	float vertices2[] = {
+		//front
 		//Coordinates					//Normals				//Color
-		-width_, -height_, -depth_,		0.0f,  0.0f, -1.0f,		1.0f, 1.0f, 1.0f,
-		 width_, -height_, -depth_,		0.0f,  0.0f, -1.0f,		0.1f, 0.8f, 0.6f,
-		 width_,  height_, -depth_,		0.0f,  0.0f, -1.0f,		0.3f, 0.3f, 0.9f,
-		 width_,  height_, -depth_,		0.0f,  0.0f, -1.0f,		1.0f, 1.0f, 1.0f,
-		-width_,  height_, -depth_,		0.0f,  0.0f, -1.0f,		1.0f, 1.0f, 1.0f,
-		-width_, -height_, -depth_,		0.0f,  0.0f, -1.0f,		0.3f, 0.3f, 0.9f,
+		-width_, -height_, -depth_,		0.0f,  0.0f, 1.0f,		1.0f, 1.0f, 1.0f,
+		 width_, -height_, -depth_,		0.0f,  0.0f, 1.0f,		0.1f, 0.8f, 0.6f,
+		 width_,  height_, -depth_,		0.0f,  0.0f, 1.0f,		0.3f, 0.3f, 0.9f,
+		 width_,  height_, -depth_,		0.0f,  0.0f, 1.0f,		1.0f, 1.0f, 1.0f,
+		-width_,  height_, -depth_,		0.0f,  0.0f, 1.0f,		1.0f, 1.0f, 1.0f,
+		-width_, -height_, -depth_,		0.0f,  0.0f, 1.0f,		0.3f, 0.3f, 0.9f,
 		// width_ height_	depth_
-		-width_, -height_,  depth_,		0.0f,  0.0f,  1.0f,		1.0f, 1.0f, 1.0f,
-		 width_, -height_,  depth_,		0.0f,  0.0f,  1.0f,		0.1f, 0.8f, 0.6f,
-		 width_,  height_,  depth_,		0.0f,  0.0f,  1.0f,		0.3f, 0.3f, 0.9f,
-		 width_,  height_,  depth_,		0.0f,  0.0f,  1.0f,		1.0f, 1.0f, 1.0f,
-		-width_,  height_,  depth_,		0.0f,  0.0f,  1.0f,		0.1f, 0.8f, 0.6f,
-		-width_, -height_,  depth_,		0.0f,  0.0f,  1.0f,		0.3f, 0.3f, 0.9f,
-		//	 width_	  height_	depth_
-		-width_,  height_,  depth_,		-1.0f,  0.0f,  0.0f,	1.0f, 1.0f, 1.0f,
-		-width_,  height_, -depth_,		-1.0f,  0.0f,  0.0f,	0.1f, 0.8f, 0.6f,
-		-width_, -height_, -depth_,		-1.0f,  0.0f,  0.0f,	0.3f, 0.3f, 0.9f,
-		-width_, -height_, -depth_,		-1.0f,  0.0f,  0.0f,	1.0f, 1.0f, 1.0f,
-		-width_, -height_,  depth_,		-1.0f,  0.0f,  0.0f,	0.1f, 0.8f, 0.6f,
-		-width_,  height_,  depth_,		-1.0f,  0.0f,  0.0f,	0.3f, 0.3f, 0.9f,
-		// width_ height_	depth_
-		width_,  height_,  depth_,		1.0f,  0.0f,  0.0f,		1.0f, 1.0f, 1.0f,
-		width_,  height_, -depth_,		1.0f,  0.0f,  0.0f,		0.1f, 0.8f, 0.6f,
-		width_, -height_, -depth_,		1.0f,  0.0f,  0.0f,		0.3f, 0.3f, 0.9f,
-		width_, -height_, -depth_,		1.0f,  0.0f,  0.0f,		1.0f, 1.0f, 1.0f,
-		width_, -height_,  depth_,		1.0f,  0.0f,  0.0f,		0.1f, 0.8f, 0.6f,
-		width_,  height_,  depth_,		1.0f,  0.0f,  0.0f,		0.3f, 0.3f, 0.9f,
-		//width_ height_	depth_
-		-width_, -height_, -depth_,		0.0f, -1.0f,  0.0f,		1.0f, 1.0f, 1.0f,
-		 width_, -height_, -depth_,		0.0f, -1.0f,  0.0f,		0.1f, 0.8f, 0.6f,
-		 width_, -height_,  depth_,		0.0f, -1.0f,  0.0f,		0.3f, 0.3f, 0.9f,
-		 width_, -height_,  depth_,		0.0f, -1.0f,  0.0f,		1.0f, 1.0f, 1.0f,
-		-width_, -height_,  depth_,		0.0f, -1.0f,  0.0f,		0.1f, 0.8f, 0.6f,
-		-width_, -height_, -depth_,		0.0f, -1.0f,  0.0f,		0.3f, 0.3f, 0.9f,
-		// width_ height_	depth_
-		-width_,  height_, -depth_,		0.0f,  1.0f,  0.0f,		1.0f, 1.0f, 1.0f,
-		 width_,  height_, -depth_,		0.0f,  1.0f,  0.0f,		0.1f, 0.8f, 0.6f,
-		 width_,  height_,  depth_,		0.0f,  1.0f,  0.0f,		0.3f, 0.3f, 0.9f,
-		 width_,  height_,  depth_,		0.0f,  1.0f,  0.0f,		1.0f, 1.0f, 1.0f,
+		// top
+		-width_, -height_,  depth_,		0.0f,  1.0f,  0.0f,		1.0f, 1.0f, 1.0f,
+		width_, -height_,  depth_,		0.0f,  1.0f,  0.0f,		0.1f, 0.8f, 0.6f,
+		width_,  height_,  depth_,		0.0f,  1.0f,  0.0f,		0.3f, 0.3f, 0.9f,
+		width_,  height_,  depth_,		0.0f,  1.0f,  0.0f,		1.0f, 1.0f, 1.0f,
 		-width_,  height_,  depth_,		0.0f,  1.0f,  0.0f,		0.1f, 0.8f, 0.6f,
-		-width_,  height_, -depth_,		0.0f,  1.0f,  0.0f,		0.3f, 0.3f, 0.9f,
+		-width_, -height_,  depth_,		0.0f,  1.0f,  0.0f,		0.3f, 0.3f, 0.9f,
+		//	 width_	  height_	depth_
+		// back
+		-width_,  height_,  depth_,		0.0f,  0.0f,  -1.0f,	1.0f, 1.0f, 1.0f,
+		-width_,  height_, -depth_,		0.0f,  0.0f,  -1.0f,	0.1f, 0.8f, 0.6f,
+		-width_, -height_, -depth_,		0.0f,  0.0f,  -1.0f,	0.3f, 0.3f, 0.9f,
+		-width_, -height_, -depth_,		0.0f,  0.0f,  -1.0f,	1.0f, 1.0f, 1.0f,
+		-width_, -height_,  depth_,		0.0f,  0.0f,  -1.0f,	0.1f, 0.8f, 0.6f,
+		-width_,  height_,  depth_,		0.0f,  0.0f,  -1.0f,	0.3f, 0.3f, 0.9f,
+		// width_ height_	depth_
+		// bottom
+		width_,  height_,  depth_,		0.0f,  -1.0f,  0.0f,		1.0f, 1.0f, 1.0f,
+		width_,  height_, -depth_,		0.0f,  -1.0f,  0.0f,		0.1f, 0.8f, 0.6f,
+		width_, -height_, -depth_,		0.0f,  -1.0f,  0.0f,		0.3f, 0.3f, 0.9f,
+		width_, -height_, -depth_,		0.0f,  -1.0f,  0.0f,		1.0f, 1.0f, 1.0f,
+		width_, -height_,  depth_,		0.0f,  -1.0f,  0.0f,		0.1f, 0.8f, 0.6f,
+		width_,  height_,  depth_,		0.0f,  -1.0f,  0.0f,		0.3f, 0.3f, 0.9f,
+		//width_ height_	depth_
+		// left
+		-width_, -height_, -depth_,		-1.0f, 0.0f,  0.0f,		1.0f, 1.0f, 1.0f,
+		width_, -height_, -depth_,		-1.0f, 0.0f,  0.0f,		0.1f, 0.8f, 0.6f,
+		width_, -height_,  depth_,		-1.0f, 0.0f,  0.0f,		0.3f, 0.3f, 0.9f,
+		width_, -height_,  depth_,		-1.0f, 0.0f,  0.0f,		1.0f, 1.0f, 1.0f,
+		-width_, -height_,  depth_,		-1.0f, 0.0f,  0.0f,		0.1f, 0.8f, 0.6f,
+		-width_, -height_, -depth_,		-1.0f, 0.0f,  0.0f,		0.3f, 0.3f, 0.9f,
+		// width_ height_	depth_
+		// right
+		-width_,  height_, -depth_,		1.0f,  0.0f,  0.0f,		1.0f, 1.0f, 1.0f,
+		width_,  height_, -depth_,		1.0f,  0.0f,  0.0f,		0.1f, 0.8f, 0.6f,
+		width_,  height_,  depth_,		1.0f,  0.0f,  0.0f,		0.3f, 0.3f, 0.9f,
+		width_,  height_,  depth_,		1.0f,  0.0f,  0.0f,		1.0f, 1.0f, 1.0f,
+		-width_,  height_,  depth_,		1.0f,  0.0f,  0.0f,		0.1f, 0.8f, 0.6f,
+		-width_,  height_, -depth_,		1.0f,  0.0f,  0.0f,		0.3f, 0.3f, 0.9f,
 	};
 	
+	float vertices[] = {
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+
+		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+		0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+	};
+
 	unsigned int indices[] = {
 		//front
 		0, 1, 2,
@@ -298,7 +348,7 @@ void Draw_Cube()
 
 	glGenBuffers(1, &vbo);
 	//glGenBuffers(1, &color_vbo);
-	glGenBuffers(1, &ibo);
+	//glGenBuffers(1, &ibo);
 
 
 	//Binding
@@ -308,17 +358,17 @@ void Draw_Cube()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, NULL);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, NULL);
 	glEnableVertexAttribArray(0);									
 													//**				
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);									
 																	
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
+	//glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(6 * sizeof(float)));
+	//glEnableVertexAttribArray(2);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -326,12 +376,7 @@ void Draw_Cube()
 	//** - Amount of size required to reach next vertex
 }
 
-//void LightCube()
-//{
-//	unsigned int light_vao;
-//	unsigned int light_vbo;
-//	
-//}
+
 
 float rotate = 0.0f;
 void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
@@ -349,6 +394,7 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	//=======================================================================================================
 
 	glUniform4f(glGetUniformLocation(m_useShader->GetShaderID(), "Color_Send"), 0.5, 0.3, 0.4, 1.0);
+	
 
 
 	//eye pos
@@ -356,17 +402,20 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	//light pos
 	glUniform3f(glGetUniformLocation(m_useShader->GetShaderID(), "lightpos"), LightManager::getInstance()->LightPos_.x, LightManager::getInstance()->LightPos_.y, LightManager::getInstance()->LightPos_.z);
 
-
+	
 
 
 	//=======================================================================================================
 	//Modelling Matrix
 	//For variations in translation and Scaling
 	//=======================================================================================================
-	glm::mat4 modelmat = glm::mat4(1);
-	modelmat = glm::translate(modelmat, translate_value) *glm::rotate(glm::mat4(1), 50.0f, glm::vec3(0.0f, 1.0f, 0.0f)) * glm::scale(glm::mat4(1), glm::vec3(scale_factor));	//glm::vec3(0.2, 0, 0)   0.2 //TRS
+	glm::mat4 scalemat = glm::mat4(1);
+	scalemat =  glm::scale(glm::mat4(1), glm::vec3(scale_factor));
+	glm::mat4 rotatemat = glm::rotate(glm::mat4(1), 50.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+	//rotate += 0.01;
+	glm::mat4 translatemat = glm::translate(glm::mat4(1), translate_value);
 	//rotate += .01f;
-
+	glm::mat4 modelmat = translatemat * rotatemat * scalemat ;
 	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "modelmat"), 1, GL_FALSE, glm::value_ptr(modelmat));
 	//=======================================================================================================
 	//View Matrix
@@ -410,7 +459,7 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	
 	
 	glBindVertexArray(vao);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
 	//glDrawElements(GL_TRIANGLES, 12*3, GL_UNSIGNED_INT, nullptr);
 

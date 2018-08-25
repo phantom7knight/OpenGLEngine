@@ -1,16 +1,15 @@
-﻿  LightManger.cpp
-  Renderer.cpp
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(351): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+﻿  Camera.cpp
+  LightManger.cpp
   Generating Code...
   OpenGLEngine.vcxproj -> D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\Debug\OpenGLEngine.exe
-  Shaders\BRDFLight.fs
-  Shaders\BRDFLight.vs
   Shaders\Cube.fs
   Shaders\Cube.vs
   Shaders\Default.fs
   Shaders\Default.vs
-  Shaders\Default_Variations.fs
-  Shaders\Default_Variations.vs
+  Shaders\Default_Texture.fs
+  Shaders\Default_Texture.vs
   Shaders\Light.fs
   Shaders\Light.vs
+  Shaders\TestingShader.fs
+  Shaders\TestingShader.vs
   10 File(s) copied
