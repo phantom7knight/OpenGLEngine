@@ -2,7 +2,7 @@
 #include "../src/stb_image.h"
 
 
-#define Enable_Texture
+//#define Enable_Texture
 
 
 //Declerations of all the buffers
@@ -66,10 +66,7 @@ void Renderer::Init(const GLchar* vertexshaderpath, const GLchar* fragmentshader
 	//Draw call
 	//=======================================================================================================
 	//Draw_Square_VAO();
-	#ifdef Enable_Texture
-		Draw_Textured_Square();
-	#endif
-	//Draw_Cube();
+	Draw_Cube();
 	
 	
 
@@ -119,205 +116,53 @@ void Draw_Square_VAO()
 
 }
 
-#ifdef Enable_Texture
-void Draw_Textured_Square()
-{
-	
-
-	float Square_vertices[] = {
-		//Cordinates	//Tex_Cords
-		-1.0f,  -1.0f,	0.0f,	0.0f,
-	     1.0f,  -1.0f,	1.0f,	0.0f,
-		 1.0f,   1.0f,	1.0f,	1.0f,
-		-1.0f,   1.0f,	0.0f,	1.0f
-	};
-	unsigned int indeces[] =
-	{
-		0,1,2,
-		2,3,0
-	};
-
-	
-	//Generate all the buffers and array
-	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &vbo);
-	glGenBuffers(1, &ibo);
-	
-
-	//Bind all of them
-
-	glBindVertexArray(vao);
-	
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER,sizeof(Square_vertices), Square_vertices,GL_STATIC_DRAW);
-	
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
-	
-	//Now send the pointer values to the shader
-	
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 4, 0);
-	glEnableVertexAttribArray(0);
-
-
-	//Unbind all the buffers and vao except for ibo(ebo)
-	
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-
-	//=======================================================================================================
-	//Texture Part
-	//=======================================================================================================
-	
-	//Blend Function
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	//Generate Texture
-	glGenTextures(1, &texture);
-
-	//Bind Texture
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	//Setting all the other paramaeters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	//Loading the Texture
-	int width, height, channel;
-	
-	stbi_set_flip_vertically_on_load(true);
-	
-	unsigned char* loaded_texture_image = stbi_load("Assets/Textures/LetterA.png", &width, &height, &channel, 0);
-	
-	if (loaded_texture_image)
-	{
-		std::cout << "Succesful texture loaded " << std::endl;
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, loaded_texture_image);
-		glGenerateMipmap(GL_TEXTURE20);
-	}
-	else
-	{
-		std::cout << "Failed to load Texture" << std::endl;
-	}
-
-	stbi_image_free(loaded_texture_image);
-
-	
-	
-}
-#endif
-
 
 void Draw_Cube()
 {
-	float width_, height_, depth_;
-
-	width_ = 0.5;
-	height_= 0.5;
-	depth_ = 0.5;
-
-		//front
-		// top
-		// back
-		// bottom
-		// left
-		// right
-		
-	float vertices2[] = {
-		//front
-		//Coordinates					//Normals				//Color
-		-width_, -height_, -depth_,		0.0f,  0.0f, 1.0f,		1.0f, 1.0f, 1.0f,
-		 width_, -height_, -depth_,		0.0f,  0.0f, 1.0f,		0.1f, 0.8f, 0.6f,
-		 width_,  height_, -depth_,		0.0f,  0.0f, 1.0f,		0.3f, 0.3f, 0.9f,
-		 width_,  height_, -depth_,		0.0f,  0.0f, 1.0f,		1.0f, 1.0f, 1.0f,
-		-width_,  height_, -depth_,		0.0f,  0.0f, 1.0f,		1.0f, 1.0f, 1.0f,
-		-width_, -height_, -depth_,		0.0f,  0.0f, 1.0f,		0.3f, 0.3f, 0.9f,
-		// width_ height_	depth_
-		// top
-		-width_, -height_,  depth_,		0.0f,  1.0f,  0.0f,		1.0f, 1.0f, 1.0f,
-		width_, -height_,  depth_,		0.0f,  1.0f,  0.0f,		0.1f, 0.8f, 0.6f,
-		width_,  height_,  depth_,		0.0f,  1.0f,  0.0f,		0.3f, 0.3f, 0.9f,
-		width_,  height_,  depth_,		0.0f,  1.0f,  0.0f,		1.0f, 1.0f, 1.0f,
-		-width_,  height_,  depth_,		0.0f,  1.0f,  0.0f,		0.1f, 0.8f, 0.6f,
-		-width_, -height_,  depth_,		0.0f,  1.0f,  0.0f,		0.3f, 0.3f, 0.9f,
-		//	 width_	  height_	depth_
-		// back
-		-width_,  height_,  depth_,		0.0f,  0.0f,  -1.0f,	1.0f, 1.0f, 1.0f,
-		-width_,  height_, -depth_,		0.0f,  0.0f,  -1.0f,	0.1f, 0.8f, 0.6f,
-		-width_, -height_, -depth_,		0.0f,  0.0f,  -1.0f,	0.3f, 0.3f, 0.9f,
-		-width_, -height_, -depth_,		0.0f,  0.0f,  -1.0f,	1.0f, 1.0f, 1.0f,
-		-width_, -height_,  depth_,		0.0f,  0.0f,  -1.0f,	0.1f, 0.8f, 0.6f,
-		-width_,  height_,  depth_,		0.0f,  0.0f,  -1.0f,	0.3f, 0.3f, 0.9f,
-		// width_ height_	depth_
-		// bottom
-		width_,  height_,  depth_,		0.0f,  -1.0f,  0.0f,		1.0f, 1.0f, 1.0f,
-		width_,  height_, -depth_,		0.0f,  -1.0f,  0.0f,		0.1f, 0.8f, 0.6f,
-		width_, -height_, -depth_,		0.0f,  -1.0f,  0.0f,		0.3f, 0.3f, 0.9f,
-		width_, -height_, -depth_,		0.0f,  -1.0f,  0.0f,		1.0f, 1.0f, 1.0f,
-		width_, -height_,  depth_,		0.0f,  -1.0f,  0.0f,		0.1f, 0.8f, 0.6f,
-		width_,  height_,  depth_,		0.0f,  -1.0f,  0.0f,		0.3f, 0.3f, 0.9f,
-		//width_ height_	depth_
-		// left
-		-width_, -height_, -depth_,		-1.0f, 0.0f,  0.0f,		1.0f, 1.0f, 1.0f,
-		width_, -height_, -depth_,		-1.0f, 0.0f,  0.0f,		0.1f, 0.8f, 0.6f,
-		width_, -height_,  depth_,		-1.0f, 0.0f,  0.0f,		0.3f, 0.3f, 0.9f,
-		width_, -height_,  depth_,		-1.0f, 0.0f,  0.0f,		1.0f, 1.0f, 1.0f,
-		-width_, -height_,  depth_,		-1.0f, 0.0f,  0.0f,		0.1f, 0.8f, 0.6f,
-		-width_, -height_, -depth_,		-1.0f, 0.0f,  0.0f,		0.3f, 0.3f, 0.9f,
-		// width_ height_	depth_
-		// right
-		-width_,  height_, -depth_,		1.0f,  0.0f,  0.0f,		1.0f, 1.0f, 1.0f,
-		width_,  height_, -depth_,		1.0f,  0.0f,  0.0f,		0.1f, 0.8f, 0.6f,
-		width_,  height_,  depth_,		1.0f,  0.0f,  0.0f,		0.3f, 0.3f, 0.9f,
-		width_,  height_,  depth_,		1.0f,  0.0f,  0.0f,		1.0f, 1.0f, 1.0f,
-		-width_,  height_,  depth_,		1.0f,  0.0f,  0.0f,		0.1f, 0.8f, 0.6f,
-		-width_,  height_, -depth_,		1.0f,  0.0f,  0.0f,		0.3f, 0.3f, 0.9f,
-	};
+	
 	
 	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		-0.5f, -0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,
+		 0.5f, -0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,
+		 0.5f,  0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,
+		 0.5f,  0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,
+		-0.5f,  0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,
+		-0.5f, -0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,
 
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		-0.5f, -0.5f,  0.5f,	 0.0f,  0.0f,  1.0f,
+		 0.5f, -0.5f,  0.5f,	 0.0f,  0.0f,  1.0f,
+		 0.5f,  0.5f,  0.5f,	 0.0f,  0.0f,  1.0f,
+		 0.5f,  0.5f,  0.5f,	 0.0f,  0.0f,  1.0f,
+		-0.5f,  0.5f,  0.5f,	 0.0f,  0.0f,  1.0f,
+		-0.5f, -0.5f,  0.5f,	 0.0f,  0.0f,  1.0f,
 
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f,	-1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f,	-1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f,	-1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f,	-1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f,	-1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f,	-1.0f,  0.0f,  0.0f,
 
-		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,		1.0f,  0.0f,  0.0f,
+		0.5f,  0.5f, -0.5f,		1.0f,  0.0f,  0.0f,
+		0.5f, -0.5f, -0.5f,		1.0f,  0.0f,  0.0f,
+		0.5f, -0.5f, -0.5f,		1.0f,  0.0f,  0.0f,
+		0.5f, -0.5f,  0.5f,		1.0f,  0.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,		1.0f,  0.0f,  0.0f,
 
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f,	 0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f, -0.5f,	 0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f,  0.5f,	 0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f,  0.5f,	 0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f,	 0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f,	 0.0f, -1.0f,  0.0f,
 
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+		-0.5f,  0.5f, -0.5f,	 0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f, -0.5f,	 0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,	 0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,	 0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f,	 0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f,	 0.0f,  1.0f,  0.0f
 	};
 
 	unsigned int indices[] = {
@@ -348,7 +193,7 @@ void Draw_Cube()
 
 	glGenBuffers(1, &vbo);
 	//glGenBuffers(1, &color_vbo);
-	//glGenBuffers(1, &ibo);
+	glGenBuffers(1, &ibo);
 
 
 	//Binding
@@ -358,8 +203,8 @@ void Draw_Cube()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, NULL);
 	glEnableVertexAttribArray(0);									
@@ -367,8 +212,8 @@ void Draw_Cube()
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);									
 																	
-	//glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(6 * sizeof(float)));
-	//glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -384,11 +229,6 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	
 	glEnable(GL_BLEND);//Since we used blend function
 	
-	#ifdef Enable_Texture
-	glBindTexture(GL_TEXTURE_2D, texture);
-	#endif
-	
-
 	//=======================================================================================================
 	//Uniform variables
 	//=======================================================================================================
@@ -435,8 +275,6 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 
 	projectionmat = Camera::getInstance()->GetProjmat();
 	
-	//projectionmat = glm::ortho();
-
 	//=======================================================================================================
 	//ModelViewProjection Matix
 	//=======================================================================================================
@@ -444,22 +282,11 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	glm::mat4 MVP_matrix =  projectionmat* viewmat* modelmat;
 	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "MVP_matrix"), 1, GL_FALSE, glm::value_ptr(MVP_matrix));
 
-
-
-#ifdef Enable_Texture
-
-	glUniform1i(glGetUniformLocation(m_useShader->GetShaderID(), "texture_result"), 0);
-																					//This is the texture slot number
-#endif	
-	
 	
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	//glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
-	glDrawElements(GL_TRIANGLES, 12*3, GL_UNSIGNED_INT, nullptr);
+	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+	//glDrawElements(GL_TRIANGLES, 12*3, GL_UNSIGNED_INT, nullptr);
 
 }
 
-//instance rendering
-//glDrawArraysInstanced()
-//camera view->update

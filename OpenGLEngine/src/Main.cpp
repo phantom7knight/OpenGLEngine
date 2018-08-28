@@ -11,7 +11,7 @@
 #include "../Managers/InputManager.h"
 #include "../Managers/ImguiManager.h"
 #include "../Managers/LightManager.h"
-
+#include "../Managers/SpriteRenderer.h"
 
 
 using namespace std;
@@ -87,91 +87,6 @@ void Draw_Triangle()
 
 #endif // Draw_Triangle
 
-#ifdef DrawSquareIBO
-
-void Draw_Square_IBO()
-{
-
-	//unsigned int ibo;//Index Buffer Object
-	float triangle_vertices[] = {
-		-0.5f,  -0.5f,
-	     0.5f,  -0.5f,
-		 0.5f,  0.5f,
-		-0.5f,  0.5f,
-	};
-	unsigned int indeces[] = 
-	{
-		0,1,2,
-		0,3,2
-	};
-
-	//unsigned int vbo;
-
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(triangle_vertices), triangle_vertices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float)*2, NULL);
-	glEnableVertexAttribArray(0);
-
-	//For Indeces
-
-	glGenBuffers(1, &ibo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
-
-}
-
-#endif // Draw_Square_IBO
-
-#ifdef DrawSquareVAO
-
-void Draw_Square_VAO()
-{
-	
-	
-	float triangle_vertices[] = {
-		-0.5f,  -0.5f,
-		0.5f,  -0.5f,
-		0.5f,  0.5f,
-		-0.5f,  0.5f,
-	};
-	unsigned int indeces[] =
-	{
-		0,1,2,
-		0,3,2
-	};
-
-	//Generate all the buffers and array
-	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &vbo);
-	glGenBuffers(1, &ibo);
-
-	//Bind all of them
-
-	glBindVertexArray(vao);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(triangle_vertices), triangle_vertices, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
-
-	//Now send the pointer values to the shader
-
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, NULL);
-	glEnableVertexAttribArray(0);
-
-	//Unbind all the buffers and vao except for ibo(ebo)
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-
-}
-
-#endif // Draw_Square_VAO
-
-
-
 
 
 int main(void)
@@ -211,7 +126,8 @@ int main(void)
 
 	//Renderer::getInstance()->Init("Shaders/TestingShader.vs", "Shaders/TestingShader.fs");	//Default_Texture		Cube		Default		TestingShader
 	LightManager::getInstance()->LightInit("Shaders/Light.vs", "Shaders/Light.fs");
-	Renderer::getInstance()->Init("Shaders/Default_Texture.vs", "Shaders/Default_Texture.fs");
+	//Renderer::getInstance()->Init("Shaders/Cube.vs", "Shaders/Cube.fs");
+	SpriteRenderer::getInstance()->Init("Shaders/Default_Texture.vs", "Shaders/Default_Texture.fs", "Assets/Textures/LetterA.png");
 	ImguiManager::getInstance()->ImguiInit(window);
 
 
@@ -241,9 +157,10 @@ int main(void)
 		//Updates
 
 		InputManager::getInstance()->InputmanagerUpdate(window);
-		//Camera::getInstance()->CameraUpdate();
-		Renderer::getInstance()->m_useShader->Use();
-		Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.5);	//, glm::vec3(0, 0, 0), 0.5
+		//Renderer::getInstance()->m_useShader->Use();
+		//Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.5);
+		SpriteRenderer::getInstance()->m_useShader->Use();
+		SpriteRenderer::getInstance()->UpdateSpriteDraw(glm::vec3(0, 0, 0), 0.5);	//, glm::vec3(0, 0, 0), 0.5
 		LightManager::getInstance()->m_useShader->Use();
 		LightManager::getInstance()->LightUpdate(glm::vec3(0.0, 0, 0.0), 0.2);
 		

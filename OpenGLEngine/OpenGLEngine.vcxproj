@@ -146,6 +146,8 @@
     <ClCompile Include="Managers\Camera.cpp" />
     <ClCompile Include="Managers\InputManager.cpp" />
     <ClCompile Include="Managers\Renderer.cpp" />
+    <ClCompile Include="Managers\Primitives.cpp" />
+    <ClCompile Include="Managers\SpriteRenderer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
@@ -160,6 +162,8 @@
     <ClInclude Include="Managers\Camera.h" />
     <ClInclude Include="Managers\InputManager.h" />
     <ClInclude Include="Managers\Renderer.h" />
+    <ClInclude Include="Managers\Primitives.h" />
+    <ClInclude Include="Managers\SpriteRenderer.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="Vendors\ImGui\imconfig.h" />

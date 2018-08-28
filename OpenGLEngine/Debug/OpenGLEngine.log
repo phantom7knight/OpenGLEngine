@@ -1,5 +1,5 @@
-﻿  Renderer.cpp
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(396): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+﻿  SpriteRenderer.cpp
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\spriterenderer.cpp(123): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
   OpenGLEngine.vcxproj -> D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\Debug\OpenGLEngine.exe
   Shaders\Cube.fs
   Shaders\Cube.vs
