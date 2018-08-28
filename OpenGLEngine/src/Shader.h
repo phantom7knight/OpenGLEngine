@@ -2,6 +2,10 @@
 
 #include <iostream>
 #include <string>
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+
 #include "../GL/glew.h"
 
 
@@ -18,6 +22,14 @@ public:
 	inline unsigned int GetShaderID(){
 		return shader_ID;
 	}
+
+	void SetUniform1f(unsigned int shader_ID, const char* uniname, float v1);
+	void SetUniform2f(unsigned int shader_ID, const char* uniname, float v1, float v2);
+	void SetUniform3f(unsigned int shader_ID, const char* uniname, float v1, float v2, float v3);
+	void SetUniform4f(unsigned int shader_ID, const char* uniname, float v1, float v2, float v3, float v4);
+
+
+	void SetUniformMatrix4fv(unsigned int shader_ID, const char* uniname, glm::mat4 matrix4x4);
 
 };
 

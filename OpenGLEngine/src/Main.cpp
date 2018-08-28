@@ -126,8 +126,8 @@ int main(void)
 
 	//Renderer::getInstance()->Init("Shaders/TestingShader.vs", "Shaders/TestingShader.fs");	//Default_Texture		Cube		Default		TestingShader
 	LightManager::getInstance()->LightInit("Shaders/Light.vs", "Shaders/Light.fs");
-	//Renderer::getInstance()->Init("Shaders/Cube.vs", "Shaders/Cube.fs");
-	SpriteRenderer::getInstance()->Init("Shaders/Default_Texture.vs", "Shaders/Default_Texture.fs", "Assets/Textures/LetterA.png");
+	Renderer::getInstance()->Init("Shaders/Cube.vs", "Shaders/Cube.fs");
+	//SpriteRenderer::getInstance()->Init("Shaders/Default_Texture.vs", "Shaders/Default_Texture.fs", "Assets/Textures/LetterA.png");
 	ImguiManager::getInstance()->ImguiInit(window);
 
 
@@ -157,10 +157,10 @@ int main(void)
 		//Updates
 
 		InputManager::getInstance()->InputmanagerUpdate(window);
-		//Renderer::getInstance()->m_useShader->Use();
-		//Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.5);
-		SpriteRenderer::getInstance()->m_useShader->Use();
-		SpriteRenderer::getInstance()->UpdateSpriteDraw(glm::vec3(0, 0, 0), 0.5);	//, glm::vec3(0, 0, 0), 0.5
+		Renderer::getInstance()->m_useShader->Use();
+		Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.5);
+		//SpriteRenderer::getInstance()->m_useShader->Use();
+		//SpriteRenderer::getInstance()->UpdateSpriteDraw(glm::vec3(0, 0, 0), 0.5);	//, glm::vec3(0, 0, 0), 0.5
 		LightManager::getInstance()->m_useShader->Use();
 		LightManager::getInstance()->LightUpdate(glm::vec3(0.0, 0, 0.0), 0.2);
 		

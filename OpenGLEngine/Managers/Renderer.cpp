@@ -2,18 +2,13 @@
 #include "../src/stb_image.h"
 
 
-//#define Enable_Texture
-
-
 //Declerations of all the buffers
 unsigned int vao;
 unsigned int vbo;
 unsigned int ibo;
 //unsigned int color_vbo;
 
-unsigned int texture;
 void Draw_Square_VAO();
-void Draw_Textured_Square();
 void Draw_Cube();
 
 
@@ -233,14 +228,14 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	//Uniform variables
 	//=======================================================================================================
 
-	glUniform4f(glGetUniformLocation(m_useShader->GetShaderID(), "Color_Send"), 0.5, 0.3, 0.4, 1.0);
+	//color send
+	m_useShader->SetUniform4f(m_useShader->GetShaderID(), "Color_Send", 0.5, 0.3, 0.4, 1.0);
 	
-
-
-	//eye pos
-	glUniform3f(glGetUniformLocation(m_useShader->GetShaderID(), "eyepos"), Camera::getInstance()->Camera_Pos_.x, Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
-	//light pos
-	glUniform3f(glGetUniformLocation(m_useShader->GetShaderID(), "lightpos"), LightManager::getInstance()->LightPos_.x, LightManager::getInstance()->LightPos_.y, LightManager::getInstance()->LightPos_.z);
+	//eyepos
+	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "eyepos", Camera::getInstance()->Camera_Pos_.x, Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
+	
+	//lightpos
+	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "lightpos", LightManager::getInstance()->LightPos_.x, LightManager::getInstance()->LightPos_.y, LightManager::getInstance()->LightPos_.z);
 
 	
 
@@ -256,7 +251,8 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	glm::mat4 translatemat = glm::translate(glm::mat4(1), translate_value);
 	//rotate += .01f;
 	glm::mat4 modelmat = translatemat * rotatemat * scalemat ;
-	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "modelmat"), 1, GL_FALSE, glm::value_ptr(modelmat));
+
+	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "modelmat", modelmat);
 	//=======================================================================================================
 	//View Matrix
 	//=======================================================================================================
@@ -280,8 +276,7 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	//=======================================================================================================
 
 	glm::mat4 MVP_matrix =  projectionmat* viewmat* modelmat;
-	glUniformMatrix4fv(glGetUniformLocation(m_useShader->GetShaderID(), "MVP_matrix"), 1, GL_FALSE, glm::value_ptr(MVP_matrix));
-
+	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "MVP_matrix", MVP_matrix);
 	
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);

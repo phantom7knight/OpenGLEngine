@@ -114,3 +114,29 @@ void Shader::ClearShader()
 {
 	glDeleteProgram(shader_ID);
 }
+
+void Shader::SetUniform1f(unsigned int shader_ID, const char * uniname, float v1)
+{
+	glUniform1f(glGetUniformLocation(shader_ID, uniname), v1);
+}
+
+void Shader::SetUniform2f(unsigned int shader_ID, const char * uniname, float v1, float v2)
+{
+	glUniform2f(glGetUniformLocation(shader_ID, uniname), v1, v2);
+}
+
+void Shader::SetUniform3f(unsigned int shader_ID, const char* uniname,float v1, float v2, float v3)
+{
+	glUniform3f(glGetUniformLocation(shader_ID, uniname), v1, v2, v3);
+
+}
+
+void Shader::SetUniform4f(unsigned int shader_ID, const char* uniname, float v1, float v2, float v3, float v4)
+{
+	glUniform4f(glGetUniformLocation(shader_ID, uniname), v1, v2, v3, v4);
+}
+
+void Shader::SetUniformMatrix4fv(unsigned int shader_ID, const char * uniname, glm::mat4 matrix4x4)
+{
+	glUniformMatrix4fv(glGetUniformLocation(shader_ID, uniname), 1, GL_FALSE, glm::value_ptr(matrix4x4));
+}
