@@ -1,6 +1,6 @@
 #include "Renderer.h"
 #include "../src/stb_image.h"
-
+#include <string.h>
 
 //Declerations of all the buffers
 unsigned int vao;
@@ -10,7 +10,7 @@ unsigned int ibo;
 
 void Draw_Square_VAO();
 void Draw_Cube();
-
+void Instance_Testing();
 
 Renderer* Renderer::m_Instance = nullptr;
 
@@ -28,6 +28,19 @@ Renderer* Renderer::getInstance()
 //Constructor
 Renderer::Renderer():m_useShader(nullptr)
 {
+	int index = 0;
+	float offset = 0.1;
+	for (int j = -10; j < 10; j += 2)
+	{
+		for (int i = -10; i < 10; i += 2)
+		{
+			glm::vec2 translation;
+			translation.x = (float)i / 10.0f + offset;
+			translation.y = (float)j / 10.0f + offset;
+			offsets[index++] = translation;
+		}
+	}
+
 }
 
 //Destructor
@@ -217,6 +230,47 @@ void Draw_Cube()
 }
 
 
+void Instance_Testing()
+{
+	float Square_vertices[] = {
+		-0.5f,  -0.5f,
+		 0.5f,  -0.5f,
+		 0.5f,  0.5f,
+		-0.5f,  0.5f,
+	};
+	unsigned int indeces[] =
+	{
+		0,1,2,
+		0,3,2
+	};
+
+
+
+
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &ibo);
+
+	glBindVertexArray(vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Square_vertices), Square_vertices, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
+
+
+	glVertexAttribPointer(0, sizeof(float), GL_FLOAT, GL_FALSE, sizeof(float) * 2, NULL);
+	glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+
+
+
+}
+
 
 float rotate = 0.0f;
 void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
@@ -277,6 +331,16 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 
 	glm::mat4 MVP_matrix =  projectionmat* viewmat* modelmat;
 	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "MVP_matrix", MVP_matrix);
+
+
+
+	//instance Testing
+	for (unsigned int i = 0; i < 100; ++i)
+	{
+		
+		m_useShader->SetUniform2f(m_useShader->GetShaderID(), "offsets[" + i + "]", offsets[i].x, offsets[i].y);
+
+	}
 	
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);

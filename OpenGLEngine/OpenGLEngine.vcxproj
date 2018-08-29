@@ -177,6 +177,8 @@
   <ItemGroup>
     <None Include="glew32.dll" />
     <None Include="glfw3.dll" />
+    <None Include="Shaders\InstancingDemo.fs" />
+    <None Include="Shaders\InstancingDemo.vs" />
     <None Include="Shaders\TestingShader.fs" />
     <None Include="Shaders\TestingShader.vs" />
     <None Include="Shaders\Cube.fs" />

@@ -28,5 +28,7 @@ public:
 	void RendererUpdate(glm::vec3 translate_value, float scale_factor);
  	void Init(const GLchar* vertexshaderpath, const GLchar* fragmentshaderpath);
 
+	glm::vec2 offsets[100];
+
 };
 

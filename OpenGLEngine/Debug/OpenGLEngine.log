@@ -1,28 +1,9 @@
-﻿  Camera.cpp
-  ImguiManager.cpp
-  InputManager.cpp
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(33): warning C4305: '+=': truncation from 'double' to 'float'
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(40): warning C4305: '-=': truncation from 'double' to 'float'
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(46): warning C4305: '+=': truncation from 'double' to 'float'
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(52): warning C4305: '-=': truncation from 'double' to 'float'
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(59): warning C4305: '+=': truncation from 'double' to 'float'
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(64): warning C4305: '-=': truncation from 'double' to 'float'
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(70): warning C4305: '+=': truncation from 'double' to 'float'
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(75): warning C4305: '-=': truncation from 'double' to 'float'
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(80): warning C4305: '-=': truncation from 'double' to 'float'
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(85): warning C4305: '+=': truncation from 'double' to 'float'
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(91): warning C4305: '+=': truncation from 'double' to 'float'
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\inputmanager.cpp(96): warning C4305: '-=': truncation from 'double' to 'float'
-  LightManger.cpp
-  Primitives.cpp
+﻿  Primitives.cpp
   Renderer.cpp
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(237): warning C4305: 'argument': truncation from 'double' to 'float'
-  SpriteRenderer.cpp
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\spriterenderer.cpp(123): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(32): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(286): warning C4305: 'argument': truncation from 'double' to 'float'
   Main.cpp
 d:\digipen\other stuff\opengl\openglengine\openglengine\src\main.cpp(143): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
-d:\digipen\other stuff\opengl\openglengine\openglengine\src\main.cpp(165): warning C4305: 'argument': truncation from 'double' to 'float'
-  Shader.cpp
   Generating Code...
   OpenGLEngine.vcxproj -> D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\Debug\OpenGLEngine.exe
   Shaders\Cube.fs
@@ -31,8 +12,10 @@ d:\digipen\other stuff\opengl\openglengine\openglengine\src\main.cpp(165): warni
   Shaders\Default.vs
   Shaders\Default_Texture.fs
   Shaders\Default_Texture.vs
+  Shaders\InstancingDemo.fs
+  Shaders\InstancingDemo.vs
   Shaders\Light.fs
   Shaders\Light.vs
   Shaders\TestingShader.fs
   Shaders\TestingShader.vs
-  10 File(s) copied
+  12 File(s) copied
