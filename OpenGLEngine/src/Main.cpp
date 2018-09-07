@@ -140,7 +140,7 @@ int main(void)
 			
 		//This closes the window if Esc key is pressed Like an exit condition
 		processinput(window);
-		glClearColor(0.2,0.2,0.2, 1.0);
+		//glClearColor(0.2,0.2,0.2, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);		
 		glEnable(GL_DEPTH);
 		

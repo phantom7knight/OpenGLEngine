@@ -1,16 +1,15 @@
 #version 330 core
 layout(location = 0) in vec2 vertex_cord;
+layout(location = 1) in vec2 vertex_offset;
 
-//uniform vec3 MVP_matrix;
-uniform vec2 offsets[100];
+
+uniform mat4 MVP_matrix;
 
 out vec4 vertcolor;
 
 void main()
 {
-	vec2 offset = offsets[gl_InstanceID];
-	gl_Position =  vec4(vetex_cord + offset,0.0,1.0);
-	vertcolor = vec4(0.2,0.2,0.2,1.0);
-
+	gl_Position =  MVP_matrix * vec4(vertex_cord + vertex_offset,0.0,1.0);
+	vertcolor = vec4(1.0,1.0,1.0,1.0);
 
 }

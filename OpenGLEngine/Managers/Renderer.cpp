@@ -28,18 +28,8 @@ Renderer* Renderer::getInstance()
 //Constructor
 Renderer::Renderer():m_useShader(nullptr)
 {
-	int index = 0;
-	float offset = 0.1;
-	for (int j = -10; j < 10; j += 2)
-	{
-		for (int i = -10; i < 10; i += 2)
-		{
-			glm::vec2 translation;
-			translation.x = (float)i / 10.0f + offset;
-			translation.y = (float)j / 10.0f + offset;
-			offsets[index++] = translation;
-		}
-	}
+	particlenumber = 100;
+
 
 }
 
@@ -74,8 +64,8 @@ void Renderer::Init(const GLchar* vertexshaderpath, const GLchar* fragmentshader
 	//Draw call
 	//=======================================================================================================
 	//Draw_Square_VAO();
-	Draw_Cube();
-	
+	//Draw_Cube();
+	Instance_Testing(100);
 	
 
 	
@@ -230,7 +220,7 @@ void Draw_Cube()
 }
 
 
-void Instance_Testing()
+void Renderer::Instance_Testing(int particlenumber)
 {
 	float Square_vertices[] = {
 		-0.5f,  -0.5f,
@@ -238,30 +228,67 @@ void Instance_Testing()
 		 0.5f,  0.5f,
 		-0.5f,  0.5f,
 	};
+	
+	/*float Square_vertices[] = {
+		-0.05f, 0.05f,
+		 0.05f,-0.05f,
+		-0.05f,-0.05f,
+
+		-0.05f, 0.05f,
+		 0.05f,-0.05f,
+		 0.05f, 0.05f,
+	};*/
+
 	unsigned int indeces[] =
 	{
 		0,1,2,
 		0,3,2
 	};
 
+	int index = 0;
+	float offset = 0.1;
+	for (int j = -10; j < 10; j += 2)
+	{
+		for (int i = -10; i < 10; i += 2)
+		{
+			glm::vec2 translation;
+			translation.x = (float)i / 10.0f + offset;
+			translation.y = (float)j / 10.0f + offset;
+			offsets[index++] = translation;
+		}
+	}
+	 
 
+	unsigned int instancevbo;
 
+	glGenBuffers(1, &instancevbo);
+	glBindBuffer(GL_ARRAY_BUFFER, instancevbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2)*100, &offsets[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER,0);
+
+	
 
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
-	glGenBuffers(1, &ibo);
+	//glGenBuffers(1, &ibo);
 
 	glBindVertexArray(vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Square_vertices), Square_vertices, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
 
 
-	glVertexAttribPointer(0, sizeof(float), GL_FLOAT, GL_FALSE, sizeof(float) * 2, NULL);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2 * sizeof(float), GL_FLOAT, GL_FALSE, sizeof(float) * 2, NULL);
+
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, instancevbo);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glVertexAttribDivisor(1, 1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -306,7 +333,7 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	//rotate += .01f;
 	glm::mat4 modelmat = translatemat * rotatemat * scalemat ;
 
-	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "modelmat", modelmat);
+	//m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "modelmat", modelmat);
 	//=======================================================================================================
 	//View Matrix
 	//=======================================================================================================
@@ -334,18 +361,20 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 
 
 
-	//instance Testing
-	for (unsigned int i = 0; i < 100; ++i)
-	{
-		
-		m_useShader->SetUniform2f(m_useShader->GetShaderID(), "offsets[" + i + "]", offsets[i].x, offsets[i].y);
-
-	}
+	//Normal Cube Rendering
 	
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+	glDrawArrays(GL_TRIANGLES, 0, 100);	//12 * 3
 	//glDrawElements(GL_TRIANGLES, 12*3, GL_UNSIGNED_INT, nullptr);
+
+
+	//Instanced Testing part
+	//glBindVertexArray(vao);
+	////glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	//glDrawArraysInstanced(GL_TRIANGLES, 0, 6, 100);
+	//glBindVertexArray(0);
+
 
 }
 

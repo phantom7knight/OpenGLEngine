@@ -1,10 +1,6 @@
-﻿  Primitives.cpp
-  Renderer.cpp
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(32): warning C4305: 'initializing': truncation from 'double' to 'float'
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(286): warning C4305: 'argument': truncation from 'double' to 'float'
-  Main.cpp
-d:\digipen\other stuff\opengl\openglengine\openglengine\src\main.cpp(143): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
-  Generating Code...
+﻿  Renderer.cpp
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(249): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(313): warning C4305: 'argument': truncation from 'double' to 'float'
   OpenGLEngine.vcxproj -> D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\Debug\OpenGLEngine.exe
   Shaders\Cube.fs
   Shaders\Cube.vs
