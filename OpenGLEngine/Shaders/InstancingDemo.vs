@@ -9,7 +9,7 @@ out vec4 vertcolor;
 
 void main()
 {
-	gl_Position =  MVP_matrix * vec4(vertex_cord + vertex_offset,0.0,1.0);
+	gl_Position =  MVP_matrix * vec4(vertex_cord + vertex_offset ,0.0,1.0);
 	vertcolor = vec4(1.0,1.0,1.0,1.0);
 
 }

@@ -10,7 +10,7 @@ unsigned int ibo;
 
 void Draw_Square_VAO();
 void Draw_Cube();
-void Instance_Testing();
+//void Instance_Testing();
 
 Renderer* Renderer::m_Instance = nullptr;
 
@@ -242,7 +242,7 @@ void Renderer::Instance_Testing(int particlenumber)
 	unsigned int indeces[] =
 	{
 		0,1,2,
-		0,3,2
+		0,2,3
 	};
 
 	int index = 0;
@@ -270,25 +270,25 @@ void Renderer::Instance_Testing(int particlenumber)
 
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
-	//glGenBuffers(1, &ibo);
+	glGenBuffers(1, &ibo);
 
 	glBindVertexArray(vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Square_vertices), Square_vertices, GL_STATIC_DRAW);
 
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
 
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2 * sizeof(float), GL_FLOAT, GL_FALSE, sizeof(float) * 2, NULL);
+	glVertexAttribPointer(0, 2 , GL_FLOAT, GL_FALSE, sizeof(float) * 2, NULL);
 
 	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, instancevbo);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE,  sizeof(glm::vec2), (void*)0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glVertexAttribDivisor(1, 1);
+	glVertexAttribDivisor(1, 2);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -363,17 +363,19 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 
 	//Normal Cube Rendering
 	
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glDrawArrays(GL_TRIANGLES, 0, 100);	//12 * 3
-	//glDrawElements(GL_TRIANGLES, 12*3, GL_UNSIGNED_INT, nullptr);
+	//glBindVertexArray(vao);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	//glDrawArrays(GL_TRIANGLES, 0, 12 * 3);	//12 * 3
+	////glDrawElements(GL_TRIANGLES, 12*3, GL_UNSIGNED_INT, nullptr);
+
 
 
 	//Instanced Testing part
-	//glBindVertexArray(vao);
-	////glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	//glDrawArraysInstanced(GL_TRIANGLES, 0, 6, 100);
-	//glBindVertexArray(0);
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, 1);
+	//glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, 2);
+	glBindVertexArray(0);
 
 
 }
