@@ -64,8 +64,8 @@ void Renderer::Init(const GLchar* vertexshaderpath, const GLchar* fragmentshader
 	//Draw call
 	//=======================================================================================================
 	//Draw_Square_VAO();
-	//Draw_Cube();
-	Instance_Testing(100);
+	Draw_Cube();
+	//Instance_Testing(100);
 	
 
 	
@@ -363,19 +363,19 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 
 	//Normal Cube Rendering
 	
-	//glBindVertexArray(vao);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	//glDrawArrays(GL_TRIANGLES, 0, 12 * 3);	//12 * 3
-	////glDrawElements(GL_TRIANGLES, 12*3, GL_UNSIGNED_INT, nullptr);
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);	//12 * 3
+	//glDrawElements(GL_TRIANGLES, 12*3, GL_UNSIGNED_INT, nullptr);
 
 
 
 	//Instanced Testing part
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, 1);
-	//glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, 2);
-	glBindVertexArray(0);
+	//glBindVertexArray(vao);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	//glDrawArraysInstanced(GL_TRIANGLES, 0, 6, 1);
+	////glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, 2);
+	//glBindVertexArray(0);
 
 
 }
