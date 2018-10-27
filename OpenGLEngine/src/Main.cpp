@@ -129,7 +129,7 @@ int main(void)
 	Renderer::getInstance()->Init("Shaders/TestingShader.vs", "Shaders/TestingShader.fs");
 	//SpriteRenderer::getInstance()->Init("Shaders/Default_Texture.vs", "Shaders/Default_Texture.fs", "Assets/Textures/LetterA.png");
 	ImguiManager::getInstance()->ImguiInit(window);
-
+	
 
 	int counter = 0;
 	/* Loop until the user closes the window */

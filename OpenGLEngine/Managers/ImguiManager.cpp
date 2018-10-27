@@ -35,6 +35,7 @@ void ImguiManager::ImguiInit(GLFWwindow* window)
 void ImguiManager::ImguiUpdate()
 {
 	ImGui_ImplGlfwGL3_NewFrame();
+
 	//===============================================================
 	//Info to be printed on IMGUI
 	
@@ -63,7 +64,7 @@ void ImguiManager::ImguiUpdate()
 		ImGui::Text("		NUMPAD4 NUMPAD5 NUMPAD6\n");
 	
 		ImGui::End();
-	}
+	} 
 
 	if (show_another_window2)
 	{
