@@ -2,6 +2,7 @@
 
 
 
+
 Engine::Engine()
 {
 }
@@ -11,8 +12,9 @@ Engine::~Engine()
 {
 }
 
-void Engine::Initialize()
+bool Engine::Initialize()
 {
+	return false;
 }
 
 void Engine::Update()

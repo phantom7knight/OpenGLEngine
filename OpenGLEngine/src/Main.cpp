@@ -13,6 +13,7 @@
 #include "../Managers/LightManager.h"
 #include "../Managers/SpriteRenderer.h"
 
+#include "../Game.h"
 
 using namespace std;
 using namespace glm;
@@ -42,7 +43,7 @@ T Lerp(T v0, T v1, float t)
 
 
 //To find the error's
-void GetError()
+/*void GetError()
 {
 	while (GLenum error = glGetError())
 	{
@@ -58,7 +59,7 @@ void processinput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 	}
 }
-
+*/
 
 
 
@@ -92,9 +93,20 @@ void Draw_Triangle()
 int main(void)
 {
 
+	//Game *gameState = new Game();
+	if (Game::getInstance()->Init())
+	{
+		while (Game::getInstance()->getGameState())
+		{
+			Game::getInstance()->Update();
+		}
+	}
+
+	Game::getInstance()->Destroy();
+	
 
 	/* Initialize the library */
-	if (!glfwInit())
+	/*if (!glfwInit())
 		return -1;
 
 
@@ -102,7 +114,7 @@ int main(void)
 	//glfwInit();
 
 
-	/* Create a windowed mode window and its OpenGL context */
+	/* Create a windowed mode window and its OpenGL context 
 	window = glfwCreateWindow(Screen_Width, Screen_Height, "Hello World", NULL, NULL);
 	if (!window)
 	{
@@ -112,7 +124,7 @@ int main(void)
 
 	
 
-	/* Make the window's context current */
+	/* Make the window's context current *
 	glfwMakeContextCurrent(window);
 	glfwSwapInterval(1);//Used to set the V-Sync
 
@@ -132,7 +144,7 @@ int main(void)
 	
 
 	int counter = 0;
-	/* Loop until the user closes the window */
+	/* Loop until the user closes the window *
 	while (!glfwWindowShouldClose(window))
 	{
 
@@ -168,15 +180,15 @@ int main(void)
 
 
 
-		/* Swap front and back buffers */
+		/* Swap front and back buffers* 
 		glfwSwapBuffers(window);
 
-		/* Poll for and process events */
+		/* Poll for and process events* 
 		glfwPollEvents();
 	}
 
 	ImguiManager::getInstance()->ImguiDestroy();
 	//useShader->ClearShader();
 	glfwTerminate();
-	return 0;
+	return 0;*/
 }

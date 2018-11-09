@@ -5,9 +5,10 @@ public:
 	Engine();
 	~Engine();
 
-	void Initialize();
+	bool Initialize();
 	void Update();
 	void Render();
+
 	void Destroy();
 
 
