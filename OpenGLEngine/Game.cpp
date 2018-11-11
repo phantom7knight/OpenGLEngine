@@ -88,8 +88,8 @@ bool Game::Init()
 	}
 
 
-	//LightManager::getInstance()->LightInit("Shaders/Light.vs", "Shaders/Light.fs");
-	Renderer::getInstance()->Init("Shaders/TestingShader.vs", "Shaders/TestingShader.fs");
+	Renderer::getInstance()->Init();
+
 	ImguiManager::getInstance()->ImguiInit(m_pwindow);
 
 
@@ -147,10 +147,10 @@ void Game::Update()
 
 	InputManager::getInstance()->InputmanagerUpdate(m_pwindow);
 	
-	Renderer::getInstance()->m_useShader->Use();
-	Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.5);
-
+	Renderer::getInstance()->RendererUpdate();
+	
 	ImguiManager::getInstance()->ImguiUpdate();
+	
 
 
 }

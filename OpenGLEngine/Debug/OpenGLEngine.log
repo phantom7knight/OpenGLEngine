@@ -1,14 +1,7 @@
-﻿  Renderer.cpp
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(255): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(256): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
+﻿  Game.cpp
+d:\digipen\other stuff\opengl\openglengine\openglengine\game.cpp(112): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+  Renderer.cpp
+  Generating Code...
   OpenGLEngine.vcxproj -> D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\Debug\OpenGLEngine.exe
   Shaders\Cube.fs
   Shaders\Cube.vs
