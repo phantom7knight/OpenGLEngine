@@ -8,7 +8,7 @@
 
 #include "Managers/Camera.h"
 
-ShapeGenerator::ShapeGenerator():m_useShader(nullptr)
+ShapeGenerator::ShapeGenerator():m_useShader(0)
 {
 }
 
@@ -147,6 +147,10 @@ void ShapeGenerator::Cube_Generator()
 
 void ShapeGenerator::Update(glm::vec3 translate_value,float scale_factor)
 {
+
+
+	m_useShader->Use();
+
 	//color send
 	m_useShader->SetUniform4f(m_useShader->GetShaderID(), "Color_Send", 0.5f, 0.3f, 0.4f, 1.0f);
 

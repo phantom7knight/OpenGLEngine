@@ -38,7 +38,7 @@ Renderer::~Renderer()
 
 void Renderer::Init()
 {
-	
+	m_shapegen = new ShapeGenerator();
 	m_shapegen->Initialize("Shaders/Cube.vs", "Shaders/Cube.fs");
 
 
