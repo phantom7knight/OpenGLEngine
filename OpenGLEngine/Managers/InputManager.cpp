@@ -65,37 +65,7 @@ void InputManager::InputmanagerUpdate(GLFWwindow* window)
 		
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-	{
-		LightManager::getInstance()->LightPos_.y += .01;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-	{
-		LightManager::getInstance()->LightPos_.y -= .01;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-	{
-		LightManager::getInstance()->LightPos_.x -= .01;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-	{
-		LightManager::getInstance()->LightPos_.x += .01;
-	}
-
-
-	if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS)
-	{
-		LightManager::getInstance()->LightPos_.z += .01;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS)
-	{
-		LightManager::getInstance()->LightPos_.z -= .01;
-	}
-
+	
 
 	Camera::getInstance()->CameraUpdate();
 

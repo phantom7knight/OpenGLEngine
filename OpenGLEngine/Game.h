@@ -15,23 +15,15 @@ public:
 
 
 	bool Init();
+	void Run();
 	void Update();
 	void Destroy();
 
-	inline bool getGameState()
-	{
-		return m_isgameRunning;
-	}
-
-	inline void setGameState(bool value)
-	{
-		m_isgameRunning = value;
-	}
-
+	
 	static Game* getInstance();
 
 private:
-	bool m_isgameRunning = false;
+	
 	static Game * m_Instance;
 
 };

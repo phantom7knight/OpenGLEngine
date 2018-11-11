@@ -246,14 +246,14 @@ void Renderer::Instance_Testing(int particlenumber)
 	};
 
 	int index = 0;
-	float offset = 0.1;
+	double offset = 0.1;
 	for (int j = -10; j < 10; j += 2)
 	{
 		for (int i = -10; i < 10; i += 2)
 		{
 			glm::vec2 translation;
-			translation.x = (float)i / 10.0f + offset;
-			translation.y = (float)j / 10.0f + offset;
+			translation.x = i / 10.0f + offset;
+			translation.y = j / 10.0f + offset;
 			offsets[index++] = translation;
 		}
 	}
@@ -310,17 +310,13 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 	//=======================================================================================================
 
 	//color send
-	m_useShader->SetUniform4f(m_useShader->GetShaderID(), "Color_Send", 0.5, 0.3, 0.4, 1.0);
+	m_useShader->SetUniform4f(m_useShader->GetShaderID(), "Color_Send", 0.5f, 0.3f, 0.4f, 1.0f);
 	
 	//eyepos
 	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "eyepos", Camera::getInstance()->Camera_Pos_.x, Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
-	
-	//lightpos
-	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "lightpos", LightManager::getInstance()->LightPos_.x, LightManager::getInstance()->LightPos_.y, LightManager::getInstance()->LightPos_.z);
-
-	
 
 
+	#pragma region MVP
 	//=======================================================================================================
 	//Modelling Matrix
 	//For variations in translation and Scaling
@@ -358,25 +354,13 @@ void Renderer::RendererUpdate(glm::vec3 translate_value, float scale_factor)
 
 	glm::mat4 MVP_matrix =  projectionmat* viewmat* modelmat;
 	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "MVP_matrix", MVP_matrix);
+#pragma	endregion
 
 
 
-	//Normal Cube Rendering
-	
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);	//12 * 3
-	//glDrawElements(GL_TRIANGLES, 12*3, GL_UNSIGNED_INT, nullptr);
-
-
-
-	//Instanced Testing part
-	//glBindVertexArray(vao);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	//glDrawArraysInstanced(GL_TRIANGLES, 0, 6, 1);
-	////glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, 2);
-	//glBindVertexArray(0);
-
-
+	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+	
 }
 

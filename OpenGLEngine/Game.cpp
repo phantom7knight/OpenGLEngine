@@ -28,7 +28,6 @@ void processinput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, true);
-		Game::getInstance()->setGameState(true);
 	}
 }
 
@@ -89,7 +88,7 @@ bool Game::Init()
 	}
 
 
-	LightManager::getInstance()->LightInit("Shaders/Light.vs", "Shaders/Light.fs");
+	//LightManager::getInstance()->LightInit("Shaders/Light.vs", "Shaders/Light.fs");
 	Renderer::getInstance()->Init("Shaders/TestingShader.vs", "Shaders/TestingShader.fs");
 	ImguiManager::getInstance()->ImguiInit(m_pwindow);
 
@@ -100,21 +99,49 @@ bool Game::Init()
 }
 
 int counter = 0;
-void Game::Update()
+void Game::Run()
 {
-	processinput(m_pwindow);
-	glClearColor(0.2, 0.2, 0.2, 1.0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH);
-
-	++counter;
-	
-	if (counter % 5000 == 0)
+	while (!glfwWindowShouldClose(m_pwindow))
 	{
 
-		GetError();
 
+
+		//This closes the window if Esc key is pressed Like an exit condition
+		processinput(m_pwindow);
+
+		glClearColor(0.2, 0.2, 0.2, 1.0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_DEPTH);
+
+		++counter;
+		if (counter % 5000 == 0)
+		{
+
+			GetError();
+
+		}
+
+		//Updates
+
+		Update();
+
+
+
+		/* Swap front and back buffers*/
+		glfwSwapBuffers(m_pwindow);
+
+		/* Poll for and process events*/
+		glfwPollEvents();
 	}
+}
+
+
+
+
+
+//int counter = 0;
+void Game::Update()
+{
 
 	//Updates
 
@@ -123,18 +150,8 @@ void Game::Update()
 	Renderer::getInstance()->m_useShader->Use();
 	Renderer::getInstance()->RendererUpdate(glm::vec3(0, 0, 0), 0.5);
 
-	LightManager::getInstance()->m_useShader->Use();
-	LightManager::getInstance()->LightUpdate(glm::vec3(0.0, 0, 0.0), 0.2);
-
 	ImguiManager::getInstance()->ImguiUpdate();
 
-
-
-	/* Swap front and back buffers */
-	glfwSwapBuffers(m_pwindow);
-
-	/* Poll for and process events */
-	glfwPollEvents();
 
 }
 
