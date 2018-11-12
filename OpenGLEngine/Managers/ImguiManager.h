@@ -5,7 +5,6 @@
 #include "../Vendors/ImGui/imgui.h"
 #include "../Vendors/ImGui/imgui_impl_glfw_gl3.h"
 #include "../Managers/Camera.h"
-#include "../Managers/LightManager.h"
 
 class ImguiManager
 {

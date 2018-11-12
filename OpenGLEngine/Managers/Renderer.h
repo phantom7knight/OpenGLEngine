@@ -8,9 +8,10 @@
 #include "glew.h"
 #include "../src/Shader.h"
 #include "../Managers/Camera.h"
+#include "../ShapeGenerator.h"
 
-
-class Shader;
+//class Shader;
+class ShapeGenerator;
 
 class Renderer
 {
@@ -19,18 +20,16 @@ private:
 	static Renderer* m_Instance;
 
 public:
-	Shader* m_useShader;
+	//Shader* m_useShader;
 
 	Renderer();
 	~Renderer();
 	static Renderer* getInstance();
 
-	void RendererUpdate(glm::vec3 translate_value, float scale_factor);
- 	void Init(const GLchar* vertexshaderpath, const GLchar* fragmentshaderpath);
+ 	void Init();
+	void RendererUpdate();
 
-	int particlenumber;
-	glm::vec2 offsets[100];
-	void Instance_Testing(int particlenumber);
-
+	ShapeGenerator* m_shapegen;
+	
 };
 

@@ -1,18 +1,7 @@
-﻿  Renderer.cpp
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(249): warning C4305: 'initializing': truncation from 'double' to 'float'
-d:\digipen\other stuff\opengl\openglengine\openglengine\managers\renderer.cpp(313): warning C4305: 'argument': truncation from 'double' to 'float'
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+﻿  ImportMesh.cpp
   OpenGLEngine.vcxproj -> D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\Debug\OpenGLEngine.exe
-  Shaders\Cube.fs
-  Shaders\Cube.vs
   Shaders\Default.fs
   Shaders\Default.vs
-  Shaders\Default_Texture.fs
-  Shaders\Default_Texture.vs
-  Shaders\InstancingDemo.fs
-  Shaders\InstancingDemo.vs
   Shaders\Light.fs
   Shaders\Light.vs
-  Shaders\TestingShader.fs
-  Shaders\TestingShader.vs
-  12 File(s) copied
+  4 File(s) copied
