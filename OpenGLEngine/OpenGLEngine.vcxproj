@@ -147,6 +147,8 @@
     <ClCompile Include="Managers\InputManager.cpp" />
     <ClCompile Include="Managers\Renderer.cpp" />
     <ClCompile Include="ShapeGenerator.cpp" />
+    <ClCompile Include="src\ImportMesh.cpp" />
+    <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
@@ -162,6 +164,8 @@
     <ClInclude Include="Managers\InputManager.h" />
     <ClInclude Include="Managers\Renderer.h" />
     <ClInclude Include="ShapeGenerator.h" />
+    <ClInclude Include="src\ImportMesh.h" />
+    <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="Vendors\ImGui\imconfig.h" />
