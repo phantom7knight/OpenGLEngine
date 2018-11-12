@@ -151,12 +151,14 @@ void ShapeGenerator::Update(glm::vec3 translate_value,float scale_factor)
 
 	m_useShader->Use();
 
-	//color send
-	m_useShader->SetUniform4f(m_useShader->GetShaderID(), "Color_Send", 0.5f, 0.3f, 0.4f, 1.0f);
+	//Object Color
+	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "objectCol", 0.8f, 0.3f, 0.4f);
 
 	//eyepos
-	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "eyepos", Camera::getInstance()->Camera_Pos_.x, Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
+	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "cameraPos", Camera::getInstance()->Camera_Pos_.x, Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
 
+	//Light Position
+	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "lightPos", 1.0f, 0.0f, 0.0f);
 
 	#pragma region MVP
 	//=======================================================================================================
@@ -180,6 +182,7 @@ void ShapeGenerator::Update(glm::vec3 translate_value,float scale_factor)
 
 	glm::mat4 viewmat;
 	viewmat = Camera::getInstance()->GetViewmat();
+	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "viewmat", viewmat);
 
 	//=======================================================================================================
 	//Projection Matrix
@@ -188,6 +191,7 @@ void ShapeGenerator::Update(glm::vec3 translate_value,float scale_factor)
 	glm::mat4 projectionmat;
 
 	projectionmat = Camera::getInstance()->GetProjmat();
+	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "projectionmat", projectionmat);
 
 	//=======================================================================================================
 	//ModelViewProjection Matix
