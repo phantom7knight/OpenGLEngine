@@ -369,3 +369,26 @@ _ReSharper*/
 !/Dependencies/**
 !PiConspiracy/Assets/**
 # End of https://www.gitignore.io/api/visualstudio
+/Dependencies/IMGUI/imgui-1.62/examples/.vs/imgui_examples/v15/Solution.VC.db-wal
+/Dependencies/IMGUI/imgui-1.62/examples/.vs/imgui_examples/v15/Solution.VC.db-shm
+/Dependencies/IMGUI/imgui-1.62/examples/.vs/imgui_examples/v15/Solution.VC.db
+/Dependencies/IMGUI/imgui-1.62/examples/.vs/imgui_examples/v15/Browse.VC.db
+/Dependencies/IMGUI/imgui-1.62/examples/.vs/imgui_examples/v15/.suo
+
+/build/
+*.suo
+*.user
+_ReSharper.*/
+*.sdf
+bin/
+obj/
+Debug/
+Release/
+*.opensdf
+*.tlog
+*.log
+TestResult.xml
+*.VisualState.xml
+Version.cs
+Version.h
+Version.cpp
