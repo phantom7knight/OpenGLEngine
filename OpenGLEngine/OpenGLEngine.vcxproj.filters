@@ -129,6 +129,7 @@
     <None Include="Shaders\TestingShader.vs" />
     <None Include="Shaders\InstancingDemo.vs" />
     <None Include="Shaders\InstancingDemo.fs" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\spaceship.png">

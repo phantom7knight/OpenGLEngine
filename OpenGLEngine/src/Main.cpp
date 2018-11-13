@@ -17,12 +17,10 @@ T Lerp(T v0, T v1, float t)
 int main(void)
 {
 
-	//Game *gameState = new Game();
 	if (Game::getInstance()->Init())
 	{
 		Game::getInstance()->Run();
 		
-		Game::getInstance()->Update();
 	}
 
 	Game::getInstance()->Destroy();
