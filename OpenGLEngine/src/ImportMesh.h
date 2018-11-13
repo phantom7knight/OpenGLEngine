@@ -83,4 +83,4 @@ private:
 	std::vector<Texture>			m_textures;
 	std::vector<VertexBoneData>	m_boneIdWeights;
 };
-
+//testubg yolo

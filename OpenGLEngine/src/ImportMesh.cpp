@@ -12,7 +12,6 @@ ImportMesh::ImportMesh(std::vector<Vertex> a_vertices, std::vector<unsigned int>
 
 ImportMesh::~ImportMesh()
 {
-
 }
 
 void VertexBoneData::addBoneData(unsigned int a_boneId, float a_weight)
@@ -24,6 +23,7 @@ void VertexBoneData::addBoneData(unsigned int a_boneId, float a_weight)
 			m_ids[i] = a_boneId;
 			m_weights[i] = a_weight;
 			return;
+
 		}
 	}
 }

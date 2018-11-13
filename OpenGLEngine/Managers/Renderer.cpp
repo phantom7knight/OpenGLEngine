@@ -17,7 +17,7 @@ Renderer* Renderer::getInstance()
 
 	return m_Instance;
 }
-
+/ testubg yolo
 
 //Constructor
 Renderer::Renderer():m_shapegen(nullptr)
