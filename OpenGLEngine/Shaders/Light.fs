@@ -16,9 +16,9 @@ vec3 objectColor;
 
 struct PointLight
 {
-	float constant 	= 0.10f;
-	float linear   	= 0.09f;
-	float quadratic	= 0.032f;
+	float constant 	;
+	float linear   	;
+	float quadratic	;
 };
 
 vec3 CalculateDirectionalLight()
@@ -59,10 +59,14 @@ vec3 CalculatePointLight(PointLight pLight)
     vec3 diffuse;
     vec3 specular;
 	
+    pLight.constant 	= 0.10f;
+    pLight.linear   	= 0.09f;
+    pLight.quadratic	= 0.032f;
+
 	//vec3 objectColor = normalize(objectCol);
 	
     //Ambient Color
-    ambientColor = vec3(1.0f,1.0f,1.0f);
+    vec3 ambientColor = vec3(1.0f,1.0f,1.0f);
     float ambientStrength = 0.5;
     ambient = ambientStrength * ambientColor * objectCol;
 
@@ -98,6 +102,6 @@ void main()
 	
 	vec3 result_Point = CalculatePointLight(pLight);
 
-	fragColor = vec4(result_Point,1);
+	fragColor = vec4(result_Dir,1);
 		
 }
