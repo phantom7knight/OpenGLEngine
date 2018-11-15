@@ -22,7 +22,7 @@ Renderer* Renderer::getInstance()
 //Constructor
 Renderer::Renderer():m_shapegen(nullptr)
 {
-	
+	m_ShapeGenList.reserve(100);
 }
 
 //Destructor
@@ -42,12 +42,24 @@ void Renderer::Init()
 	m_shapegen = new ShapeGenerator();
 	m_shapegen->Initialize("Shaders/Light.vs", "Shaders/Light.fs");
 
+	m_ShapeGenList.push_back(m_shapegen);
 
+	m_shapegen2 = new ShapeGenerator();
+	m_shapegen->Initialize("Shaders/Light.vs", "Shaders/Light.fs");
+
+	m_ShapeGenList.push_back(m_shapegen2);
+	
 }
 
 
 void Renderer::RendererUpdate()
 {
-	m_shapegen->Update(glm::vec3(0, 0, 0), 0.5);
+
+	for (unsigned int i = 0; i < m_ShapeGenList.size(); ++i)
+	{
+		m_ShapeGenList[i]->Update(glm::vec3(0 + 0.5, 0, 0), 0.5);
+	}
+
+	//m_shapegen->Update(glm::vec3(0, 0, 0), 0.5);
 }
 
