@@ -152,8 +152,6 @@ void ShapeGenerator::Cube_Generator()
 	glBindVertexArray(0);
 }
 
-
-
 void ShapeGenerator::Plane_Generator()
 {
 	float fQuadVertices[] =

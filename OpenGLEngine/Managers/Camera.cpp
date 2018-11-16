@@ -49,6 +49,10 @@ Camera * Camera::getInstance()
 	return m_Instance;
 }
 
+//===================================================================================
+//CREDITS : learnopengl.com[JOEY DE VRIES]
+//===================================================================================
+
 void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch)
 {
 	xoffset *= m_MouseSensitivity;

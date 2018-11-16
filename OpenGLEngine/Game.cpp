@@ -12,6 +12,9 @@
 #include "Managers/ImguiManager.h"
 
 
+//Fowrward Declare
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+
 
 //To find the error's
 void GetError()
@@ -21,8 +24,6 @@ void GetError()
 		std::cout << "The Error is :" << error << std::endl;
 	}
 }
-
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 
 //TO take input's
 void processinput(GLFWwindow* window)
@@ -40,6 +41,9 @@ bool firstMouse = true;
 float lastX = (float)Screen_Width	/ 2.0f;
 float lastY = (float)Screen_Height	/ 2.0f;
 
+//===================================================================================
+//CREDITS : learnopengl.com[JOEY DE VRIES]
+//===================================================================================
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
@@ -97,9 +101,7 @@ bool Game::Init()
 	if (!glfwInit())
 		return false;
 
-
 	
-
 	/* Create a windowed mode window and its OpenGL context */
 	m_pwindow = glfwCreateWindow(Screen_Width, Screen_Height, "Hello World", NULL, NULL);
 	if (!m_pwindow)
