@@ -28,45 +28,35 @@ void InputManager::InputmanagerUpdate(GLFWwindow* window)
 
 
 	//UP
-	if (glfwGetKey(window, GLFW_KEY_KP_8) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
-		Camera::getInstance()->Camera_Pos_.y += .1;// glm;// camera_speed * Camera::getInstance()->Camera_Target_;
-	
+		//Camera::getInstance()->Camera_Pos_.y += .1;// glm;// camera_speed * Camera::getInstance()->Camera_Target_;
+		Camera::getInstance()->Camera_Pos_ += Camera::getInstance()->Camera_Front_ * camera_speed;
 	}
 
 	//Down
-	if (glfwGetKey(window, GLFW_KEY_KP_5) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		Camera::getInstance()->Camera_Pos_.y -= .1;
+		//Camera::getInstance()->Camera_Pos_.y -= .1;
+		Camera::getInstance()->Camera_Pos_ -= Camera::getInstance()->Camera_Front_ * camera_speed;
 	}
 
 	//Right
-	if (glfwGetKey(window, GLFW_KEY_KP_6) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		Camera::getInstance()->Camera_Pos_.x += .1;
+		//Camera::getInstance()->Camera_Pos_.x += .1;
+		Camera::getInstance()->Camera_Pos_ += Camera::getInstance()->Camera_Right_ * camera_speed;
 	}
 	
 	//Left
-	if (glfwGetKey(window, GLFW_KEY_KP_4) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		Camera::getInstance()->Camera_Pos_.x -= .1;
-		
-	}
-
-	//front
-	if (glfwGetKey(window, GLFW_KEY_KP_7) == GLFW_PRESS)
-	{
-		Camera::getInstance()->Camera_Pos_.z += .1;
-	}
-	//back
-	if (glfwGetKey(window, GLFW_KEY_KP_9) == GLFW_PRESS)
-	{
-		Camera::getInstance()->Camera_Pos_.z -= .1;
+		//Camera::getInstance()->Camera_Pos_.x -= .1;
+		Camera::getInstance()->Camera_Pos_ -= Camera::getInstance()->Camera_Right_ * camera_speed;
 		
 	}
 
 	
-
 	Camera::getInstance()->CameraUpdate();
 
 }

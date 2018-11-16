@@ -33,6 +33,7 @@ public:
 
 	ShapeGenerator* m_shapegen;
 	ShapeGenerator* m_shapegen2;
+	ShapeGenerator* m_shapegen3;
 	
 };
 

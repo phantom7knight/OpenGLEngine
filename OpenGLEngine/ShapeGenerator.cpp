@@ -21,12 +21,20 @@ ShapeGenerator::~ShapeGenerator()
 	glDeleteShader(m_useShader->GetShaderID());
 }
 
-void ShapeGenerator::Initialize(const GLchar* vertexshaderpath, const GLchar* fragmentshaderpath)
+void ShapeGenerator::Initialize(const GLchar* vertexshaderpath, const GLchar* fragmentshaderpath,int type)
 {
 	m_useShader = new Shader(vertexshaderpath, fragmentshaderpath);
 	m_useShader->Use();
-
-	Cube_Generator();
+	if (type == 0)
+	{
+		m_type = 0;
+		Cube_Generator();
+	}
+	else if (type == 1)
+	{
+		m_type = 1;
+		Plane_Generator();
+	} 
 }
 
 
@@ -145,6 +153,52 @@ void ShapeGenerator::Cube_Generator()
 }
 
 
+
+void ShapeGenerator::Plane_Generator()
+{
+	float fQuadVertices[] =
+	{
+		// Positions			// TexCoord
+		 0.5f, 	0.0f,  0.5f,	1.0f, 1.0f,
+		 0.5f, 	0.0f, -0.5f,	1.0f, 0.0f,
+		-0.5f, 	0.0f, -0.5f,	0.0f, 0.0f,
+		-0.5f, 	0.0f,  0.5f,	0.0f, 1.0f
+	};
+
+	float uQuadIndices[] =
+	{
+		0,1,3,
+		3,2,1
+	};
+
+	//Generate Buffers
+	glGenVertexArrays(1, &m_VAO);
+	glGenBuffers(1, &m_VBO);
+	glGenBuffers(1, &m_IBO);
+
+
+	//Bind Buffers and arrays
+	glBindVertexArray(m_VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(fQuadVertices), fQuadVertices, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uQuadIndices), uQuadIndices, GL_STATIC_DRAW);
+
+	//Send the data as Input layout i.e Locations
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void *)0);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+
+	//unbind the vbo and ibo
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+}
+
 void ShapeGenerator::Update(glm::vec3 translate_value,float scale_factor)
 {
 
@@ -203,10 +257,19 @@ void ShapeGenerator::Update(glm::vec3 translate_value,float scale_factor)
 	#pragma	endregion
 
 
-
-	glBindVertexArray(m_VAO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
-	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
-
+	if (m_type == 0)
+	{
+		glBindVertexArray(m_VAO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
+		glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+	}
+	else if (m_type == 1)
+	{
+		glBindVertexArray(m_VAO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		//glDrawElements(GL_TRIANGLES, 6, GL_FLOAT, 0);
+		glBindVertexArray(0);
+	}
 
 }

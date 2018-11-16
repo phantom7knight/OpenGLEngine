@@ -22,6 +22,8 @@ void GetError()
 	}
 }
 
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+
 //TO take input's
 void processinput(GLFWwindow* window)
 {
@@ -29,7 +31,39 @@ void processinput(GLFWwindow* window)
 	{
 		glfwSetWindowShouldClose(window, true);
 	}
+
+	glfwSetCursorPosCallback(window, mouse_callback);
+
 }
+
+bool firstMouse = true;
+float lastX = (float)Screen_Width	/ 2.0f;
+float lastY = (float)Screen_Height	/ 2.0f;
+
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	int mouseState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+
+
+	if (firstMouse)
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+	lastX = xpos;
+	lastY = ypos;
+
+	if (mouseState)
+		Camera::getInstance()->ProcessMouseMovement(xoffset, yoffset);
+}
+
+
 
 
 Game*  Game::m_Instance = nullptr;

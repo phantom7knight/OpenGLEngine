@@ -40,14 +40,19 @@ Renderer::~Renderer()
 void Renderer::Init()
 {
 	m_shapegen = new ShapeGenerator();
-	m_shapegen->Initialize("Shaders/Light.vs", "Shaders/Light.fs");
+	m_shapegen->Initialize("Shaders/Light.vs", "Shaders/Light.fs",0);
 
 	m_ShapeGenList.push_back(m_shapegen);
 
 	m_shapegen2 = new ShapeGenerator();
-	m_shapegen2->Initialize("Shaders/Light.vs", "Shaders/Light.fs");
+	m_shapegen2->Initialize("Shaders/Light.vs", "Shaders/Light.fs",0);
 
 	m_ShapeGenList.push_back(m_shapegen2);
+
+	m_shapegen3 = new ShapeGenerator();
+	m_shapegen3->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 1);
+
+	m_ShapeGenList.push_back(m_shapegen3);
 	
 }
 
