@@ -12,6 +12,9 @@
 #include "Managers/ImguiManager.h"
 
 
+//Fowrward Declare
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+
 
 //To find the error's
 void GetError()
@@ -29,7 +32,42 @@ void processinput(GLFWwindow* window)
 	{
 		glfwSetWindowShouldClose(window, true);
 	}
+
+	glfwSetCursorPosCallback(window, mouse_callback);
+
 }
+
+bool firstMouse = true;
+float lastX = (float)Screen_Width	/ 2.0f;
+float lastY = (float)Screen_Height	/ 2.0f;
+
+//===================================================================================
+//CREDITS : learnopengl.com[JOEY DE VRIES]
+//===================================================================================
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	int mouseState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+
+
+	if (firstMouse)
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+	lastX = xpos;
+	lastY = ypos;
+
+	if (mouseState)
+		Camera::getInstance()->ProcessMouseMovement(xoffset, yoffset);
+}
+
+
 
 
 Game*  Game::m_Instance = nullptr;
@@ -63,9 +101,7 @@ bool Game::Init()
 	if (!glfwInit())
 		return false;
 
-
 	
-
 	/* Create a windowed mode window and its OpenGL context */
 	m_pwindow = glfwCreateWindow(Screen_Width, Screen_Height, "Hello World", NULL, NULL);
 	if (!m_pwindow)

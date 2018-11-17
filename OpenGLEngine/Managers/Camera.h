@@ -23,19 +23,28 @@ public:
 	//Variables
 	float camera_move_speed_;
 	glm::vec3 Camera_Pos_;
-	glm::vec3 Camera_Target_;
-	glm::vec3 Camera_Direction_;
+	glm::vec3 Camera_Front_;
+	glm::vec3 Camera_Up_;
+	glm::vec3 Camera_Right_;
+	glm::vec3 Camera_WorldUp_;
+
+	float Yaw;
+	float Pitch;
+
+	float m_MovementSpeed;
+	float m_MouseSensitivity;
+	float m_Zoom;
+
 	glm::mat4 viewmat;
 	glm::mat4 projectionmat;
 
-
-	glm::vec3 up;
-	glm::vec3 CameraUp;
-	glm::vec3 CameraRight;
+	void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
 
 	void CameraUpdate();
 	glm::mat4 GetViewmat()
 	{
+		viewmat = glm::lookAt(Camera_Pos_, Camera_Pos_ + Camera_Front_, Camera_Up_);
+		//viewmat = glm::translate(glm::mat4(1), Camera_Pos_);
 		return viewmat;
 	}
 	glm::mat4 GetProjmat()
