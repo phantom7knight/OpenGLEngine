@@ -1,6 +1,4 @@
-﻿  FrameBuffer.cpp
-  ShapeGenerator.cpp
-  Generating Code...
+﻿  Renderer.cpp
   OpenGLEngine.vcxproj -> D:\DIGIPEN\Other stuff\OpenGL\OpenGLEngine\Debug\OpenGLEngine.exe
   Shaders\Default.fs
   Shaders\Default.vs
