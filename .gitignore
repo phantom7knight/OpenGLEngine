@@ -334,4 +334,5 @@ ASALocalRun/
 .localhistory/
 
 !.suo
-!OpenGLEngine/Debug
+!*OpenGLEngine/Debug
+# End of https://www.gitignore.io/api/visualstudio
