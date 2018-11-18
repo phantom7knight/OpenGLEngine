@@ -102,6 +102,6 @@ void main()
 	
 	vec3 result_Point = CalculatePointLight(pLight);
 
-	fragColor = vec4(result_Dir,1);
+	fragColor = vec4(normalize(Normals),1.0);
 		
 }

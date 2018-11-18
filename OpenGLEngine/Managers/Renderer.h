@@ -8,7 +8,7 @@
 #include "glew.h"
 #include "../src/Shader.h"
 #include "../Managers/Camera.h"
-#include "../ShapeGenerator.h"
+#include "../src/ShapeGenerator.h"
 #include <vector>
 
 //class Shader;

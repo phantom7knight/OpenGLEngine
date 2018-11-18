@@ -2,12 +2,13 @@
 
 #include "ShapeGenerator.h"
 
-#include "src/Shader.h"
+//#include "src/Shader.h"
 
+#include "Shader.h"
 #include <string.h>
 
-#include "Managers/Camera.h"
 
+#include "../Managers/Camera.h"
 ShapeGenerator::ShapeGenerator():m_useShader(0)
 {
 }
@@ -21,10 +22,15 @@ ShapeGenerator::~ShapeGenerator()
 	glDeleteShader(m_useShader->GetShaderID());
 }
 
-void ShapeGenerator::Initialize(const GLchar* vertexshaderpath, const GLchar* fragmentshaderpath,int type)
+void ShapeGenerator::Initialize(const GLchar* vertexshaderpath, const GLchar* fragmentshaderpath,int type , Material a_material, ObjectProperties a_objproperties)
 {
 	m_useShader = new Shader(vertexshaderpath, fragmentshaderpath);
 	m_useShader->Use();
+
+	m_material			=	a_material;
+	m_ObjectProperties	=	a_objproperties;
+
+
 	if (type == 0)
 	{
 		m_type = 0;
@@ -35,6 +41,7 @@ void ShapeGenerator::Initialize(const GLchar* vertexshaderpath, const GLchar* fr
 		m_type = 1;
 		Plane_Generator();
 	} 
+
 }
 
 
@@ -197,14 +204,15 @@ void ShapeGenerator::Plane_Generator()
 	glBindVertexArray(0);
 }
 
-void ShapeGenerator::Update(glm::vec3 translate_value,float scale_factor)
+void ShapeGenerator::Update()
 {
 
 
 	m_useShader->Use();
 
+
 	//Object Color
-	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "objectCol", 0.8f, 0.3f, 0.4f);
+	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "objectCol", m_material.objectColor.x, m_material.objectColor.y, m_material.objectColor.z);
 
 	//eyepos
 	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "cameraPos", Camera::getInstance()->Camera_Pos_.x, Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
@@ -218,11 +226,11 @@ void ShapeGenerator::Update(glm::vec3 translate_value,float scale_factor)
 	//=======================================================================================================
 	
 	glm::mat4 scalemat = glm::mat4(1);
-	scalemat = glm::scale(glm::mat4(1), glm::vec3(scale_factor));
+	scalemat = glm::scale(glm::mat4(1), glm::vec3(m_ObjectProperties.scalefactor));
 
 	glm::mat4 rotatemat = glm::rotate(glm::mat4(1), 50.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 	//rotate += 0.01;
-	glm::mat4 translatemat = glm::translate(glm::mat4(1), translate_value);
+	glm::mat4 translatemat = glm::translate(glm::mat4(1), m_ObjectProperties.translate);
 
 	glm::mat4 modelmat = translatemat * rotatemat * scalemat;
 
