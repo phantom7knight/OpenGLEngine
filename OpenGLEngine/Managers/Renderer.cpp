@@ -1,9 +1,9 @@
 #include "Renderer.h"
 #include "../src/stb_image.h"
 #include <string.h>
-//#include <assimp/>
 #include "../src/ShapeGenerator.h"
 
+#include "../src/FrameBuffer.h"
 
 
 
@@ -52,7 +52,7 @@ void Renderer::Init()
 	obj_proper1.scalefactor = 0.8f;
 	obj_proper1.translate = glm::vec3(0.8f, 0.0f, 0.0f);
 	
-	m_shapegen->Initialize("Shaders/Light.vs", "Shaders/Light.fs",0, obj_material1, obj_proper1);
+	m_shapegen->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 0, obj_material1, obj_proper1);
 
 	m_ShapeGenList.push_back(m_shapegen);
 
@@ -93,6 +93,10 @@ void Renderer::Init()
 	//m_shapegen3->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 1, obj_material3, obj_proper3);
 
 	//m_ShapeGenList.push_back(m_shapegen3);
+
+
+
+	
 	
 }
 
