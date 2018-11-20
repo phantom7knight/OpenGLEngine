@@ -164,13 +164,13 @@ void ShapeGenerator::Plane_Generator()
 	float fQuadVertices[] =
 	{
 		// Positions			// TexCoord
-		 0.5f, 	0.0f,  0.5f,	1.0f, 1.0f,
-		 0.5f, 	0.0f, -0.5f,	1.0f, 0.0f,
-		-0.5f, 	0.0f, -0.5f,	0.0f, 0.0f,
-		-0.5f, 	0.0f,  0.5f,	0.0f, 1.0f
+		 0.5f, 	0.0f,   0.5f,	1.0f, 1.0f,
+		 0.5f, 	0.0f,  -0.5f,	1.0f, 0.0f,
+		-0.5f, 	0.0f,  -0.5f,	0.0f, 0.0f,
+		-0.5f, 	0.0f,   0.5f,	0.0f, 1.0f
 	};
 
-	float uQuadIndices[] =
+	unsigned int uQuadIndices[] =
 	{
 		0,1,3,
 		3,2,1
@@ -218,7 +218,7 @@ void ShapeGenerator::Update()
 	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "cameraPos", Camera::getInstance()->Camera_Pos_.x, Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
 
 	//Light Position
-	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "lightPos", 1.0f, 0.0f, 0.0f);
+	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "lightPos", 0.0f, 0.0f, 10.0f);
 
 	#pragma region MVP
 	//=======================================================================================================
@@ -227,9 +227,10 @@ void ShapeGenerator::Update()
 	
 	glm::mat4 scalemat = glm::mat4(1);
 	scalemat = glm::scale(glm::mat4(1), glm::vec3(m_ObjectProperties.scalefactor));
-
+	
 	glm::mat4 rotatemat = glm::rotate(glm::mat4(1), 50.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-	//rotate += 0.01;
+	 //rotate += 0.01;
+		 
 	glm::mat4 translatemat = glm::translate(glm::mat4(1), m_ObjectProperties.translate);
 
 	glm::mat4 modelmat = translatemat * rotatemat * scalemat;
@@ -273,8 +274,8 @@ void ShapeGenerator::Update()
 	{
 		glBindVertexArray(m_VAO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-		//glDrawElements(GL_TRIANGLES, 6, GL_FLOAT, 0);
+		//glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
 

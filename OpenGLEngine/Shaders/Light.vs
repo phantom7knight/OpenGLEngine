@@ -20,6 +20,6 @@ void main()
 	Fragpos = vec3(modelmat * vec4(light_cords,1.0));
 	Normals = mat3(transpose(inverse(modelmat))) * light_normals;
 	
-	gl_Position = projectionmat * viewmat * modelmat *vec4(light_cords,1.0f);
+	gl_Position = projectionmat * viewmat * modelmat * vec4(light_cords,1.0f);
 
 }

@@ -1,11 +1,6 @@
 #include "Game.h"
 
-#include <iostream>
-#include <stdio.h>
-//#include <glad.h>
-#include "src/Shader.h"
-#include "glfw3.h"
-#include <glm.hpp>
+
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 #include "Managers/Renderer.h"
