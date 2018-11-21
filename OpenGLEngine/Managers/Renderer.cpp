@@ -52,7 +52,7 @@ void Renderer::Init()
 	
 	ObjectProperties obj_proper1;
 	obj_proper1.scalefactor = 0.8f;
-	obj_proper1.translate = glm::vec3(0.8f, 0.0f, 0.0f);
+	obj_proper1.translate = glm::vec3(0.8f, 0.0f, 10.0f);
 	
 	m_shapegen->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 0, obj_material1, obj_proper1);
 
@@ -71,13 +71,13 @@ void Renderer::Init()
 
 	ObjectProperties obj_proper2;
 	obj_proper2.scalefactor = 0.8f;
-	obj_proper2.translate = glm::vec3(-1.8f, 0.0f, 0.0f);
+	obj_proper2.translate = glm::vec3(-1.8f, 0.0f, 10.0f);
 	
 	
 	m_shapegen2->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 0, obj_material2, obj_proper2);
 
 	m_ShapeGenList.push_back(m_shapegen2);
-
+		
 
 	//================================================================
 	//Obj 3
@@ -90,7 +90,7 @@ void Renderer::Init()
 
 	ObjectProperties obj_proper3;
 	obj_proper3.scalefactor = 12.8f;
-	obj_proper3.translate = glm::vec3(-0.8f, -1.0f, 0.0f);
+	obj_proper3.translate = glm::vec3(-0.8f, -1.0f, 10.0f);
 
 	m_shapegen3->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 1, obj_material3, obj_proper3);
 
