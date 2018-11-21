@@ -6,13 +6,12 @@ in vec3 Normals;
 in vec3 Fragpos;
 
 
-uniform vec3 objectCol;
-uniform vec3 cameraPos;
-uniform vec3 lightPos;
+uniform vec3	objectCol;
+uniform vec3	cameraPos;
+uniform vec3	lightPos;
+uniform float	DeltaTime;
 
-uniform float DeltaTime;
 
-vec3 objectColor;
 
 struct PointLight
 {
@@ -27,12 +26,11 @@ vec3 CalculateDirectionalLight()
 	vec3 diffuse;
 	vec3 specular;
 	
-	//Normalize Object Color
-	//objectColor = normalize(objectCol);
+	
 	
 	//Ambient Color
 	vec3 ambientColor = vec3(1.0f,1.0f,1.0f);
-	float ambientStrength = 1.5;
+	float ambientStrength = 0.5;
 	ambient = ambientStrength * ambientColor * (objectCol);
 	
 	//Diffuse 
@@ -48,8 +46,8 @@ vec3 CalculateDirectionalLight()
 	vec3 reflectdir = reflect(-lightdir,norm);
 	float spec = pow(max(dot(viewdir,reflectdir),0.0),specularIntensity);
 	specular = specularStrength * spec * (objectCol);
-	
-	return (specular + ambient + diffuse);
+	 
+	return ( ambient + diffuse + specular );
 	//return ( vec3(spec,spec,spec) );
 }
 
@@ -102,6 +100,6 @@ void main()
 	
 	vec3 result_Point = CalculatePointLight(pLight);
 
-	fragColor = vec4(normalize(Normals),1.0);
+	fragColor = vec4(normalize(result_Dir),1.0);
 		
 }

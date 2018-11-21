@@ -1,9 +1,10 @@
 #include "Renderer.h"
-#include "../src/stb_image.h"
 #include <string.h>
-#include "../src/ShapeGenerator.h"
 
+#include "../src/stb_image.h"
+#include "../src/ShapeGenerator.h"
 #include "../src/FrameBuffer.h"
+
 
 
 
@@ -31,6 +32,7 @@ Renderer::~Renderer()
 {
 	if (m_Instance)
 		delete m_Instance;
+
 	m_Instance = nullptr;
 
 
@@ -84,16 +86,15 @@ void Renderer::Init()
 	m_shapegen3 = new ShapeGenerator();
 
 	Material obj_material3;
-	obj_material3.objectColor = glm::vec3(0.44, 1.0, 0.8);
+	obj_material3.objectColor = glm::vec3(0.5f);
 
 	ObjectProperties obj_proper3;
-	obj_proper3.scalefactor = 2.8f;
+	obj_proper3.scalefactor = 12.8f;
 	obj_proper3.translate = glm::vec3(-0.8f, -1.0f, 0.0f);
 
-	//m_shapegen3->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 1, obj_material3, obj_proper3);
+	m_shapegen3->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 1, obj_material3, obj_proper3);
 
-	//m_ShapeGenList.push_back(m_shapegen3);
-
+	m_ShapeGenList.push_back(m_shapegen3);
 
 
 	
