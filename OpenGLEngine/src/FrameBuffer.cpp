@@ -65,7 +65,7 @@ void FrameBuffer::SetFrameBuffer(unsigned int & FBO, unsigned int& texture)
 
 	//UnBind FBO
 
-	//UnBindFrameBuffer(FBO);
+	UnBindFrameBuffer(FBO);
 
 
 
