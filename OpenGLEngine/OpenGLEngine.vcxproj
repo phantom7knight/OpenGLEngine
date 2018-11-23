@@ -159,6 +159,7 @@
     <ClCompile Include="Vendors\ImGui\imgui_impl_glfw_gl3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\FrameBuffer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Managers\ImguiManager.h" />

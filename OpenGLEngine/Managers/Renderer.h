@@ -9,6 +9,7 @@
 #include "../src/Shader.h"
 #include "../Managers/Camera.h"
 #include "../src/ShapeGenerator.h"
+
 #include <vector>
 
 //class Shader;
@@ -19,7 +20,9 @@ class Renderer
 
 private:
 	static Renderer* m_Instance;
+
 	std::vector<ShapeGenerator*> m_ShapeGenList;
+
 
 public:
 	//Shader* m_useShader;
@@ -34,6 +37,6 @@ public:
 	ShapeGenerator* m_shapegen;
 	ShapeGenerator* m_shapegen2;
 	ShapeGenerator* m_shapegen3;
+
 	
 };
-

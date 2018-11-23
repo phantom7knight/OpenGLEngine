@@ -7,8 +7,9 @@
 #include "Shader.h"
 #include <string.h>
 
-
 #include "../Managers/Camera.h"
+
+
 ShapeGenerator::ShapeGenerator():m_useShader(0)
 {
 }
