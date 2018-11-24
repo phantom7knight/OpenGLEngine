@@ -102,8 +102,16 @@ void Renderer::Init()
 }
 
 
+void ShadowPass()
+{
+
+}
+
 void Renderer::RendererUpdate()
 {
+
+	ShadowPass();
+
 	//Update all the shapes
 	for (unsigned int i = 0; i < m_ShapeGenList.size(); ++i)
 	{
