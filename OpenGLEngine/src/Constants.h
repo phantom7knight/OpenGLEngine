@@ -3,7 +3,7 @@
 #define SAFE_DELETE(pointer)\
 if(pointer)			\
 {					\
-delete(pointer);	\
+delete pointer;		\
 pointer = nullptr;	\
 }					\
 

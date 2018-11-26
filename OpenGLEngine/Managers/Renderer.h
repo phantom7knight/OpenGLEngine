@@ -17,6 +17,9 @@ class ShapeGenerator;
 
 class Renderer
 {
+protected:
+
+	void  ShadowPass();
 
 private:
 	static Renderer* m_Instance;
@@ -25,7 +28,7 @@ private:
 
 
 public:
-	//Shader* m_useShader;
+	Shader* m_ShadowShader;
 
 	Renderer();
 	~Renderer();
@@ -38,5 +41,9 @@ public:
 	ShapeGenerator* m_shapegen2;
 	ShapeGenerator* m_shapegen3;
 
-	FrameBuffer
+	FrameBuffer* m_pFrameBuffer;
+
+	unsigned int m_depthMapFBO;
+	unsigned int m_Shadowmap;
+
 };

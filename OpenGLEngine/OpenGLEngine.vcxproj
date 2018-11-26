@@ -185,6 +185,8 @@
     <None Include="packages.config" />
     <None Include="Shaders\InstancingDemo.fs" />
     <None Include="Shaders\InstancingDemo.vs" />
+    <None Include="Shaders\Shadow.vs" />
+    <None Include="Shaders\Shadows.fs" />
     <None Include="Shaders\TestingShader.fs" />
     <None Include="Shaders\TestingShader.vs" />
     <None Include="Shaders\Cube.fs" />

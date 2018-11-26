@@ -11,7 +11,7 @@
 
 FrameBuffer::FrameBuffer()
 {
-	TextureList.reserve(10);
+	//TextureList.reserve(10);
 }
 
 
@@ -54,8 +54,8 @@ void FrameBuffer::SetFrameBuffer(unsigned int & FBO, unsigned int& texture)
 	//Generate FBO
 	glGenFramebuffers(1, &FBO);
 	
-	//Bind FBO
-	//BindFrameBuffer(FBO);
+	//Bind FBO	
+	BindFrameBuffer(FBO);
 
 	//Attach the color attachments
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthmap, 0);
@@ -66,10 +66,6 @@ void FrameBuffer::SetFrameBuffer(unsigned int & FBO, unsigned int& texture)
 	//UnBind FBO
 
 	UnBindFrameBuffer(FBO);
-
-
-
-
 
 }
 

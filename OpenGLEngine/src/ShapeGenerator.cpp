@@ -43,6 +43,9 @@ void ShapeGenerator::Initialize(const GLchar* vertexshaderpath, const GLchar* fr
 		Plane_Generator();
 	} 
 
+	m_useShader->SetInt(m_useShader->GetShaderID(),"defaultAlbedo", 0);
+	m_useShader->SetInt(m_useShader->GetShaderID(),"shadpwmap", 1);
+
 }
 
 
