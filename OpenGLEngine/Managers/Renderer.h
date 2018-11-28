@@ -9,6 +9,8 @@
 #include "../src/Shader.h"
 #include "../Managers/Camera.h"
 #include "../src/ShapeGenerator.h"
+#include "../src/FrameBuffer.h"
+#include "../src/SkyBox.h"
 
 #include <vector>
 
@@ -42,8 +44,11 @@ public:
 	ShapeGenerator* m_shapegen3;
 
 	FrameBuffer* m_pFrameBuffer;
+	SkyBox*		 m_skybox;
 
 	unsigned int m_depthMapFBO;
 	unsigned int m_Shadowmap;
+
+
 
 };

@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\SkyBox.cpp" />
     <ClCompile Include="src\FrameBuffer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Managers\ImguiManager.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="Vendors\ImGui\imgui_impl_glfw_gl3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SkyBox.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\FrameBuffer.h" />
     <ClInclude Include="Game.h" />
@@ -185,8 +187,8 @@
     <None Include="packages.config" />
     <None Include="Shaders\InstancingDemo.fs" />
     <None Include="Shaders\InstancingDemo.vs" />
-    <None Include="Shaders\Shadow.vs" />
-    <None Include="Shaders\Shadows.fs" />
+    <None Include="Shaders\SkyBox.fs" />
+    <None Include="Shaders\SkyBox.vs" />
     <None Include="Shaders\TestingShader.fs" />
     <None Include="Shaders\TestingShader.vs" />
     <None Include="Shaders\Cube.fs" />
