@@ -26,7 +26,7 @@ Camera::Camera()
 	float fov_ = glm::radians(angle);
 	float AspectRatio = (4.0f / 3.0f);
 	float NearPlane = 0.1f;
-	float FarPlane = 1000.0f;
+	float FarPlane = 10000.0f;
 
 	projectionmat = glm::perspective(fov_, AspectRatio, NearPlane, FarPlane);
 	//viewmat = glm::lookAt(Camera_Pos_, Camera_Pos_ + Camera_Front_, Camera_Up_);
