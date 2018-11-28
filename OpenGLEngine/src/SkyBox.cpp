@@ -157,7 +157,7 @@ void SkyBox::Draw()
 {
 	
 	Camera* pCamera = Camera::getInstance();
-	float scale_factor = 6000.0f;
+	float scale_factor = 1002.0f;
 
 	glDepthFunc(GL_LEQUAL);
 	m_shaderID->Use();
@@ -168,7 +168,7 @@ void SkyBox::Draw()
 	scale_mat = glm::scale(mat4(1), vec3(scale_factor));
 
 	vec3 cubemap_pos = vec3(1, 1, 1) + pCamera->GetCameraPos();
-
+	
 	glm::mat4 translate_mat = glm::mat4(1);
 	translate_mat = glm::translate(mat4(1), cubemap_pos);
 
