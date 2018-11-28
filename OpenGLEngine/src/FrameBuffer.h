@@ -18,6 +18,6 @@ public:
 
 private:
 
-	std::vector<unsigned int> TextureList;
+	//std::vector<unsigned int> TextureList;
 };
 

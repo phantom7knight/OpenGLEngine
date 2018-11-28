@@ -4,6 +4,7 @@
 #include "../src/stb_image.h"
 #include "../src/ShapeGenerator.h"
 #include "../src/FrameBuffer.h"
+#include "../src/Constants.h"
 
 
 
@@ -19,22 +20,27 @@ Renderer* Renderer::getInstance()
 
 	return m_Instance;
 }
-// testubg yolo
+
 
 //Constructor
 Renderer::Renderer():m_shapegen(nullptr)
 {
 	m_ShapeGenList.reserve(100);
+
+	m_pFrameBuffer = new FrameBuffer();
 }
 
 //Destructor
 Renderer::~Renderer()
 {
-	if (m_Instance)
-		delete m_Instance;
 
-	m_Instance = nullptr;
+	SAFE_DELETE(m_shapegen);
+	SAFE_DELETE(m_shapegen2);
+	SAFE_DELETE(m_shapegen3);
 
+	SAFE_DELETE(m_pFrameBuffer);
+
+	SAFE_DELETE(m_Instance);
 
 
 }
@@ -42,6 +48,8 @@ Renderer::~Renderer()
 
 void Renderer::Init()
 {
+
+	#pragma region Obj-Draw
 	//================================================================
 	//Obj 1
 	//================================================================
@@ -95,15 +103,34 @@ void Renderer::Init()
 	m_shapegen3->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 1, obj_material3, obj_proper3);
 
 	m_ShapeGenList.push_back(m_shapegen3);
-
-
+	#pragma endregion
 	
+	m_ShadowShader = new Shader("Shaders/Shadows.vs","Shaders/Shadows.fs");
 	
 }
 
 
+void Renderer::ShadowPass()
+{
+	m_pFrameBuffer->SetFrameBuffer(m_depthMapFBO, m_Shadowmap);
+
+
+	//m_ShadowShader->SetInt("")
+
+
+}
+
 void Renderer::RendererUpdate()
 {
+
+	ShadowPass();
+
+
+	//set viewport
+	//clear screen
+
+
+	//set viewport and draw
 	//Update all the shapes
 	for (unsigned int i = 0; i < m_ShapeGenList.size(); ++i)
 	{

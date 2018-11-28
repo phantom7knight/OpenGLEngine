@@ -9,6 +9,7 @@
 #include "../src/Shader.h"
 #include "../Managers/Camera.h"
 #include "../src/ShapeGenerator.h"
+
 #include <vector>
 
 //class Shader;
@@ -16,13 +17,18 @@ class ShapeGenerator;
 
 class Renderer
 {
+protected:
+
+	void  ShadowPass();
 
 private:
 	static Renderer* m_Instance;
+
 	std::vector<ShapeGenerator*> m_ShapeGenList;
 
+
 public:
-	//Shader* m_useShader;
+	Shader* m_ShadowShader;
 
 	Renderer();
 	~Renderer();
@@ -34,6 +40,10 @@ public:
 	ShapeGenerator* m_shapegen;
 	ShapeGenerator* m_shapegen2;
 	ShapeGenerator* m_shapegen3;
-	
-};
 
+	FrameBuffer* m_pFrameBuffer;
+
+	unsigned int m_depthMapFBO;
+	unsigned int m_Shadowmap;
+
+};

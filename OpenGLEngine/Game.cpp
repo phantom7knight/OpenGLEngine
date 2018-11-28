@@ -47,16 +47,16 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 	if (firstMouse)
 	{
-		lastX = xpos;
-		lastY = ypos;
+		lastX = (float)xpos;
+		lastY = (float)ypos;
 		firstMouse = false;
 	}
 
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+	float xoffset = (float)(xpos - lastX);
+	float yoffset = (float)(lastY - ypos); // reversed since y-coordinates go from bottom to top
 
-	lastX = xpos;
-	lastY = ypos;
+	lastX = (float)xpos;
+	lastY = (float)ypos;
 
 	if (mouseState)
 		Camera::getInstance()->ProcessMouseMovement(xoffset, yoffset);
@@ -140,7 +140,7 @@ void Game::Run()
 		//This closes the window if Esc key is pressed Like an exit condition
 		processinput(m_pwindow);
 
-		glClearColor(0.2, 0.2, 0.2, 1.0);
+		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_DEPTH);
 
@@ -178,9 +178,9 @@ void Game::Update()
 
 	InputManager::getInstance()->InputmanagerUpdate(m_pwindow);
 	
-	Renderer::getInstance()->RendererUpdate();
-	
 	ImguiManager::getInstance()->ImguiUpdate();
+	
+	Renderer::getInstance()->RendererUpdate();
 	
 
 

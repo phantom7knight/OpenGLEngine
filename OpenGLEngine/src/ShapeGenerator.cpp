@@ -7,8 +7,9 @@
 #include "Shader.h"
 #include <string.h>
 
-
 #include "../Managers/Camera.h"
+
+
 ShapeGenerator::ShapeGenerator():m_useShader(0)
 {
 }
@@ -41,6 +42,9 @@ void ShapeGenerator::Initialize(const GLchar* vertexshaderpath, const GLchar* fr
 		m_type = 1;
 		Plane_Generator();
 	} 
+
+	m_useShader->SetInt(m_useShader->GetShaderID(),"defaultAlbedo", 0);
+	m_useShader->SetInt(m_useShader->GetShaderID(),"shadpwmap", 1);
 
 }
 

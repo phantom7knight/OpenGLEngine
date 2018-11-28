@@ -119,6 +119,9 @@
     <ClInclude Include="src\ShapeGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Default.vs" />
@@ -136,6 +139,8 @@
     <None Include="Shaders\InstancingDemo.vs" />
     <None Include="Shaders\InstancingDemo.fs" />
     <None Include="packages.config" />
+    <None Include="Shaders\Shadow.vs" />
+    <None Include="Shaders\Shadows.fs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\spaceship.png">
