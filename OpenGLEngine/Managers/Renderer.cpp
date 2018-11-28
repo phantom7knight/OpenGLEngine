@@ -3,7 +3,7 @@
 
 #include "../src/stb_image.h"
 #include "../src/ShapeGenerator.h"
-#include "../src/FrameBuffer.h"
+
 #include "../src/Constants.h"
 
 
@@ -27,6 +27,8 @@ Renderer::Renderer():m_shapegen(nullptr)
 {
 	m_ShapeGenList.reserve(100);
 
+	m_ShadowShader = nullptr;
+
 	m_pFrameBuffer = new FrameBuffer();
 }
 
@@ -39,6 +41,7 @@ Renderer::~Renderer()
 	SAFE_DELETE(m_shapegen3);
 
 	SAFE_DELETE(m_pFrameBuffer);
+	SAFE_DELETE(m_skybox);
 
 	SAFE_DELETE(m_Instance);
 
@@ -105,17 +108,17 @@ void Renderer::Init()
 	m_ShapeGenList.push_back(m_shapegen3);
 	#pragma endregion
 	
-	m_ShadowShader = new Shader("Shaders/Shadows.vs","Shaders/Shadows.fs");
+	//m_ShadowShader = new Shader("Shaders/Shadow.vs","Shaders/Shadow.fs");
+	m_skybox = new SkyBox();
 	
+	m_skybox->InitializeSkyBox("Shaders/SkyBox.vs", "Shaders/SkyBox.fs");
+
 }
 
 
 void Renderer::ShadowPass()
 {
 	m_pFrameBuffer->SetFrameBuffer(m_depthMapFBO, m_Shadowmap);
-
-
-	//m_ShadowShader->SetInt("")
 
 
 }
@@ -137,6 +140,6 @@ void Renderer::RendererUpdate()
 		m_ShapeGenList[i]->Update();
 	}
 
-
+	m_skybox->Draw();
 }
 
