@@ -141,12 +141,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\SkyBox.cpp" />
+    <ClCompile Include="src\FrameBuffer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Managers\ImguiManager.cpp" />
     <ClCompile Include="Managers\Camera.cpp" />
     <ClCompile Include="Managers\InputManager.cpp" />
     <ClCompile Include="Managers\Renderer.cpp" />
-    <ClCompile Include="ShapeGenerator.cpp" />
+    <ClCompile Include="src\ShapeGenerator.cpp" />
     <ClCompile Include="src\ImportMesh.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -158,12 +160,15 @@
     <ClCompile Include="Vendors\ImGui\imgui_impl_glfw_gl3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SkyBox.h" />
+    <ClInclude Include="src\Constants.h" />
+    <ClInclude Include="src\FrameBuffer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Managers\ImguiManager.h" />
     <ClInclude Include="Managers\Camera.h" />
     <ClInclude Include="Managers\InputManager.h" />
     <ClInclude Include="Managers\Renderer.h" />
-    <ClInclude Include="ShapeGenerator.h" />
+    <ClInclude Include="src\ShapeGenerator.h" />
     <ClInclude Include="src\ImportMesh.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Shader.h" />
@@ -182,6 +187,8 @@
     <None Include="packages.config" />
     <None Include="Shaders\InstancingDemo.fs" />
     <None Include="Shaders\InstancingDemo.vs" />
+    <None Include="Shaders\SkyBox.fs" />
+    <None Include="Shaders\SkyBox.vs" />
     <None Include="Shaders\TestingShader.fs" />
     <None Include="Shaders\TestingShader.vs" />
     <None Include="Shaders\Cube.fs" />

@@ -115,6 +115,11 @@ void Shader::ClearShader()
 	glDeleteProgram(shader_ID);
 }
 
+void Shader::SetInt(unsigned int shader_ID, const char * uniname, int v1)
+{
+	glUniform1d(glGetUniformLocation(shader_ID, uniname), v1);
+}
+
 void Shader::SetUniform1f(unsigned int shader_ID, const char * uniname, float v1)
 {
 	glUniform1f(glGetUniformLocation(shader_ID, uniname), v1);

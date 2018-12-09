@@ -1,9 +1,15 @@
 #pragma once
 
+#include <iostream>
+#include <stdio.h>
+//#include <glad.h>
+#include "src/Shader.h"
+#include "glfw3.h"
 
+#include <glm.hpp>
 
-#define Screen_Width  1000
-#define Screen_Height  800 
+#define Screen_Width  1366
+#define Screen_Height  768 
 
 
 

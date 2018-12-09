@@ -9,9 +9,11 @@
 *.user
 *.userosscache
 *.sln.docstates
-
+*.pdb
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
+*.db
+*.VC.db
 
 # Build results
 [Dd]ebug/
@@ -85,6 +87,7 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
+*.tlog
 
 # Chutzpah Test files
 _Chutzpah*
@@ -333,6 +336,9 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 
-!.suo
-!*OpenGLEngine/Debug
-# End of https://www.gitignore.io/api/visualstudio
+!/Dependencies/**
+/Dependencies/IMGUI/imgui-1.62/examples/.vs/imgui_examples/v15/.suo
+/Dependencies/IMGUI/imgui-1.62/examples/.vs/imgui_examples/v15/Browse.VC.db
+/Dependencies/IMGUI/imgui-1.62/examples/.vs/imgui_examples/v15/Solution.VC.db
+/Dependencies/IMGUI/imgui-1.62/examples/.vs/imgui_examples/v15/Solution.VC.db-shm
+/Dependencies/IMGUI/imgui-1.62/examples/.vs/imgui_examples/v15/Solution.VC.db-wal

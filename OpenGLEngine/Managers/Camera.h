@@ -4,7 +4,7 @@
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
-//#include "../src/Shader.h"
+
 #include "../Managers/InputManager.h"
 
 
@@ -41,6 +41,13 @@ public:
 	void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
 
 	void CameraUpdate();
+	
+	glm::vec3 GetCameraPos()
+	{
+		return Camera_Pos_;
+	}
+
+
 	glm::mat4 GetViewmat()
 	{
 		viewmat = glm::lookAt(Camera_Pos_, Camera_Pos_ + Camera_Front_, Camera_Up_);

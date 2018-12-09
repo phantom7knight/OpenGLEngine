@@ -1,11 +1,6 @@
 #include "Game.h"
 
-#include <iostream>
-#include <stdio.h>
-//#include <glad.h>
-#include "src/Shader.h"
-#include "glfw3.h"
-#include <glm.hpp>
+
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 #include "Managers/Renderer.h"
@@ -47,32 +42,28 @@ float lastY = (float)Screen_Height	/ 2.0f;
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-	int mouseState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+	int mouseState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
 
 
 	if (firstMouse)
 	{
-		lastX = xpos;
-		lastY = ypos;
+		lastX = (float)xpos;
+		lastY = (float)ypos;
 		firstMouse = false;
 	}
 
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+	float xoffset = (float)(xpos - lastX);
+	float yoffset = (float)(lastY - ypos); // reversed since y-coordinates go from bottom to top
 
-	lastX = xpos;
-	lastY = ypos;
+	lastX = (float)xpos;
+	lastY = (float)ypos;
 
 	if (mouseState)
 		Camera::getInstance()->ProcessMouseMovement(xoffset, yoffset);
 }
 
 
-
-
 Game*  Game::m_Instance = nullptr;
-
-
 
 
 Game * Game::getInstance()
@@ -145,9 +136,13 @@ void Game::Run()
 		//This closes the window if Esc key is pressed Like an exit condition
 		processinput(m_pwindow);
 
-		glClearColor(0.2, 0.2, 0.2, 1.0);
+		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glEnable(GL_DEPTH);
+		
+		glEnable(GL_MULTISAMPLE);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		++counter;
 		if (counter % 5000 == 0)
@@ -184,9 +179,8 @@ void Game::Update()
 	InputManager::getInstance()->InputmanagerUpdate(m_pwindow);
 	
 	Renderer::getInstance()->RendererUpdate();
-	
+		
 	ImguiManager::getInstance()->ImguiUpdate();
-	
 
 
 }

@@ -4,14 +4,14 @@ Camera* Camera::m_Instance = nullptr;
 
 Camera::Camera()
 {
-
+	 
 	Camera_Pos_ = glm::vec3(0.0f, 0.0f, 10.0f);
 	Camera_Up_ = glm::vec3(0.0f, 1.0f, 0.0f);
 	Camera_Front_ = glm::vec3(0.0f, 0.0f, -1.0f);
 
 	Camera_WorldUp_ = Camera_Up_;
 
-	camera_move_speed_ = 0.1f;
+	camera_move_speed_ = 0.75f;
 
 	Yaw = -90.0f;
 	Pitch = 0.0f;
@@ -26,10 +26,11 @@ Camera::Camera()
 	float fov_ = glm::radians(angle);
 	float AspectRatio = (4.0f / 3.0f);
 	float NearPlane = 0.1f;
-	float FarPlane = 100.0f;
+	float FarPlane = 1000.0f;
 
 	projectionmat = glm::perspective(fov_, AspectRatio, NearPlane, FarPlane);
-
+	//viewmat = glm::lookAt(Camera_Pos_, Camera_Pos_ + Camera_Front_, Camera_Up_);
+	
 	#pragma endregion
 
 
@@ -87,7 +88,8 @@ void Camera::CameraUpdate()
 	Camera_Up_ = glm::normalize(glm::cross(Camera_Right_, Camera_Front_));
 
 	
-	
+	viewmat = glm::lookAt(Camera_Pos_, Camera_Pos_ + Camera_Front_, Camera_Up_);
+
 	//viewmat =  glm::lookAt(Camera_Pos_, Camera_Pos_ + Camera_Front_, Camera_Up_);
 	//viewmat = glm::translate(glm::mat4(1), Camera_Pos_);
 }
