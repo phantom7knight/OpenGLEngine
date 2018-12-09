@@ -56,6 +56,8 @@ void InputManager::InputmanagerUpdate(GLFWwindow* window)
 		
 	}
 
+
+	
 	
 	Camera::getInstance()->CameraUpdate();
 

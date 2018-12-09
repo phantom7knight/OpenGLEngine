@@ -8,6 +8,7 @@
 #include <string.h>
 
 #include "../Managers/Camera.h"
+#include "../Managers/ImguiManager.h"
 
 
 ShapeGenerator::ShapeGenerator():m_useShader(0)
@@ -43,8 +44,12 @@ void ShapeGenerator::Initialize(const GLchar* vertexshaderpath, const GLchar* fr
 		Plane_Generator();
 	} 
 
+
+	#pragma region Texture-Mapping
 	m_useShader->SetInt(m_useShader->GetShaderID(),"defaultAlbedo", 0);
-	m_useShader->SetInt(m_useShader->GetShaderID(),"shadpwmap", 1);
+	//m_useShader->SetInt(m_useShader->GetShaderID(),"shadpwmap", 1);
+#pragma endregion
+
 
 }
 
@@ -209,21 +214,31 @@ void ShapeGenerator::Plane_Generator()
 }
 
 void ShapeGenerator::Update()
-{
+{ 
 
 
 	m_useShader->Use();
 
-
+	#pragma region Object properties
 	//Object Color
 	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "objectCol", m_material.objectColor.x, m_material.objectColor.y, m_material.objectColor.z);
+#pragma endregion
 
 	//eyepos
 	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "cameraPos", Camera::getInstance()->Camera_Pos_.x, Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
 
-	//Light Position
-	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "lightPos", 0.0f, 0.0f, 10.0f);
+#pragma region Light-Properties
 
+
+	//Light Position
+	glm::vec3 lightposition = ImguiManager::getInstance()->getLightPosition();
+	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "lightPos", lightposition.x, lightposition.y, lightposition.z);
+
+	//Light intensity
+	float lightInten = ImguiManager::getInstance()->getLightIntensity();
+	m_useShader->SetUniform1f(m_useShader->GetShaderID(), "Lightintensity", lightInten);
+
+#pragma endregion
 	#pragma region MVP
 	//=======================================================================================================
 	//Modelling Matrix

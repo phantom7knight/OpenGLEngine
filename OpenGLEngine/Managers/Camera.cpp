@@ -4,7 +4,7 @@ Camera* Camera::m_Instance = nullptr;
 
 Camera::Camera()
 {
-
+	 
 	Camera_Pos_ = glm::vec3(0.0f, 0.0f, 10.0f);
 	Camera_Up_ = glm::vec3(0.0f, 1.0f, 0.0f);
 	Camera_Front_ = glm::vec3(0.0f, 0.0f, -1.0f);

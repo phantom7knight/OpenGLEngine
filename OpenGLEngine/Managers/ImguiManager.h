@@ -10,6 +10,14 @@ class ImguiManager
 {
 private:
 	static ImguiManager* m_Instance;
+	glm::vec3 m_LightPosition;
+	float m_lightIntensity;
+
+
+protected:
+	void ShowLightProperties();
+	void ShowControlsProperties();
+
 
 public:
 	ImguiManager();
@@ -17,11 +25,21 @@ public:
 
 	static ImguiManager* getInstance();
 
-	bool show_another_window;
-	bool show_another_window2;
+	inline glm::vec3 getLightPosition();
+	inline float getLightIntensity();
+	
 
 	void ImguiInit(GLFWwindow* window);
 	void ImguiUpdate();
 	void ImguiDestroy();
 };
 
+inline glm::vec3 ImguiManager::getLightPosition()
+{
+	return m_LightPosition;
+}
+
+inline float ImguiManager::getLightIntensity()
+{
+	return m_lightIntensity;
+}

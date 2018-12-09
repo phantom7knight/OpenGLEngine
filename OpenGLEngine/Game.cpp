@@ -42,7 +42,7 @@ float lastY = (float)Screen_Height	/ 2.0f;
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-	int mouseState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+	int mouseState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
 
 
 	if (firstMouse)
@@ -63,11 +63,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 }
 
 
-
-
 Game*  Game::m_Instance = nullptr;
-
-
 
 
 Game * Game::getInstance()
@@ -142,7 +138,7 @@ void Game::Run()
 
 		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glEnable(GL_DEPTH);
+		glEnable(GL_DEPTH_TEST);
 
 		++counter;
 		if (counter % 5000 == 0)
@@ -178,10 +174,9 @@ void Game::Update()
 
 	InputManager::getInstance()->InputmanagerUpdate(m_pwindow);
 	
-	ImguiManager::getInstance()->ImguiUpdate();
-	
 	Renderer::getInstance()->RendererUpdate();
-	
+		
+	ImguiManager::getInstance()->ImguiUpdate();
 
 
 }
