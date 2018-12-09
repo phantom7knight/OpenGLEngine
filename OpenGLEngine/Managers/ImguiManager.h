@@ -10,8 +10,9 @@ class ImguiManager
 {
 private:
 	static ImguiManager* m_Instance;
-	glm::vec3 m_LightPosition;
-	float m_lightIntensity;
+	glm::vec3	m_LightPosition;
+	float		m_lightIntensity;
+	int			m_specularIntensity;
 
 
 protected:
@@ -28,7 +29,6 @@ public:
 	inline glm::vec3 getLightPosition();
 	inline float getLightIntensity();
 	
-
 	void ImguiInit(GLFWwindow* window);
 	void ImguiUpdate();
 	void ImguiDestroy();

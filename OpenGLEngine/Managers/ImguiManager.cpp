@@ -4,7 +4,7 @@ ImguiManager* ImguiManager::m_Instance = nullptr;
 
 
 
-ImguiManager::ImguiManager():m_LightPosition(glm::vec3(0,0,10)), m_lightIntensity(0.5f)
+ImguiManager::ImguiManager():m_LightPosition(glm::vec3(0,0,10)), m_lightIntensity(0.5f), m_specularIntensity(3)
 {
 }
 
@@ -27,6 +27,7 @@ void ImguiManager::ShowLightProperties()
 {
 	bool yolo;
 	ImGui::SetNextWindowPos(ImVec2(10, 10));
+	
 	ImGui::Begin("Light Properties",&yolo, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoMove);
 
 	ImGui::SliderFloat("X POS", &m_LightPosition.x, -50.0f, 50.0f);
@@ -34,7 +35,6 @@ void ImguiManager::ShowLightProperties()
 	ImGui::SliderFloat("Z POS", &m_LightPosition.z, -50.0f, 50.0f);
 
 	ImGui::SliderFloat("Intensity", &m_lightIntensity, 0.0f, 1.0f);
-
 
 	ImGui::End();
 }

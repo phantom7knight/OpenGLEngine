@@ -62,7 +62,7 @@ vec3 CalculateDirectionalLight()
 
 		vec3 	kd 		= vec3(0.7,0.7,0.7);//strmaterial.diffuse;
 		vec3 	ks 		= vec3(0.5,0.5,0.5);//strmaterial.specular;
-		float   alpha 	= 150;
+		float   alpha 	= 2;
 		
 		//vec3 lightdir = vec3(0.0,100.0,-400.0);
 		

@@ -222,12 +222,12 @@ void ShapeGenerator::Update()
 	#pragma region Object properties
 	//Object Color
 	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "objectCol", m_material.objectColor.x, m_material.objectColor.y, m_material.objectColor.z);
-#pragma endregion
+	#pragma endregion
 
 	//eyepos
 	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "cameraPos", Camera::getInstance()->Camera_Pos_.x, Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
 
-#pragma region Light-Properties
+	#pragma region Light-Properties
 
 
 	//Light Position
@@ -238,7 +238,8 @@ void ShapeGenerator::Update()
 	float lightInten = ImguiManager::getInstance()->getLightIntensity();
 	m_useShader->SetUniform1f(m_useShader->GetShaderID(), "Lightintensity", lightInten);
 
-#pragma endregion
+
+	#pragma endregion
 	#pragma region MVP
 	//=======================================================================================================
 	//Modelling Matrix
