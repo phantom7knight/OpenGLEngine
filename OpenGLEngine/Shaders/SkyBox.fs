@@ -1,10 +1,12 @@
 #version 330 core
 
 out vec4 FragColor;
-in vec3 TexCoords;
+
+in vec2 TexCoords;
+
 
 //uniform samplerCube textureskybox;
-uniform samplerCube HDRTexture;
+uniform sampler2D HDRTexture;
 
 
 
@@ -21,7 +23,7 @@ void main()
 
     float exposure = 1.0f;
 
-    vec3 hdrcolor = texture(HDRTexture,TexCoords).rgb;
+    vec3 hdrcolor = texture(HDRTexture,TexCoords).xyz;
 
     vec3 mapped = vec3(1.0) - exp(-hdrcolor * exposure);
 

@@ -43,8 +43,7 @@ bool SkyBox::InitializeSkyBox(const GLchar* VertexShaderPath, const GLchar* Pixe
 	//m_shaderID->SetInt(m_shaderID->GetShaderID(), "textureskybox", 0);
 	m_shaderID->SetInt(m_shaderID->GetShaderID(), "HDRTexture", 0);
 
-	//LoadSkyBox();
-	LoadTexture();
+	LoadSkyBox();
 	
 	return true;
 }
@@ -62,47 +61,47 @@ void SkyBox::LoadSkyBox()
 
 	float vertices[] = {
 
-		-sizeofskybox,	sizeofskybox, -sizeofskybox,
-		-sizeofskybox, -sizeofskybox, -sizeofskybox,
-		 sizeofskybox, -sizeofskybox, -sizeofskybox,
-		 sizeofskybox, -sizeofskybox, -sizeofskybox,
-		 sizeofskybox,	sizeofskybox, -sizeofskybox,
-		-sizeofskybox,	sizeofskybox, -sizeofskybox,
+		-sizeofskybox,	sizeofskybox, -sizeofskybox, 	 0.0f,  0.0f, -1.0f,	0.0f, 0.0f,
+		-sizeofskybox, -sizeofskybox, -sizeofskybox, 	 0.0f,  0.0f, -1.0f,	1.0f, 0.0f,
+		 sizeofskybox, -sizeofskybox, -sizeofskybox, 	 0.0f,  0.0f, -1.0f,	1.0f, 1.0f,
+		 sizeofskybox, -sizeofskybox, -sizeofskybox, 	 0.0f,  0.0f, -1.0f,	1.0f, 1.0f,
+		 sizeofskybox,	sizeofskybox, -sizeofskybox, 	 0.0f,  0.0f, -1.0f,	0.0f, 1.0f,
+		-sizeofskybox,	sizeofskybox, -sizeofskybox, 	 0.0f,  0.0f, -1.0f,	0.0f, 0.0f,
 
-		-sizeofskybox,	-sizeofskybox,	sizeofskybox,
-		-sizeofskybox,	-sizeofskybox, -sizeofskybox,
-		-sizeofskybox,	 sizeofskybox, -sizeofskybox,
-		-sizeofskybox,	 sizeofskybox, -sizeofskybox,
-		-sizeofskybox,	 sizeofskybox,	sizeofskybox,
-		-sizeofskybox,	-sizeofskybox,	sizeofskybox,
+		-sizeofskybox,	-sizeofskybox,	sizeofskybox,	 0.0f,  0.0f,  1.0f,	0.0f, 0.0f,
+		-sizeofskybox,	-sizeofskybox, -sizeofskybox,	 0.0f,  0.0f,  1.0f,	1.0f, 0.0f,
+		-sizeofskybox,	 sizeofskybox, -sizeofskybox,	 0.0f,  0.0f,  1.0f,	1.0f, 1.0f,
+		-sizeofskybox,	 sizeofskybox, -sizeofskybox,	 0.0f,  0.0f,  1.0f,	1.0f, 1.0f,
+		-sizeofskybox,	 sizeofskybox,	sizeofskybox,	 0.0f,  0.0f,  1.0f,	0.0f, 1.0f,
+		-sizeofskybox,	-sizeofskybox,	sizeofskybox,	 0.0f,  0.0f,  1.0f,	0.0f, 0.0f,
 
-		 sizeofskybox,	-sizeofskybox,	-sizeofskybox,
-		 sizeofskybox,	-sizeofskybox,   sizeofskybox,
-		 sizeofskybox,	 sizeofskybox,   sizeofskybox,
-		 sizeofskybox,	 sizeofskybox,   sizeofskybox,
-		 sizeofskybox,	 sizeofskybox,	-sizeofskybox,
-		 sizeofskybox,	-sizeofskybox,	-sizeofskybox,
+		 sizeofskybox,	-sizeofskybox,	-sizeofskybox,	-1.0f,  0.0f,  0.0f,	1.0f, 0.0f,
+		 sizeofskybox,	-sizeofskybox,   sizeofskybox,	-1.0f,  0.0f,  0.0f,	1.0f, 1.0f,
+		 sizeofskybox,	 sizeofskybox,   sizeofskybox,	-1.0f,  0.0f,  0.0f,	0.0f, 1.0f,
+		 sizeofskybox,	 sizeofskybox,   sizeofskybox,	-1.0f,  0.0f,  0.0f,	0.0f, 1.0f,
+		 sizeofskybox,	 sizeofskybox,	-sizeofskybox,	-1.0f,  0.0f,  0.0f,	0.0f, 0.0f,
+		 sizeofskybox,	-sizeofskybox,	-sizeofskybox,	-1.0f,  0.0f,  0.0f,	1.0f, 0.0f,
 
-		-sizeofskybox,	-sizeofskybox,	 sizeofskybox,
-		-sizeofskybox,	 sizeofskybox,   sizeofskybox,
-		 sizeofskybox,	 sizeofskybox,   sizeofskybox,
-		 sizeofskybox,	 sizeofskybox,   sizeofskybox,
-		 sizeofskybox,	-sizeofskybox,	 sizeofskybox,
-		-sizeofskybox,	-sizeofskybox,	 sizeofskybox,
+		-sizeofskybox,	-sizeofskybox,	 sizeofskybox,	1.0f,  0.0f,  0.0f,		1.0f, 0.0f,
+		-sizeofskybox,	 sizeofskybox,   sizeofskybox,	1.0f,  0.0f,  0.0f,		1.0f, 1.0f,
+		 sizeofskybox,	 sizeofskybox,   sizeofskybox,	1.0f,  0.0f,  0.0f,		0.0f, 1.0f,
+		 sizeofskybox,	 sizeofskybox,   sizeofskybox,	1.0f,  0.0f,  0.0f,		0.0f, 1.0f,
+		 sizeofskybox,	-sizeofskybox,	 sizeofskybox,	1.0f,  0.0f,  0.0f,		0.0f, 0.0f,
+		-sizeofskybox,	-sizeofskybox,	 sizeofskybox,	1.0f,  0.0f,  0.0f,		1.0f, 0.0f,
 
-		-sizeofskybox,	sizeofskybox,	 -sizeofskybox,
-		 sizeofskybox,	sizeofskybox,    -sizeofskybox,
-		 sizeofskybox,	sizeofskybox,     sizeofskybox,
-		 sizeofskybox,	sizeofskybox,     sizeofskybox,
-		-sizeofskybox,	sizeofskybox,	  sizeofskybox,
-		-sizeofskybox,	sizeofskybox,	 -sizeofskybox,
+		-sizeofskybox,	sizeofskybox,	 -sizeofskybox,	 0.0f,  -1.0f,  0.0f,	0.0f, 1.0f,
+		 sizeofskybox,	sizeofskybox,    -sizeofskybox,	 0.0f,  -1.0f,  0.0f,	1.0f, 1.0f,
+		 sizeofskybox,	sizeofskybox,     sizeofskybox,	 0.0f,  -1.0f,  0.0f,	1.0f, 0.0f,
+		 sizeofskybox,	sizeofskybox,     sizeofskybox,	 0.0f,  -1.0f,  0.0f,	1.0f, 0.0f,
+		-sizeofskybox,	sizeofskybox,	  sizeofskybox,	 0.0f,  -1.0f,  0.0f,	0.0f, 0.0f,
+		-sizeofskybox,	sizeofskybox,	 -sizeofskybox,	 0.0f,  -1.0f,  0.0f,	0.0f, 1.0f,
 
-		-sizeofskybox,	-sizeofskybox,   -sizeofskybox,
-		-sizeofskybox,	-sizeofskybox,    sizeofskybox,
-		 sizeofskybox,	-sizeofskybox,   -sizeofskybox,
-		 sizeofskybox,	-sizeofskybox,   -sizeofskybox,
-		-sizeofskybox,	-sizeofskybox,    sizeofskybox,
-		 sizeofskybox,	-sizeofskybox,    sizeofskybox
+		-sizeofskybox,	-sizeofskybox,   -sizeofskybox,	 0.0f,  1.0f,  0.0f,	0.0f, 1.0f,
+		-sizeofskybox,	-sizeofskybox,    sizeofskybox,	 0.0f,  1.0f,  0.0f,	1.0f, 1.0f,
+		 sizeofskybox,	-sizeofskybox,   -sizeofskybox,	 0.0f,  1.0f,  0.0f,	1.0f, 0.0f,
+		 sizeofskybox,	-sizeofskybox,   -sizeofskybox,	 0.0f,  1.0f,  0.0f,	1.0f, 0.0f,
+		-sizeofskybox,	-sizeofskybox,    sizeofskybox,	 0.0f,  1.0f,  0.0f,	0.0f, 0.0f,
+		 sizeofskybox,	-sizeofskybox,    sizeofskybox,	 0.0f,  1.0f,  0.0f,	0.0f, 1.0f
 
 
 	};
@@ -115,8 +114,14 @@ void SkyBox::LoadSkyBox()
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)0);
 	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
 	glBindVertexArray(0);
 
@@ -124,24 +129,27 @@ void SkyBox::LoadSkyBox()
 
 unsigned int SkyBox::LoadTexture()
 {
-	int32 iWidth, iHeight, iChannels;
+	int iWidth, iHeight, iChannels;
+		
+	
+	stbi_set_flip_vertically_on_load(true);
+	
 
-	glGenTextures(1, &m_texture);
-	glBindTexture(GL_TEXTURE_2D, m_texture);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, 1366, 768, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-
-	// set the texture wrapping/filtering options (on the currently bound texture object)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	unsigned char* pData = stbi_load(m_HDRTexture.c_str(), &iWidth, &iHeight, &iChannels, 0);
+	float* pData = stbi_loadf("Assets/Textures/HDR/Alexs_Apt_2k.hdr", &iWidth, &iHeight, &iChannels, 0);
 	if (pData)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, iWidth, iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, pData);
+		glGenTextures(1, &m_texture);
+		glBindTexture(GL_TEXTURE_2D, m_texture);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, iWidth, iHeight, 0, GL_RGB, GL_FLOAT, pData);
+
+		// set the texture wrapping/filtering options (on the currently bound texture object)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
 		stbi_image_free(pData);
 
 	}
@@ -199,7 +207,7 @@ void SkyBox::Draw()
 {
 	
 	Camera* pCamera = Camera::getInstance();
-	float scale_factor = 10.0f;
+	float scale_factor = 1000.0f;
 
 	glDepthFunc(GL_LEQUAL);
 	m_shaderID->Use();
@@ -230,6 +238,7 @@ void SkyBox::Draw()
 
 	glBindVertexArray(m_vao);
 
+	
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_texture);
 	
