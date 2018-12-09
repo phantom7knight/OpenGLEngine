@@ -23,6 +23,9 @@ SkyBox::SkyBox()
 		"Assets/Textures/SkyBox/Test1/back.jpg",
 		"Assets/Textures/SkyBox/Test1/front.jpg",
 	};
+
+	m_HDRTexture = "Assets/Textures/HDR/Alexs_Apt_2k.hdr";
+
 }
 
 
@@ -36,10 +39,13 @@ bool SkyBox::InitializeSkyBox(const GLchar* VertexShaderPath, const GLchar* Pixe
 	m_shaderID = new Shader(VertexShaderPath, PixelShaderPath);
 
 	m_shaderID->Use();
-	m_shaderID->SetInt(m_shaderID->GetShaderID(), "textureskybox", 0);
 
-	LoadSkyBox();
+	//m_shaderID->SetInt(m_shaderID->GetShaderID(), "textureskybox", 0);
+	m_shaderID->SetInt(m_shaderID->GetShaderID(), "HDRTexture", 0);
 
+	//LoadSkyBox();
+	LoadTexture();
+	
 	return true;
 }
 
@@ -47,6 +53,7 @@ void SkyBox::LoadSkyBox()
 {
 	//Loads Texture
 
+	//m_texture = LoadSkyBoxTexture();
 	m_texture = LoadTexture();
 	
 	//Gen and Bind  all the skybox data
@@ -115,8 +122,41 @@ void SkyBox::LoadSkyBox()
 
 }
 
-
 unsigned int SkyBox::LoadTexture()
+{
+	int32 iWidth, iHeight, iChannels;
+
+	glGenTextures(1, &m_texture);
+	glBindTexture(GL_TEXTURE_2D, m_texture);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, 1366, 768, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+	// set the texture wrapping/filtering options (on the currently bound texture object)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	unsigned char* pData = stbi_load(m_HDRTexture.c_str(), &iWidth, &iHeight, &iChannels, 0);
+	if (pData)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, iWidth, iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, pData);
+		stbi_image_free(pData);
+
+	}
+	else
+	{
+		std::cout << "Error in loading HDR Texture" << std::endl;
+		stbi_image_free(pData);
+	}
+
+
+	return m_texture;
+}
+
+
+unsigned int SkyBox::LoadSkyBoxTexture()
 {
 
 	glGenTextures(1, &m_texture);
@@ -189,9 +229,13 @@ void SkyBox::Draw()
 
 
 	glBindVertexArray(m_vao);
+
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
+	glBindTexture(GL_TEXTURE_2D, m_texture);
+	
 	glDrawArrays(GL_TRIANGLES, 0, 36);
+	
+	
 	glBindVertexArray(0);
 
 	glDepthFunc(GL_FALSE);

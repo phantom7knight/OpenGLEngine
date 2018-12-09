@@ -134,7 +134,7 @@ void Renderer::RendererUpdate()
 	#pragma endregion
 
 
-	//m_skybox->Draw();
+	m_skybox->Draw();
 
 }
 
