@@ -10,8 +10,10 @@ uniform samplerCube textureskybox;
 void main()
 {
 
-vec3 result_SkyboxTexture = texture(textureskybox, TexCoords).xyz;
+vec4 result_SkyboxTexture = texture(textureskybox, TexCoords);
 
-FragColor = vec4(result_SkyboxTexture,1.0f);
+vec4 final_color = result_SkyboxTexture;
+
+FragColor = final_color;
 
 }

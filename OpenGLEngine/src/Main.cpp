@@ -12,6 +12,7 @@ int main(void)
 	if (Game::getInstance()->Init())
 	{
 		Game::getInstance()->Run();
+		
 	}
 
 	Game::getInstance()->Destroy();
