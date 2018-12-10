@@ -10,14 +10,32 @@ public:
 	FrameBuffer();
 	~FrameBuffer();
 
-	unsigned int CreateTextureFBO(unsigned int texture_name, int format);
+	void CreateTextureFBO(unsigned int& texture_name, int internal_format, unsigned int format);
 
-	void SetFrameBuffer(unsigned int &FBO, unsigned int& texture);
-	void BindFrameBuffer(unsigned int& FBO);
-	void UnBindFrameBuffer(unsigned int& FBO);
+	void SetFrameBuffer();
+	void BindFrameBuffer();
+	void UnBindFrameBuffer();
+
+	inline unsigned	int	getFBO();
+	inline unsigned int getTexture();
 
 private:
 
-	//std::vector<unsigned int> TextureList;
+	unsigned int m_uReflectionMapUp;
+	unsigned int m_uReflectionMapDown;
+
+
+	unsigned int m_uFbo;
+	unsigned int m_texture;
+
 };
 
+inline unsigned int FrameBuffer::getFBO()
+{
+	return m_uFbo;
+}
+
+inline unsigned int FrameBuffer::getTexture()
+{
+	return m_texture;
+}

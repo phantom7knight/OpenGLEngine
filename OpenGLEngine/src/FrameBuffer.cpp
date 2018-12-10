@@ -19,20 +19,19 @@ FrameBuffer::~FrameBuffer()
 {
 }
 
-unsigned int FrameBuffer::CreateTextureFBO(unsigned int texture_name, int format)
+void FrameBuffer::CreateTextureFBO(unsigned int& texture_name, int internal_format, unsigned int format)
 {
 	//===================================================
 	//TO DO: GENERALIZE IT
 	//===================================================
-
-
+	
 	//Generate Texture
 	glGenTextures(1, &texture_name);
 	
-	////Bind Texture
+	//Bind Texture
 	glBindTexture(GL_TEXTURE_2D, texture_name);
 	
-	glTexImage2D(GL_TEXTURE_2D, 0, format, Screen_Width1, Screen_Height1, 0, format, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, internal_format, Screen_Width1, Screen_Height1, 0, format, GL_FLOAT, NULL);
 
 	//Texture Properties
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -40,43 +39,55 @@ unsigned int FrameBuffer::CreateTextureFBO(unsigned int texture_name, int format
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	return texture_name;
-		
+
 }
 
-void FrameBuffer::SetFrameBuffer(unsigned int & FBO, unsigned int& texture)
+void FrameBuffer::SetFrameBuffer()
 {
-	//Create Texture
-
-	unsigned int depthmap = 0;
-	depthmap = CreateTextureFBO(depthmap, GL_DEPTH_COMPONENT);//Since we are using for the depth mapping we use gl_depth_component
 
 	//Generate FBO
-	glGenFramebuffers(1, &FBO);
+	glGenFramebuffers(1, &m_uFbo);
 	
 	//Bind FBO	
-	BindFrameBuffer(FBO);
+	BindFrameBuffer();
 
-	//Attach the color attachments
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthmap, 0);
+	//Create Texture and make color attachments
+
+	CreateTextureFBO(m_texture, GL_RGB16F, GL_RGB);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture, 0);
+
+	
+	GLuint colorattachments[] = {
+		GL_COLOR_ATTACHMENT0
+	};
+
+	glDrawBuffers(1, colorattachments);
 
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
 
+	
+	GLenum eStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+	if (eStatus != GL_FRAMEBUFFER_COMPLETE)
+	{
+		std::cout << "FBO Error, status: " << eStatus << std::endl;
+	}
+
 	//UnBind FBO
 
-	UnBindFrameBuffer(FBO);
+	UnBindFrameBuffer();
 
 }
 
 
 
-void FrameBuffer::BindFrameBuffer(unsigned int & FBO)
+void FrameBuffer::BindFrameBuffer()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_uFbo);
 }
 
-void FrameBuffer::UnBindFrameBuffer(unsigned int & FBO)
+void FrameBuffer::UnBindFrameBuffer()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

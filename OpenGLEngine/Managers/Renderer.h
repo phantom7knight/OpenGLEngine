@@ -16,12 +16,16 @@
 
 //class Shader;
 class ShapeGenerator;
+class FrameBuffer;
 
 class Renderer
 {
 protected:
 
-	void  ShadowPass();
+	void	ShadowPass();
+	void	ReflectionPass();
+	void	FinalPass();
+
 
 private:
 	static Renderer* m_Instance;
@@ -38,6 +42,13 @@ public:
 
  	void Init();
 	void RendererUpdate();
+	void ReflectionInitilaize();
+
+private:
+	
+	Shader* m_useShader;
+	Shader* m_reflectionShader;
+
 
 	ShapeGenerator* m_shapegen;
 	ShapeGenerator* m_shapegen2;
@@ -46,8 +57,9 @@ public:
 	FrameBuffer* m_pFrameBuffer;
 	SkyBox*		 m_skybox;
 
-	unsigned int m_depthMapFBO;
-	unsigned int m_Shadowmap;
+	FrameBuffer* m_reflectionUpFBO;
+	FrameBuffer* m_reflectionDownFBO;
+
 
 
 

@@ -118,9 +118,7 @@ bool Game::Init()
 	Renderer::getInstance()->Init();
 
 	ImguiManager::getInstance()->ImguiInit(m_pwindow);
-
-
-
+	
 
 	return true;
 }
@@ -168,9 +166,6 @@ void Game::Run()
 
 
 
-
-
-//int counter = 0;
 void Game::Update()
 {
 

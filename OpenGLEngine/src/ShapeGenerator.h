@@ -54,7 +54,7 @@ public:
 	void	Cube_Generator();
 	void	Plane_Generator();
 
-	void	Update();
+	void	Update(Shader* a_useShader);
 	
 	inline	Material getMaterial()
 	{

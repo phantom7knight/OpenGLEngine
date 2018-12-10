@@ -43,6 +43,8 @@ Renderer::~Renderer()
 	SAFE_DELETE(m_pFrameBuffer);
 	SAFE_DELETE(m_skybox);
 
+	SAFE_DELETE(m_reflectionShader);
+
 	SAFE_DELETE(m_Instance);
 
 
@@ -108,13 +110,32 @@ void Renderer::Init()
 	m_ShapeGenList.push_back(m_shapegen3);
 	#pragma endregion
 	
-	//m_ShadowShader = new Shader("Shaders/Shadow.vs","Shaders/Shadow.fs");
 	m_skybox = new SkyBox();
 	
 	m_skybox->InitializeSkyBox("Shaders/SkyBox.vs", "Shaders/SkyBox.fs");
 
+	//Function Initializes
+	ReflectionInitilaize();
+
+
 }
 
+void Renderer::ReflectionInitilaize()
+{
+	//Top Map
+	m_reflectionUpFBO = new FrameBuffer();
+	m_reflectionUpFBO->SetFrameBuffer();
+
+	//Bottom Map
+	m_reflectionUpFBO = new FrameBuffer();
+	m_reflectionUpFBO->SetFrameBuffer();
+
+
+	m_reflectionShader = new Shader("Shaders/Reflection.vs", "Shaders/Reflection.fs");
+	m_reflectionShader->Use();
+
+
+}
 
 void Renderer::ShadowPass()
 {
@@ -123,18 +144,81 @@ void Renderer::ShadowPass()
 
 }
 
-void Renderer::RendererUpdate()
+
+void Renderer::ReflectionPass()
 {
+	//====================================================================
+	//Pass 1 Top Map
+	//====================================================================
+	m_reflectionShader->Use();
+
+	m_reflectionShader->SetInt(m_reflectionShader->GetShaderID(), "IsTop", 1);
+
+	m_reflectionShader->SetInt(m_reflectionShader->GetShaderID(), "topreflectionmap", 0);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_reflectionUpFBO->getTexture());
 
 	#pragma region	ShapeLists-Draw
 	for (unsigned int i = 0; i < m_ShapeGenList.size(); ++i)
 	{
-		m_ShapeGenList[i]->Update();
+		m_ShapeGenList[i]->Update(m_reflectionShader);
 	}
 	#pragma endregion
 
 
-	//m_skybox->Draw();
+	m_skybox->Draw();
 
+	//====================================================================
+	//Pass 2 Bottom Map
+	//====================================================================
+	m_reflectionShader->Use();
+
+	m_reflectionShader->SetInt(m_reflectionShader->GetShaderID(), "IsTop", 0);
+
+	m_reflectionShader->SetInt(m_reflectionShader->GetShaderID(), "bottomreflectionmap", 0);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_reflectionDownFBO->getTexture());
+
+	//Draw
+	#pragma region	ShapeLists-Draw
+	for (unsigned int i = 0; i < m_ShapeGenList.size(); ++i)
+	{
+		m_ShapeGenList[i]->Update(m_reflectionShader);
+	}
+	#pragma endregion
+
+
+	//Unbind FBO and Shader
+
+}
+
+
+
+
+void Renderer::FinalPass()
+{
+
+	m_useShader = new Shader("Shaders/Light.vs", "Shaders/Light.fs");
+
+
+	#pragma region	ShapeLists-Draw
+	for (unsigned int i = 0; i < m_ShapeGenList.size(); ++i)
+	{
+		m_ShapeGenList[i]->Update(m_useShader);
+	}
+	#pragma endregion
+
+
+	m_skybox->Draw();
+}
+
+
+void Renderer::RendererUpdate()
+{
+	ReflectionPass();
+	
+	FinalPass();
 }
 

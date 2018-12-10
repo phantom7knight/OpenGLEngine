@@ -213,30 +213,33 @@ void ShapeGenerator::Plane_Generator()
 	glBindVertexArray(0);
 }
 
-void ShapeGenerator::Update()
+void ShapeGenerator::Update(Shader* a_useShader)
 { 
+	if (a_useShader == NULL)
+	{
+		a_useShader = m_useShader;
+	}
 
-
-	m_useShader->Use();
+	a_useShader->Use();
 
 	#pragma region Object properties
 	//Object Color
-	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "objectCol", m_material.objectColor.x, m_material.objectColor.y, m_material.objectColor.z);
+	a_useShader->SetUniform3f(a_useShader->GetShaderID(), "objectCol", m_material.objectColor.x, m_material.objectColor.y, m_material.objectColor.z);
 	#pragma endregion
 
 	//eyepos
-	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "cameraPos", Camera::getInstance()->Camera_Pos_.x, Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
+	a_useShader->SetUniform3f(a_useShader->GetShaderID(), "cameraPos", Camera::getInstance()->Camera_Pos_.x, Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
 
 	#pragma region Light-Properties
 
 
 	//Light Position
 	glm::vec3 lightposition = ImguiManager::getInstance()->getLightPosition();
-	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "lightPos", lightposition.x, lightposition.y, lightposition.z);
+	a_useShader->SetUniform3f(a_useShader->GetShaderID(), "lightPos", lightposition.x, lightposition.y, lightposition.z);
 
 	//Light intensity
 	float lightInten = ImguiManager::getInstance()->getLightIntensity();
-	m_useShader->SetUniform1f(m_useShader->GetShaderID(), "Lightintensity", lightInten);
+	a_useShader->SetUniform1f(a_useShader->GetShaderID(), "Lightintensity", lightInten);
 
 
 	#pragma endregion
@@ -255,7 +258,7 @@ void ShapeGenerator::Update()
 
 	glm::mat4 modelmat = translatemat * rotatemat * scalemat;
 
-	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "modelmat", modelmat);
+	a_useShader->SetUniformMatrix4fv(a_useShader->GetShaderID(), "modelmat", modelmat);
 	
 	//=======================================================================================================
 	//View Matrix
@@ -263,7 +266,7 @@ void ShapeGenerator::Update()
 
 	glm::mat4 viewmat;
 	viewmat = Camera::getInstance()->GetViewmat();
-	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "viewmat", viewmat);
+	a_useShader->SetUniformMatrix4fv(a_useShader->GetShaderID(), "viewmat", viewmat);
 
 	//=======================================================================================================
 	//Projection Matrix
@@ -272,14 +275,14 @@ void ShapeGenerator::Update()
 	glm::mat4 projectionmat;
 
 	projectionmat = Camera::getInstance()->GetProjmat();
-	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "projectionmat", projectionmat);
+	a_useShader->SetUniformMatrix4fv(a_useShader->GetShaderID(), "projectionmat", projectionmat);
 
 	//=======================================================================================================
 	//ModelViewProjection Matix
 	//=======================================================================================================
 
-	glm::mat4 MVP_matrix = projectionmat * viewmat* modelmat;
-	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "MVP_matrix", MVP_matrix);
+	//glm::mat4 MVP_matrix = projectionmat * viewmat* modelmat;
+	//a_useShader->SetUniformMatrix4fv(a_useShader->GetShaderID(), "MVP_matrix", MVP_matrix);
 
 	#pragma	endregion
 

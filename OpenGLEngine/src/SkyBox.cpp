@@ -115,7 +115,6 @@ void SkyBox::LoadSkyBox()
 
 }
 
-
 unsigned int SkyBox::LoadTexture()
 {
 
@@ -152,14 +151,11 @@ unsigned int SkyBox::LoadTexture()
 	return m_texture;
 }
 
-
-
-
 void SkyBox::Draw()
 {
 	
 	Camera* pCamera = Camera::getInstance();
-	float scale_factor = 10.0f;
+	float scale_factor = 1000.0f;
 
 	glDepthFunc(GL_LEQUAL);
 	m_shaderID->Use();
@@ -169,7 +165,7 @@ void SkyBox::Draw()
 	mat4 scale_mat = mat4(1);
 	scale_mat = glm::scale(mat4(1), vec3(scale_factor));
 
-	vec3 cubemap_pos = vec3(1, 1, 1);// +pCamera->GetCameraPos();
+	vec3 cubemap_pos = vec3(1, 1, 1) + pCamera->GetCameraPos();
 
 	glm::mat4 translate_mat = glm::mat4(1);
 	translate_mat = glm::translate(mat4(1), cubemap_pos);
