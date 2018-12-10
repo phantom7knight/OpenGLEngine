@@ -30,12 +30,14 @@ struct ObjectProperties
 {
 	glm::vec3	translate;
 	float		scalefactor;
+	glm::vec3	rotation;
 
 
 	ObjectProperties()
 	{
 		translate	= glm::vec3(0.0f, 0.0f, 0.0f);
 		scalefactor = 1.0f;
+		rotation = glm::vec3(0.0, 0.0, 0.0);
 	}
 };
 
