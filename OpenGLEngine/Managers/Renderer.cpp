@@ -127,8 +127,8 @@ void Renderer::ReflectionInitilaize()
 	m_reflectionUpFBO->SetFrameBuffer();
 
 	//Bottom Map
-	m_reflectionUpFBO = new FrameBuffer();
-	m_reflectionUpFBO->SetFrameBuffer();
+	m_reflectionDownFBO = new FrameBuffer();
+	m_reflectionDownFBO->SetFrameBuffer();
 
 
 	m_reflectionShader = new Shader("Shaders/Reflection.vs", "Shaders/Reflection.fs");
