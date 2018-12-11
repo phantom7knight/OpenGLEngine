@@ -53,6 +53,7 @@ public:
 
 	void	Cube_Generator();
 	void	Plane_Generator();
+	void	Sphere_Generator();
 
 	void	Update(Shader* a_useShader);
 	
@@ -71,6 +72,7 @@ private:
 	unsigned int		m_VAO;
 	unsigned int		m_VBO;
 	unsigned int		m_IBO;
+	unsigned int		m_indexCount;
 
 	int					m_type;
 

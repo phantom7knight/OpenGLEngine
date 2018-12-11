@@ -61,7 +61,7 @@ void Renderer::Init()
 	m_shapegen = new ShapeGenerator();
 	
 	Material obj_material1;
-	obj_material1.objectColor= glm::vec3(1.0, 0.0, 1.0);
+	obj_material1.objectColor= glm::vec3(0.5, 0.5, 0.5);
 	
 	ObjectProperties obj_proper1;
 	obj_proper1.scalefactor = 0.8f;
@@ -80,14 +80,14 @@ void Renderer::Init()
 	m_shapegen2 = new ShapeGenerator();
 	
 	Material obj_material2;
-	obj_material2.objectColor = glm::vec3(1.0, 1.0, 0.8);
+	obj_material2.objectColor = glm::vec3(0.5, 0.5, 0.5);
 
 	ObjectProperties obj_proper2;
 	obj_proper2.scalefactor = 0.5f;
 	obj_proper2.translate = glm::vec3(-1.8f, 0.0f, 10.0f);
 	
 	
-	m_shapegen2->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 0, obj_material2, obj_proper2);
+	m_shapegen2->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 2, obj_material2, obj_proper2);
 
 	m_ShapeGenList.push_back(m_shapegen2);
 		
@@ -103,7 +103,7 @@ void Renderer::Init()
 
 	ObjectProperties obj_proper3;
 	obj_proper3.scalefactor = 12.8f;
-	obj_proper3.translate = glm::vec3(-0.8f, -1.0f, 10.0f);
+	obj_proper3.translate = glm::vec3(-0.8f, -5.0f, 20.0f);
 
 	m_shapegen3->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 1, obj_material3, obj_proper3);
 
@@ -223,6 +223,7 @@ void Renderer::ReflectionPass()
 	#pragma region	ShapeLists-Draw
 	for (unsigned int i = 0; i < m_ShapeGenList.size(); ++i)
 	{
+		if (i != 2)
 		m_ShapeGenList[i]->Update(m_reflectionShader);
 	}
 	#pragma endregion
@@ -256,6 +257,7 @@ void Renderer::ReflectionPass()
 	#pragma region	ShapeLists-Draw
 	for (unsigned int i = 0; i < m_ShapeGenList.size(); ++i)
 	{
+		if ( i != 2)
 		m_ShapeGenList[i]->Update(m_reflectionShader);
 	}
 	#pragma endregion
