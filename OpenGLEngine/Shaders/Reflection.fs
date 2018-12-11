@@ -1,13 +1,12 @@
 #version 330 core
 
 
-
 in vec2 TexCoords;
 in vec3 Normals;
 in vec3 Fragpos;
-in vec3 center_reflection;
+in vec3 center_reflection_out;
 
-out FragColor;
+out vec4 FragColor;
 
 int lightMode = 1;
 
@@ -27,7 +26,7 @@ vec3 CalculateDirectionalLight()
 	//vec3 lightdir = vec3(0.0,100.0,-400.0);
 	
 	vec3 L = normalize(lightPos - Fragpos);			 //(lightPos - Fragpos);
-	vec3 V = normalize(center_reflection - Fragpos); //cameraPos
+	vec3 V = normalize(center_reflection_out - Fragpos); //cameraPos
 	vec3 N = normalize(Normals);
 	N = abs(N);
 	
@@ -64,5 +63,5 @@ void main()
 	vec3 result_Dir = CalculateDirectionalLight();
 
 	FragColor = vec4(result_Dir,1.0);
-		
+	//FragColor = vec4(1.0,1.0,0.0,1.0);
 }

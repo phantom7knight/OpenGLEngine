@@ -11,11 +11,14 @@ uniform mat4 projectionmat;
 
 out vec3 Fragpos;
 out vec3 Normals;
+out vec2 TexCoords;
 
 
 
 void main()
 {
+
+	TexCoords = light_texture;
 
 	Fragpos = vec3(modelmat * vec4(light_cords,1.0));
 	

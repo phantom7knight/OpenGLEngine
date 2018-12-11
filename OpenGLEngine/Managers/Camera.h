@@ -37,10 +37,12 @@ public:
 
 	glm::mat4 viewmat;
 	glm::mat4 projectionmat;
+	glm::mat4 Orthonmat;
 
 	void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
 
 	void CameraUpdate();
+
 	
 	glm::vec3 GetCameraPos()
 	{
@@ -51,12 +53,16 @@ public:
 	glm::mat4 GetViewmat()
 	{
 		viewmat = glm::lookAt(Camera_Pos_, Camera_Pos_ + Camera_Front_, Camera_Up_);
-		//viewmat = glm::translate(glm::mat4(1), Camera_Pos_);
 		return viewmat;
 	}
 	glm::mat4 GetProjmat()
 	{
 		return projectionmat;
+	}
+
+	glm::mat4 GetOrthographicmat()
+	{
+		return Orthonmat;
 	}
 
 };

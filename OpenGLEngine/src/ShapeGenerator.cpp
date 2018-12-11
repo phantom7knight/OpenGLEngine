@@ -243,6 +243,8 @@ void ShapeGenerator::Update(Shader* a_useShader)
 
 
 	#pragma endregion
+
+
 	#pragma region MVP
 	//=======================================================================================================
 	//Modelling Matrix

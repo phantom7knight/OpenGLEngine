@@ -4,6 +4,7 @@ out vec4 fragColor;
 
 in vec3 Normals;
 in vec3 Fragpos;
+in vec2 TexCoords;
 
 
 uniform vec3	objectCol;
@@ -15,13 +16,10 @@ uniform vec3	lightPos;
 uniform float 	Lightintensity;
 
 
+//Smapler Texture
 
-struct PointLight
-{
-	float constant 	;
-	float linear   	;
-	float quadratic	;
-};
+uniform sampler2D reflectionUp;
+uniform sampler2D reflectionDown;
 
 int lightMode = 1;
 
@@ -70,6 +68,24 @@ vec3 CalculateDirectionalLight()
 		vec3 V = normalize(cameraPos - Fragpos);
 		vec3 N = normalize(Normals);
 		N = abs(N);
+
+		vec3 R = 2 * dot(V,N) * N - V;
+
+		vec3 reflectionCoords = R / length(R);
+		vec3 reflection;
+
+		if(reflectionCoords.z < 0)
+		{
+			
+			vec2 accessReflectionCoords = vec2((reflectionCoords.x / (1 - reflectionCoords.z)) * 0.5 + 0.5 , (reflectionCoords.y / (1 - reflectionCoords.z)) * 0.5 + 0.5);
+			reflection = texture(reflectionDown,accessReflectionCoords).xyz;
+		}
+		else
+		{
+			vec2 accessReflectionCoords = vec2((reflectionCoords.x / (1 + reflectionCoords.z)) * 0.5 + 0.5 , 	(reflectionCoords.y / (1 + reflectionCoords.z)) * 0.5 + 0.5);
+			reflection = texture(reflectionDown,accessReflectionCoords).xyz;
+		}
+
 		
 		vec3 	H 		= 	normalize(L + V);
 		float 	LN 		=	max(dot(N,L),0.0); 
@@ -90,7 +106,7 @@ vec3 CalculateDirectionalLight()
 		
 		vec3 BRDF  = kd/3.14 + ( DTerm * Gterm * FresnelTerm) / 4;
 		
-		vec3 final_BRDF = (Ia * kd + I * BRDF * (LN)) * Lightintensity;
+		vec3 final_BRDF = (Ia * kd + I * BRDF * (LN)) * Lightintensity + reflection.xyz;
 		
 		return final_BRDF * objectCol;
 
@@ -99,56 +115,14 @@ vec3 CalculateDirectionalLight()
 
 }
 
-vec3 CalculatePointLight(PointLight pLight)
-{
-	vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
-	
-    pLight.constant 	= 0.10f;
-    pLight.linear   	= 0.09f;
-    pLight.quadratic	= 0.032f;
-
-	//vec3 objectColor = normalize(objectCol);
-	
-    //Ambient Color
-    vec3 ambientColor = vec3(1.0f,1.0f,1.0f);
-    float ambientStrength = 0.5;
-    ambient = ambientStrength * ambientColor * objectCol;
-
-    //Diffuse 
-	vec3 lightdir = normalize(lightPos - Fragpos);
-	vec3 norm = normalize(Normals);
-	float diff = max(dot(norm,lightdir),0.0);
-	diffuse = diff * objectCol;
-
-    //Specular
-	float specularStrength = 0.5f;
-	float specularIntensity = 256;
-	vec3 viewdir = normalize(cameraPos - Fragpos);
-	vec3 reflectdir = reflect(-lightdir,norm);
-	float spec = pow(max(dot(viewdir,reflectdir),0.0),specularIntensity);
-	specular = specularStrength * spec * objectCol;
-
-
-	float distance = length(lightPos - Fragpos);
-	float attenuation = 1.0f / (pLight.constant + pLight.linear * distance + (pLight.quadratic * distance * distance));
-
-	ambient *= attenuation;
-	diffuse *= attenuation;
-	specular *= attenuation;
-
-    return (specular + ambient + diffuse);
-}
-
 void main()
 {
-	PointLight pLight;
 	
 	vec3 result_Dir = CalculateDirectionalLight();
 	
-	//vec3 result_Point = CalculatePointLight(pLight);
-
 	fragColor = vec4(result_Dir,1.0);
+
+	//fragColor = vec4(texture(reflectionUp,TexCoords).xyz,1.0);
+
 		
 }

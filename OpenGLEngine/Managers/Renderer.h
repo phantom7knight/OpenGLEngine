@@ -35,6 +35,7 @@ private:
 
 public:
 	Shader* m_ShadowShader;
+	Shader* m_Quad;
 
 	Renderer();
 	~Renderer();
@@ -43,6 +44,7 @@ public:
  	void Init();
 	void RendererUpdate();
 	void ReflectionInitilaize();
+	void RenderQuadForFBO();
 
 private:
 	

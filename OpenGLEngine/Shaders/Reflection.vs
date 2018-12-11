@@ -13,7 +13,7 @@ uniform mat4 projectionmat;
 out vec2 TexCoords;
 out vec3 Normals;
 out vec3 FragPos;
-out vec3 center_reflection;
+out vec3 center_reflection_out;
 
 uniform vec3 center_reflection;
 uniform int IsTop;
@@ -23,6 +23,9 @@ void main()
     FragPos = vec3(modelmat * vec4(aPosition,.0));
 
     vec3 R = FragPos - center_reflection;
+    
+    center_reflection_out =  center_reflection;
+
     vec3 final_res = FragPos / length(FragPos);
 
     Normals = mat3(transpose(inverse(modelmat))) * aNormals ;

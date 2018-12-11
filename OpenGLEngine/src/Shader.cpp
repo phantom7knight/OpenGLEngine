@@ -109,6 +109,11 @@ void Shader::Use()
 	glUseProgram(shader_ID);
 }
 
+void Shader::UnUse()
+{
+	glUseProgram(0);
+}
+
 
 void Shader::ClearShader()
 {
