@@ -1,4 +1,5 @@
 #include "ImguiManager.h"
+#include "../src/Constants.h"
 
 ImguiManager* ImguiManager::m_Instance = nullptr;
 
@@ -49,6 +50,21 @@ void ImguiManager::ShowControlsProperties()
 	ImGui::End();
 }
 
+void ImguiManager::RenderingMode()
+{
+	ImGui::Begin("Render Options");
+
+	const char* items[] = { "FWD_RENDERERING","DEFERRED_RENDERERING" };
+	int size = 2;
+	static int current_item = 0;
+
+	ImGui::Combo("Render Mode", &current_item, items, size);
+	
+	m_renderMode = current_item;
+
+	ImGui::End();
+}
+
 
 void ImguiManager::ImguiInit(GLFWwindow* window)
 {
@@ -61,6 +77,7 @@ void ImguiManager::ImguiInit(GLFWwindow* window)
 
 bool show_another_window	= false;
 bool show_another_window2	= true;
+bool show_another_window3	= true;
 
 
 void ImguiManager::ImguiUpdate()
@@ -83,14 +100,20 @@ void ImguiManager::ImguiUpdate()
 	ImGui::Checkbox("Light", &show_another_window2);
 
 
+
 	if (show_another_window)
 	{
 		ShowControlsProperties();
-	} 
+	}
 
 	if (show_another_window2)
 	{
 		ShowLightProperties();
+	}
+
+	if (show_another_window3)
+	{
+		RenderingMode();
 	}
 
 	//===============================================================

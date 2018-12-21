@@ -3,6 +3,7 @@
 
 #include "../src/stb_image.h"
 #include "../src/ShapeGenerator.h"
+#include "../Managers/ImguiManager.h"
 
 #include "../src/Constants.h"
 
@@ -61,7 +62,7 @@ void Renderer::Init()
 	m_shapegen = new ShapeGenerator();
 	
 	Material obj_material1;
-	obj_material1.objectColor= glm::vec3(0.5, 0.5, 0.5);
+	obj_material1.objectColor= glm::vec3(1.0, 1.0, 0.5);
 	
 	ObjectProperties obj_proper1;
 	obj_proper1.scalefactor = 0.8f;
@@ -120,6 +121,10 @@ void Renderer::Init()
 	m_useShader = new Shader("Shaders/Light.vs", "Shaders/Light.fs");
 	
 	m_Quad = new Shader("Shaders/Quad.vs", "Shaders/Quad.fs");
+
+
+	GBufferInitialize();
+
 }
 
 void Renderer::ReflectionInitilaize()
@@ -138,17 +143,21 @@ void Renderer::ReflectionInitilaize()
 
 }
 
-void Renderer::ShadowPass()
-{
-	//m_pFrameBuffer->SetFrameBuffer(m_depthMapFBO, m_Shadowmap);
 
+void Renderer::GBufferInitialize()
+{
+	m_gbuffer = new FrameBuffer();
+	m_gbuffer->SetFrameBuffer();
+
+	m_GbufferShader = new Shader("Shader/GBuffer.vs", "Shader/GBuffer.fs");
+	m_GbufferShader->Use();
 
 }
 
 void Renderer::RenderQuadForFBO()
 {
 
-	
+
 
 	unsigned int uQuadVAO = 0;
 	unsigned int uQuadVBO;
@@ -168,12 +177,12 @@ void Renderer::RenderQuadForFBO()
 
 		glBindVertexArray(uQuadVAO);
 		glBindBuffer(GL_ARRAY_BUFFER, uQuadVBO);
-		
+
 		glBufferData(GL_ARRAY_BUFFER, sizeof(fVertices), &fVertices, GL_STATIC_DRAW);
 
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
-		
+
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
 
@@ -198,6 +207,21 @@ void Renderer::RenderQuadForFBO()
 	glBindVertexArray(0);
 }
 
+
+void Renderer::GBufferPass()
+{
+
+}
+
+
+void Renderer::ShadowPass()
+{
+	//m_pFrameBuffer->SetFrameBuffer(m_depthMapFBO, m_Shadowmap);
+
+
+}
+
+
 void Renderer::ReflectionPass()
 {
 	//====================================================================
@@ -217,8 +241,6 @@ void Renderer::ReflectionPass()
 	glm::vec3 cor = glm::vec3(0, 10, 0);
 	m_reflectionShader->SetUniform3f(m_reflectionShader->GetShaderID(), "center_reflection", cor.x, cor.y, cor.z);
 
-	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, m_reflectionUpFBO->getTexture());
 
 	#pragma region	ShapeLists-Draw
 	for (unsigned int i = 0; i < m_ShapeGenList.size(); ++i)
@@ -249,9 +271,6 @@ void Renderer::ReflectionPass()
 	//glm::vec3 cor = glm::vec3(0, 0, 0);
 	m_reflectionShader->SetUniform3f(m_reflectionShader->GetShaderID(), "center_reflection", cor.x, cor.y, cor.z);
 
-
-	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, m_reflectionDownFBO->getTexture());
 
 	//Draw
 	#pragma region	ShapeLists-Draw
@@ -297,7 +316,8 @@ void Renderer::FinalPass()
 
 
 	m_useShader->SetInt(m_useShader->GetShaderID(), "reflectionUp", 0);
-	m_useShader->SetInt(m_useShader->GetShaderID(), "reflectionDown", 1);
+	m_useShader->SetInt(m_useShader->GetShaderID(), "reflectionDown", 1); 
+	m_useShader->SetInt(m_useShader->GetShaderID(), "IsReflection", 0);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(m_useShader->GetShaderID(), m_reflectionUpFBO->getFBO());
@@ -321,8 +341,24 @@ void Renderer::FinalPass()
 
 void Renderer::RendererUpdate()
 {
-	ReflectionPass();
+	int mode = ImguiManager::getInstance()->getRenderMode();
+
+	//FWD_RENDDERING
+	if (mode == 0)
+	{
+		//ReflectionPass();
+		FinalPass();
+	}
+	//DEFERRED_RENDERING
+	else
+	{
+		//GBUFFER PASS
+		GBufferPass();
+		
+		//LIGHT PASS
+		
+		// LightPass();
+	}
 	
-	FinalPass();
 }
 

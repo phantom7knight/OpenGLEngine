@@ -13,3 +13,14 @@ if(arrpointer)							 \
 	delete[]arrpointer;					 \
 	arrpointer = nullptr;				 \
 }										 \
+
+#define FUNCTION_INITIALIZE(functionname)	\
+if (!functionname())						\
+{											\
+return false;								\
+}											\
+
+
+#define PRINT_LOG(infohere) \
+printf(infohere);			\
+

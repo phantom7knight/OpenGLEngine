@@ -13,11 +13,13 @@ private:
 	glm::vec3	m_LightPosition;
 	float		m_lightIntensity;
 	int			m_specularIntensity;
+	int			m_renderMode;
 
 
 protected:
 	void ShowLightProperties();
 	void ShowControlsProperties();
+	void RenderingMode();
 
 
 public:
@@ -26,8 +28,9 @@ public:
 
 	static ImguiManager* getInstance();
 
-	inline glm::vec3 getLightPosition();
-	inline float getLightIntensity();
+	inline glm::vec3	getLightPosition();
+	inline float		getLightIntensity();
+	inline int			getRenderMode();
 	
 	void ImguiInit(GLFWwindow* window);
 	void ImguiUpdate();
@@ -42,4 +45,9 @@ inline glm::vec3 ImguiManager::getLightPosition()
 inline float ImguiManager::getLightIntensity()
 {
 	return m_lightIntensity;
+}
+
+inline int ImguiManager::getRenderMode()
+{
+	return m_renderMode;
 }

@@ -20,8 +20,73 @@ uniform float 	Lightintensity;
 
 uniform sampler2D reflectionUp;
 uniform sampler2D reflectionDown;
+uniform int IsReflection;
+
+#define PI 3.14
 
 int lightMode = 1;
+
+
+//======================================================================
+//Trowbridge Reitz Distribution GGX
+
+float DistributionGGX(float alpha,vec3 N,vec3 H)
+{
+	float numerator = alpha * alpha;
+	float NH = max(dot(N,H),0.0);
+	float Aminus1 = (alpha * alpha) - 1;
+
+	float denominator = PI * pow((NH * Aminus1 + 1),2);
+
+	return (numerator / denominator);
+
+}
+//======================================================================
+
+
+
+//======================================================================
+//Schlick-Beckmann Geometry GGX
+float GeometrySchlick(vec3 N , vec3 Direction , float Alpha)
+{
+	float NDirection = max(dot(N,Direction),0.0); 
+
+	float denominator = (NDirection * (1 - Alpha)) + Alpha;
+
+	return (NDirection / denominator);
+}
+
+
+
+//Smith Geometry method
+float GeometrySmith(vec3 N, vec3 V,vec3 L, float Alpha)
+{
+	float ggx1 = GeometrySchlick(N,V,Alpha);
+	float ggx2 = GeometrySchlick(N,L,Alpha);
+
+	return ggx1 * ggx2;
+
+}
+//======================================================================
+
+
+//======================================================================
+//Fresnal Schlick
+vec3 FresnalSchlick(float costheta , vec3 F0)
+{
+	// float HV = max(dot(H,V),0.0);
+
+	// float A = pow((1 - HV),5);
+
+	// return BaseReflectivity + (1 - BaseReflectivity) * A;
+
+	return F0 + (1.0-F0) * pow(1.0-costheta,5.0);
+}
+
+
+
+//======================================================================
+
 
 
 vec3 CalculateDirectionalLight()
@@ -55,7 +120,7 @@ vec3 CalculateDirectionalLight()
 		return ( ambient );//+ diffuse + specular */
 	}
 	
-	else if(lightMode == 1)
+	else if(lightMode == 1)//Micro Facet BRDF Model
 	{
 
 		vec3 	kd 		= vec3(0.7,0.7,0.7);//strmaterial.diffuse;
@@ -106,13 +171,47 @@ vec3 CalculateDirectionalLight()
 		
 		vec3 BRDF  = kd/3.14 + ( DTerm * Gterm * FresnelTerm) / 4;
 		
-		vec3 final_BRDF = (Ia * kd + I * BRDF * (LN)) * Lightintensity + reflection.xyz;
+		vec3 final_BRDF;
+
+		if(IsReflection == 1)
+		{
+			final_BRDF = (Ia * kd + I * BRDF * (LN)) * Lightintensity + reflection.xyz;
+		}
+		else
+		{
+			final_BRDF = (Ia * kd + I * BRDF * (LN)) * Lightintensity;
+		}
+		
 		
 		return final_BRDF * objectCol;
 
 
 	}
 
+	else if(lightMode == 2)//Cook Torrence BRDF Model
+	{
+		//Parameters
+		float alpha;//Roughness
+			
+		vec3 L = normalize(lightPos - Fragpos);			//(lightPos - Fragpos);
+		vec3 V = normalize(cameraPos - Fragpos);
+		vec3 N = normalize(Normals);
+		vec3 H = (L + V) / length(L + V);
+
+		float metalness;
+		vec3 F0 =  vec3(0.2);
+		F0 = mix(F0,objectCol.rgb,metalness);
+
+		//N = abs(N);
+
+
+		//float D = DistributionGGX(alpha,Normals,H);
+		//float G = GeometrySmith();
+		//vec3  F = FresnalSchlick();
+		
+
+
+	}
 }
 
 void main()
@@ -122,7 +221,5 @@ void main()
 	
 	fragColor = vec4(result_Dir,1.0);
 
-	//fragColor = vec4(texture(reflectionUp,TexCoords).xyz,1.0);
 
-		
 }

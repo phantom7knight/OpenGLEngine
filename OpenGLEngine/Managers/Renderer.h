@@ -22,6 +22,7 @@ class Renderer
 {
 protected:
 
+	void	GBufferPass();
 	void	ShadowPass();
 	void	ReflectionPass();
 	void	FinalPass();
@@ -43,6 +44,7 @@ public:
 
  	void Init();
 	void RendererUpdate();
+	void GBufferInitialize();
 	void ReflectionInitilaize();
 	void RenderQuadForFBO();
 
@@ -50,6 +52,7 @@ private:
 	
 	Shader* m_useShader;
 	Shader* m_reflectionShader;
+	Shader* m_GbufferShader;
 
 
 	ShapeGenerator* m_shapegen;
@@ -62,6 +65,7 @@ private:
 	FrameBuffer* m_reflectionUpFBO;
 	FrameBuffer* m_reflectionDownFBO;
 
+	FrameBuffer* m_gbuffer;
 
 
 
