@@ -56,7 +56,7 @@ void ImguiManager::RenderingMode()
 
 	const char* items[] = { "FWD_RENDERERING","DEFERRED_RENDERERING" };
 	int size = 2;
-	static int current_item = 0;
+	static int current_item = 1;
 
 	ImGui::Combo("Render Mode", &current_item, items, size);
 	

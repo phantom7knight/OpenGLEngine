@@ -115,15 +115,17 @@ void Renderer::Init()
 	
 	m_skybox->InitializeSkyBox("Shaders/SkyBox.vs", "Shaders/SkyBox.fs");
 
-	//Function Initializes
-	ReflectionInitilaize();
-
 	m_useShader = new Shader("Shaders/Light.vs", "Shaders/Light.fs");
-	
+
 	m_Quad = new Shader("Shaders/Quad.vs", "Shaders/Quad.fs");
 
 
+
+	//Function Initializes
+	ReflectionInitilaize();
+
 	GBufferInitialize();
+	
 
 }
 
@@ -131,11 +133,11 @@ void Renderer::ReflectionInitilaize()
 {
 	//Top Map
 	m_reflectionUpFBO = new FrameBuffer();
-	m_reflectionUpFBO->SetFrameBuffer();
+	m_reflectionUpFBO->SetFrameBuffer(0);
 
 	//Bottom Map
 	m_reflectionDownFBO = new FrameBuffer();
-	m_reflectionDownFBO->SetFrameBuffer();
+	m_reflectionDownFBO->SetFrameBuffer(0);
 
 
 	m_reflectionShader = new Shader("Shaders/Reflection.vs", "Shaders/Reflection.fs");
@@ -147,9 +149,9 @@ void Renderer::ReflectionInitilaize()
 void Renderer::GBufferInitialize()
 {
 	m_gbuffer = new FrameBuffer();
-	m_gbuffer->SetFrameBuffer();
+	m_gbuffer->SetFrameBuffer(1);
 
-	m_GbufferShader = new Shader("Shader/GBuffer.vs", "Shader/GBuffer.fs");
+	m_GbufferShader = new Shader("Shaders/GBuffer.vs", "Shaders/GBuffer.fs");
 	m_GbufferShader->Use();
 
 }
@@ -211,12 +213,29 @@ void Renderer::RenderQuadForFBO()
 void Renderer::GBufferPass()
 {
 
+	
+	m_GbufferShader->Use();
+	m_gbuffer->BindFrameBuffer();
+
+	/*glViewport(0, 0, Screen_Width, Screen_Height);
+	glClearColor(0.5, 0.5, 0.5, 1.0);
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);*/
+
+	#pragma region	ShapeLists-Draw
+	for (unsigned int i = 0; i < m_ShapeGenList.size(); ++i)
+	{
+		m_ShapeGenList[i]->Update(m_GbufferShader);
+	}
+	#pragma endregion
+
+	m_gbuffer->UnBindFrameBuffer();
+	m_GbufferShader->UnUse();
+
 }
 
 
 void Renderer::ShadowPass()
 {
-	//m_pFrameBuffer->SetFrameBuffer(m_depthMapFBO, m_Shadowmap);
 
 
 }
@@ -232,7 +251,7 @@ void Renderer::ReflectionPass()
 
 	m_reflectionUpFBO->BindFrameBuffer();
 
-	glViewport(0, 0, 1366, 768);
+	glViewport(0, 0, Screen_Width, Screen_Height);
 	glClearColor(0.5, 0.5, 0.5, 1.0);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
@@ -262,7 +281,7 @@ void Renderer::ReflectionPass()
 	m_reflectionShader->Use();
 	m_reflectionDownFBO->BindFrameBuffer();
 
-	glViewport(0, 0, 1366, 768);
+	glViewport(0, 0, Screen_Width, Screen_Height);
 	glClearColor(0.5, 0.5, 0.5, 1.0);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
@@ -290,7 +309,7 @@ void Renderer::ReflectionPass()
 
 	m_Quad->Use();
 
-	glViewport(0, 0, 1366, 768);
+	glViewport(0, 0, Screen_Width, Screen_Height);
 	glClearColor(0.5, 0.5, 0.5, 1.0);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
@@ -346,7 +365,7 @@ void Renderer::RendererUpdate()
 	//FWD_RENDDERING
 	if (mode == 0)
 	{
-		//ReflectionPass();
+		ReflectionPass();
 		FinalPass();
 	}
 	//DEFERRED_RENDERING

@@ -43,6 +43,7 @@ void FrameBuffer::CreateTextureFBO(unsigned int& texture_name, int internal_form
 
 void FrameBuffer::SetFrameBuffer(int mode)
 {
+	int num_colorAttachments;
 
 	//Generate FBO
 	glGenFramebuffers(1, &m_uFbo);
@@ -72,14 +73,14 @@ void FrameBuffer::SetFrameBuffer(int mode)
 
 		//Create Texture and make color attachments
 
-		CreateTextureFBO(m_position, GL_RGB16F, GL_RGB);
+		/*CreateTextureFBO(m_position, GL_RGB16F, GL_RGB);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_position, 0);
 
 		CreateTextureFBO(m_normal, GL_RGB16F, GL_RGB);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_normal, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, m_normal, 0);
 
 		CreateTextureFBO(m_albedospec, GL_RGBA, GL_RGBA);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_albedospec, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, m_albedospec, 0);
 
 		GLuint colorattachments[] = {
 			GL_COLOR_ATTACHMENT0,
@@ -87,11 +88,33 @@ void FrameBuffer::SetFrameBuffer(int mode)
 			GL_COLOR_ATTACHMENT2
 		};
 
-		glDrawBuffers(3, colorattachments);
+		num_colorAttachments = 3;
+
+		glDrawBuffers(num_colorAttachments, colorattachments);*/
 
 	}
 
+	//=======================================================================
+	CreateTextureFBO(m_position, GL_RGB16F, GL_RGB);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_position, 0);
+
+	CreateTextureFBO(m_normal, GL_RGB16F, GL_RGB);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, m_normal, 0);
+
+	CreateTextureFBO(m_albedospec, GL_RGBA, GL_RGBA);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, m_albedospec, 0);
+
+	GLuint colorattachments[] = {
+		GL_COLOR_ATTACHMENT0,
+		GL_COLOR_ATTACHMENT1,
+		GL_COLOR_ATTACHMENT2
+	};
+
+	num_colorAttachments = 3;
+
+	glDrawBuffers(num_colorAttachments, colorattachments);
 	
+	//=======================================================================
 	
 	
 	GLenum eStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);

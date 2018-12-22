@@ -53,9 +53,9 @@ void ShapeGenerator::Initialize(const GLchar* vertexshaderpath, const GLchar* fr
 
 
 	#pragma region Texture-Mapping
-	m_useShader->SetInt(m_useShader->GetShaderID(),"defaultAlbedo", 0);
+	//m_useShader->SetInt(m_useShader->GetShaderID(),"defaultAlbedo", 0);
 	//m_useShader->SetInt(m_useShader->GetShaderID(),"shadpwmap", 1);
-#pragma endregion
+	#pragma endregion
 
 
 }
@@ -320,9 +320,10 @@ void ShapeGenerator::Sphere_Generator()
 
 void ShapeGenerator::Update(Shader* a_useShader)
 { 
+	//If no shader is assigned
 	if (a_useShader == NULL)
 	{
-		a_useShader = m_useShader;
+		a_useShader = m_useShader;	//Set the default shader
 	}
 
 	a_useShader->Use();

@@ -1,5 +1,9 @@
 
 
+#define Screen_Width  1600
+#define Screen_Height  900 
+
+
 #define SAFE_DELETE(pointer)\
 if(pointer)			\
 {					\

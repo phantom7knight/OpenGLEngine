@@ -147,6 +147,12 @@
     <None Include="packages.config" />
     <None Include="Shaders\SkyBox.fs" />
     <None Include="Shaders\SkyBox.vs" />
+    <None Include="Shaders\GBuffer.fs" />
+    <None Include="Shaders\GBuffer.vs" />
+    <None Include="Shaders\Quad.fs" />
+    <None Include="Shaders\Quad.vs" />
+    <None Include="Shaders\Reflection.fs" />
+    <None Include="Shaders\Reflection.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\spaceship.png">

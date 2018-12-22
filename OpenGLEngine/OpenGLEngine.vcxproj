@@ -185,8 +185,14 @@
     <None Include="glew32.dll" />
     <None Include="glfw3.dll" />
     <None Include="packages.config" />
+    <None Include="Shaders\GBuffer.fs" />
+    <None Include="Shaders\GBuffer.vs" />
     <None Include="Shaders\InstancingDemo.fs" />
     <None Include="Shaders\InstancingDemo.vs" />
+    <None Include="Shaders\Quad.fs" />
+    <None Include="Shaders\Quad.vs" />
+    <None Include="Shaders\Reflection.fs" />
+    <None Include="Shaders\Reflection.vs" />
     <None Include="Shaders\SkyBox.fs" />
     <None Include="Shaders\SkyBox.vs" />
     <None Include="Shaders\TestingShader.fs" />
