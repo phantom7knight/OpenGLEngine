@@ -324,9 +324,9 @@ void ShapeGenerator::Update(Shader* a_useShader)
 	if (a_useShader == NULL)
 	{
 		a_useShader = m_useShader;	//Set the default shader
+		a_useShader->Use();
 	}
 
-	a_useShader->Use();
 
 	#pragma region Object properties
 	//Object Color

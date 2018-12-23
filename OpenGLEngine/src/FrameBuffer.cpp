@@ -114,9 +114,9 @@ void FrameBuffer::SetFrameBuffer(int mode)
 
 	glDrawBuffers(num_colorAttachments, colorattachments);
 	
+	
+	
 	//=======================================================================
-	
-	
 	GLenum eStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 
 	if (eStatus != GL_FRAMEBUFFER_COMPLETE)

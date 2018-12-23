@@ -66,7 +66,7 @@ void Renderer::Init()
 	
 	ObjectProperties obj_proper1;
 	obj_proper1.scalefactor = 0.8f;
-	obj_proper1.translate = glm::vec3(0.8f, 0.0f, 10.0f);
+	obj_proper1.translate = glm::vec3(0.0f, 0.0f, 0.0f); ;// glm::vec3(0.8f, 0.0f, 10.0f);
 	
 	m_shapegen->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 0, obj_material1, obj_proper1);
 
@@ -85,7 +85,7 @@ void Renderer::Init()
 
 	ObjectProperties obj_proper2;
 	obj_proper2.scalefactor = 0.5f;
-	obj_proper2.translate = glm::vec3(-1.8f, 0.0f, 10.0f);
+	obj_proper2.translate = glm::vec3(0.0f, 0.0f, 0.0f); ;// glm::vec3(-1.8f, 0.0f, 10.0f);
 	
 	
 	m_shapegen2->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 2, obj_material2, obj_proper2);
@@ -104,16 +104,16 @@ void Renderer::Init()
 
 	ObjectProperties obj_proper3;
 	obj_proper3.scalefactor = 12.8f;
-	obj_proper3.translate = glm::vec3(-0.8f, -5.0f, 20.0f);
+	obj_proper3.translate = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	m_shapegen3->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 1, obj_material3, obj_proper3);
 
 	m_ShapeGenList.push_back(m_shapegen3);
 	#pragma endregion
 	
-	m_skybox = new SkyBox();
+	//m_skybox = new SkyBox();
 	
-	m_skybox->InitializeSkyBox("Shaders/SkyBox.vs", "Shaders/SkyBox.fs");
+	//m_skybox->InitializeSkyBox("Shaders/SkyBox.vs", "Shaders/SkyBox.fs");
 
 	m_useShader = new Shader("Shaders/Light.vs", "Shaders/Light.fs");
 
@@ -122,7 +122,7 @@ void Renderer::Init()
 
 
 	//Function Initializes
-	ReflectionInitilaize();
+	//ReflectionInitilaize();
 
 	GBufferInitialize();
 	
@@ -146,10 +146,123 @@ void Renderer::ReflectionInitilaize()
 }
 
 
+//========================================
+unsigned int m_gbufferfbo;
+unsigned int m_grbo;
+
+unsigned int gposition;
+unsigned int gnormal;
+unsigned int galbedospec;
+//========================================
+
 void Renderer::GBufferInitialize()
 {
-	m_gbuffer = new FrameBuffer();
-	m_gbuffer->SetFrameBuffer(1);
+	//m_gbuffer = new FrameBuffer();
+	//m_gbuffer->SetFrameBuffer(1);
+
+	//==================================================================
+
+	
+
+	glGenFramebuffers(1, &m_gbufferfbo);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, m_gbufferfbo);
+
+
+	//Generate Texture
+	glGenTextures(1, &gposition);
+
+	//Bind Texture
+	glBindTexture(GL_TEXTURE_2D, gposition);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, Screen_Width, Screen_Height, 0, GL_RGB, GL_FLOAT, NULL);
+
+	//Texture Properties
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gposition, 0);
+
+	
+	//glGenTextures(1, &gnormal);
+
+	////Bind Texture
+	//glBindTexture(GL_TEXTURE_2D, gnormal);
+
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, Screen_Width, Screen_Height, 0, GL_RGB, GL_FLOAT, NULL);
+
+	////Texture Properties
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	////glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	////glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, gnormal, 0);
+
+
+
+	//glGenTextures(1, &galbedospec);
+
+	////Bind Texture
+	//glBindTexture(GL_TEXTURE_2D, galbedospec);
+
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, Screen_Width, Screen_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+	////Texture Properties
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	////glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	////glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	//
+	//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, galbedospec, 0);
+
+
+
+	unsigned int colorattachments[1] = {
+		GL_COLOR_ATTACHMENT0
+		/*GL_COLOR_ATTACHMENT1,
+		GL_COLOR_ATTACHMENT2*/
+	};
+
+	int	num_colorAttachments = 1;
+
+	glDrawBuffers(num_colorAttachments, colorattachments);
+
+
+	//Render Buffer 
+	//glGenRenderbuffers(GL_RENDERBUFFER, &m_grbo);
+	//
+	//glBindRenderbuffer(GL_RENDERBUFFER, m_grbo);
+	//glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, Screen_Width, Screen_Height);
+	//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_COMPONENT, GL_RENDERBUFFER, m_grbo);
+
+
+	glGenRenderbuffers(1, &m_grbo);
+	glBindRenderbuffer(GL_RENDERBUFFER, m_grbo);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, Screen_Width, Screen_Height);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_grbo);
+
+
+
+
+	//=======================================================================
+	GLenum eStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+	if (eStatus != GL_FRAMEBUFFER_COMPLETE)
+	{
+		std::cout << "FBO Error, status: " << eStatus << std::endl;
+	}
+
+	//UnBind FBO
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+
+
+	//==================================================================
 
 	m_GbufferShader = new Shader("Shaders/GBuffer.vs", "Shaders/GBuffer.fs");
 	m_GbufferShader->Use();
@@ -171,7 +284,7 @@ void Renderer::RenderQuadForFBO()
 			-1.0f,  1.0f, 0.0f,		0.0f, 1.0f,
 			-1.0f, -1.0f, 0.0f,		0.0f, 0.0f,
 			 1.0f,  1.0f, 0.0f,		1.0f, 1.0f,
-			 1.0f, -1.0f, 0.0f,		1.0f, 0.0f,
+			 1.0f, -1.0f, 0.0f,		1.0f, 0.0f
 		};
 
 		glGenVertexArrays(1, &uQuadVAO);
@@ -200,26 +313,40 @@ void Renderer::RenderQuadForFBO()
 	m_Quad->SetUniformMatrix4fv(m_Quad->GetShaderID(), "projectionmat", projectionmat);
 
 
-	m_Quad->SetInt(m_Quad->GetShaderID(), "reflectionUp", 0);
+	//m_Quad->SetInt(m_Quad->GetShaderID(), "reflectionUp", 0);
 	//m_Quad->SetInt(m_Quad->GetShaderID(), "reflectionDown", 1);
 
+	m_Quad->SetInt(m_Quad->GetShaderID(), "gPosition", 0);
+	/*m_Quad->SetInt(m_Quad->GetShaderID(), "gNormal", 1);
+	m_Quad->SetInt(m_Quad->GetShaderID(), "gAlbedoSpec", 2);*/
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, gposition);
+
+	/*glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, gnormal);
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, galbedospec);*/
 
 	glBindVertexArray(uQuadVAO);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 
 void Renderer::GBufferPass()
 {
 
-	
-	m_GbufferShader->Use();
-	m_gbuffer->BindFrameBuffer();
+	glViewport(0, 0, Screen_Width, Screen_Height);
 
-	/*glViewport(0, 0, Screen_Width, Screen_Height);
-	glClearColor(0.5, 0.5, 0.5, 1.0);
-	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);*/
+	glBindFramebuffer(GL_FRAMEBUFFER, m_gbufferfbo);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_GbufferShader->Use();
+	
+	//m_gbuffer->BindFrameBuffer();
+	
 
 	#pragma region	ShapeLists-Draw
 	for (unsigned int i = 0; i < m_ShapeGenList.size(); ++i)
@@ -228,8 +355,25 @@ void Renderer::GBufferPass()
 	}
 	#pragma endregion
 
-	m_gbuffer->UnBindFrameBuffer();
+	//m_gbuffer->UnBindFrameBuffer();
+	
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	m_GbufferShader->UnUse();
+
+	//============================================
+	// Draw Debug Window
+	//============================================
+
+	m_Quad->Use();
+
+	//glViewport(0, 0, Screen_Width, Screen_Height);
+	//glClearColor(0.5, 0.5, 0.5, 1.0);
+	//glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
+
+	RenderQuadForFBO();
+
+	m_Quad->UnUse();
 
 }
 
@@ -354,7 +498,7 @@ void Renderer::FinalPass()
 	#pragma endregion
 
 
-	m_skybox->Draw();
+	//m_skybox->Draw();
 }
 
 
@@ -365,8 +509,8 @@ void Renderer::RendererUpdate()
 	//FWD_RENDDERING
 	if (mode == 0)
 	{
-		ReflectionPass();
-		FinalPass();
+		//ReflectionPass();
+		//FinalPass();
 	}
 	//DEFERRED_RENDERING
 	else
