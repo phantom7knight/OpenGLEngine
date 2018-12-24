@@ -66,7 +66,7 @@ void Renderer::Init()
 	
 	ObjectProperties obj_proper1;
 	obj_proper1.scalefactor = 0.8f;
-	obj_proper1.translate = glm::vec3(0.0f, 0.0f, 0.0f); ;// glm::vec3(0.8f, 0.0f, 10.0f);
+	obj_proper1.translate = glm::vec3(0.8f, 0.0f, 10.0f);// glm::vec3(0.0f, 0.0f, 0.0f); ;// glm::vec3(0.8f, 0.0f, 10.0f);
 	
 	m_shapegen->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 0, obj_material1, obj_proper1);
 
@@ -85,7 +85,7 @@ void Renderer::Init()
 
 	ObjectProperties obj_proper2;
 	obj_proper2.scalefactor = 0.5f;
-	obj_proper2.translate = glm::vec3(0.0f, 0.0f, 0.0f); ;// glm::vec3(-1.8f, 0.0f, 10.0f);
+	obj_proper2.translate = glm::vec3(-1.8f, 0.0f, 10.0f); //glm::vec3(0.0f, 0.0f, 0.0f); ;// glm::vec3(-1.8f, 0.0f, 10.0f);
 	
 	
 	m_shapegen2->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 2, obj_material2, obj_proper2);
@@ -104,7 +104,7 @@ void Renderer::Init()
 
 	ObjectProperties obj_proper3;
 	obj_proper3.scalefactor = 12.8f;
-	obj_proper3.translate = glm::vec3(0.0f, 0.0f, 0.0f);
+	obj_proper3.translate = glm::vec3(0.0f, -10.0f, 0.0f);
 
 	m_shapegen3->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 1, obj_material3, obj_proper3);
 
@@ -119,6 +119,9 @@ void Renderer::Init()
 
 	m_Quad = new Shader("Shaders/Quad.vs", "Shaders/Quad.fs");
 
+	m_lightCaster = new LightCaster();
+
+	m_lightCaster->Initialize("Shaders/BlurLight.vs", "Shaders/BlurLight.fs");
 
 
 	//Function Initializes
@@ -479,14 +482,19 @@ void Renderer::FinalPass()
 
 
 	m_useShader->SetInt(m_useShader->GetShaderID(), "reflectionUp", 0);
-	m_useShader->SetInt(m_useShader->GetShaderID(), "reflectionDown", 1); 
-	m_useShader->SetInt(m_useShader->GetShaderID(), "IsReflection", 0);
+	m_useShader->SetInt(m_useShader->GetShaderID(), "reflectionDown", 1);
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(m_useShader->GetShaderID(), m_reflectionUpFBO->getFBO());
+	int reflection_enabled = 0;
+	m_useShader->SetInt(m_useShader->GetShaderID(), "IsReflection", reflection_enabled);
 
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(m_useShader->GetShaderID(), m_reflectionDownFBO->getFBO());
+	if (reflection_enabled != 0)
+	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(m_useShader->GetShaderID(), m_reflectionUpFBO->getFBO());
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(m_useShader->GetShaderID(), m_reflectionDownFBO->getFBO());
+	}
 	
 
 
@@ -499,6 +507,7 @@ void Renderer::FinalPass()
 
 
 	//m_skybox->Draw();
+	m_lightCaster->Draw();
 }
 
 
@@ -510,13 +519,13 @@ void Renderer::RendererUpdate()
 	if (mode == 0)
 	{
 		//ReflectionPass();
-		//FinalPass();
+		FinalPass();
 	}
 	//DEFERRED_RENDERING
 	else
 	{
 		//GBUFFER PASS
-		GBufferPass();
+		//GBufferPass();
 		
 		//LIGHT PASS
 		

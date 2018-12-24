@@ -4,6 +4,9 @@
 #define Screen_Height  900 
 
 
+#define PI 3.14
+
+
 #define SAFE_DELETE(pointer)\
 if(pointer)			\
 {					\

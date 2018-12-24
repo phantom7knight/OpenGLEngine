@@ -243,9 +243,9 @@ void ShapeGenerator::Sphere_Generator()
 		{
 			float xSegment = (float)x / (float)X_SEGMENTS;
 			float ySegment = (float)y / (float)Y_SEGMENTS;
-			float xPos = std::cos(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
-			float yPos = std::cos(ySegment * PI);
-			float zPos = std::sin(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
+			float xPos = (float)std::cos(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
+			float yPos = (float)std::cos(ySegment * PI);
+			float zPos = (float)std::sin(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
 
 			positions.push_back(glm::vec3(xPos, yPos, zPos));
 			uv.push_back(glm::vec2(xSegment, ySegment));
@@ -395,13 +395,13 @@ void ShapeGenerator::Update(Shader* a_useShader)
 	#pragma	endregion
 
 
-	if (m_type == 0)
+	if (m_type == 0)//Cube
 	{
 		glBindVertexArray(m_VAO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
 		glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
 	}
-	else if (m_type == 1)
+	else if (m_type == 1)//Plane
 	{
 		glBindVertexArray(m_VAO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
@@ -409,7 +409,7 @@ void ShapeGenerator::Update(Shader* a_useShader)
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
-	else if (m_type == 2)
+	else if (m_type == 2)//Sphere
 	{
 		glBindVertexArray(m_VAO);
 		glDrawElements(GL_TRIANGLE_STRIP, (GLsizei)m_indexCount, GL_UNSIGNED_INT, (void*)0);

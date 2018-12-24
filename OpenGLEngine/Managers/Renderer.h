@@ -11,12 +11,15 @@
 #include "../src/ShapeGenerator.h"
 #include "../src/FrameBuffer.h"
 #include "../src/SkyBox.h"
+#include "../src/LightCaster.h"
 
 #include <vector>
 
 //class Shader;
 class ShapeGenerator;
 class FrameBuffer;
+class LightCaster;
+
 
 class Renderer
 {
@@ -67,6 +70,6 @@ private:
 
 	FrameBuffer* m_gbuffer;
 
-
+	LightCaster* m_lightCaster;
 
 };
