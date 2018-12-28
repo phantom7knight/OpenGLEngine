@@ -348,6 +348,10 @@ void ShapeGenerator::Update(Shader* a_useShader)
 	a_useShader->SetUniform1f(a_useShader->GetShaderID(), "Lightintensity", lightInten);
 
 
+	glm::vec3 lightcolor_here = m_ObjectProperties.LightColor;
+	a_useShader->SetUniform3f(a_useShader->GetShaderID(), "LightColor", lightcolor_here.x, lightcolor_here.y, lightcolor_here.z);
+
+
 	#pragma endregion
 
 

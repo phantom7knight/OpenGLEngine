@@ -16,10 +16,7 @@ uniform sampler2D gPosition;
 void main()
 {
 
-    int width = 1600;
-    int height = 900;
-
-
+    
     FragColor = vec4(texture(gPosition,TexCoords).xyz,1.0);
     //FragColor = vec4(texture(gNormal,TexCoords).xyz,1.0);
     //FragColor = vec4(texture(gAlbedoSpec,TexCoords).xyz,1.0);

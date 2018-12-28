@@ -28,6 +28,8 @@ protected:
 	void	GBufferPass();
 	void	ShadowPass();
 	void	ReflectionPass();
+	void	LightingPass();
+	void	BlurPass();
 	void	FinalPass();
 
 
@@ -49,6 +51,7 @@ public:
 	void RendererUpdate();
 	void GBufferInitialize();
 	void ReflectionInitilaize();
+	void BloomInitialize();
 	void RenderQuadForFBO();
 
 private:
@@ -56,11 +59,14 @@ private:
 	Shader* m_useShader;
 	Shader* m_reflectionShader;
 	Shader* m_GbufferShader;
+	Shader* m_blurShader;
+	Shader* m_blurFinalLight;
 
 
 	ShapeGenerator* m_shapegen;
 	ShapeGenerator* m_shapegen2;
 	ShapeGenerator* m_shapegen3;
+	ShapeGenerator* m_lightCasterShape;
 
 	FrameBuffer* m_pFrameBuffer;
 	SkyBox*		 m_skybox;
@@ -72,4 +78,15 @@ private:
 
 	LightCaster* m_lightCaster;
 
+	//FBO'S
+	unsigned int m_BloomFBO;
+	unsigned int m_PingPongBlurFBO[2];
+
+
+	//Textures
+
+	unsigned int m_bloomtex1;
+	unsigned int m_bloomtex2;
+
+	unsigned int m_blurtex[2];
 };

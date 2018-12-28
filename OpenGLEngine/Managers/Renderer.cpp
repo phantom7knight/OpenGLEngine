@@ -40,6 +40,7 @@ Renderer::~Renderer()
 	SAFE_DELETE(m_shapegen);
 	SAFE_DELETE(m_shapegen2);
 	SAFE_DELETE(m_shapegen3);
+	SAFE_DELETE(m_lightCasterShape);
 
 	SAFE_DELETE(m_pFrameBuffer);
 	SAFE_DELETE(m_skybox);
@@ -57,16 +58,16 @@ void Renderer::Init()
 
 	#pragma region Obj-Draw
 	//================================================================
-	//Obj 1
+	//Obj 1[Cube]
 	//================================================================
 	m_shapegen = new ShapeGenerator();
 	
 	Material obj_material1;
-	obj_material1.objectColor= glm::vec3(1.0, 1.0, 0.5);
+	obj_material1.objectColor = glm::vec3(1.0,1.0,0.0);
 	
 	ObjectProperties obj_proper1;
-	obj_proper1.scalefactor = 0.8f;
-	obj_proper1.translate = glm::vec3(0.8f, 0.0f, 10.0f);// glm::vec3(0.0f, 0.0f, 0.0f); ;// glm::vec3(0.8f, 0.0f, 10.0f);
+	obj_proper1.scalefactor = 0.28f;
+	obj_proper1.translate = glm::vec3(1.0f, 0.0f, 0.0f);// glm::vec3(0.0f, 0.0f, 0.0f); ;// glm::vec3(0.8f, 0.0f, 10.0f);
 	
 	m_shapegen->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 0, obj_material1, obj_proper1);
 
@@ -74,42 +75,66 @@ void Renderer::Init()
 
 
 	//================================================================
-	//Obj 2
+	//Obj 3[Plane]
 	//================================================================
-
-
-	m_shapegen2 = new ShapeGenerator();
 	
-	Material obj_material2;
-	obj_material2.objectColor = glm::vec3(0.5, 0.5, 0.5);
-
-	ObjectProperties obj_proper2;
-	obj_proper2.scalefactor = 0.5f;
-	obj_proper2.translate = glm::vec3(-1.8f, 0.0f, 10.0f); //glm::vec3(0.0f, 0.0f, 0.0f); ;// glm::vec3(-1.8f, 0.0f, 10.0f);
-	
-	
-	m_shapegen2->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 2, obj_material2, obj_proper2);
-
-	m_ShapeGenList.push_back(m_shapegen2);
-		
-
-	//================================================================
-	//Obj 3
-	//================================================================
-
 	m_shapegen3 = new ShapeGenerator();
 
 	Material obj_material3;
-	obj_material3.objectColor = glm::vec3(0.5f);
+	obj_material3.objectColor = glm::vec3(1.0,0.0,0.0);
 
 	ObjectProperties obj_proper3;
 	obj_proper3.scalefactor = 12.8f;
-	obj_proper3.translate = glm::vec3(0.0f, -10.0f, 0.0f);
+	obj_proper3.translate = glm::vec3(0.0f, -0.5f, 0.0f);
 
 	m_shapegen3->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 1, obj_material3, obj_proper3);
 
 	m_ShapeGenList.push_back(m_shapegen3);
-	#pragma endregion
+	
+
+	//================================================================
+	//Obj 2 [Light OBJ][Sphere]
+	//================================================================
+
+
+	m_shapegen2 = new ShapeGenerator();
+
+	Material obj_material2;
+
+	obj_material2.objectColor = glm::vec3(0.0,1.0,1.0);
+
+	ObjectProperties obj_proper2;
+
+	obj_proper2.scalefactor = 0.33f;
+	obj_proper2.LightColor = glm::vec3(12.5, 12.5, 0);
+	glm::vec3 lightpos_here = glm::vec3(0.0, 0.0, 0.0);
+	obj_proper2.translate = lightpos_here;//glm::vec3(-1.8f, 1.0f, 10.0f); //glm::vec3(0.0f, 0.0f, 0.0f); ;// glm::vec3(-1.8f, 0.0f, 10.0f);
+
+
+	m_shapegen2->Initialize("Shaders/BloomLight.vs", "Shaders/BloomLight.fs", 0, obj_material2, obj_proper2);
+
+	m_ShapeGenList.push_back(m_shapegen2);
+
+	//================================================================
+	//Obj 4[Plane]
+	//================================================================
+
+	//m_lightCasterShape = new ShapeGenerator();
+	//
+	//Material obj_material4;
+	//obj_material4.objectColor = glm::vec3(0.5f);
+	//
+	//ObjectProperties obj_proper4;
+	//obj_proper4.scalefactor = 0.11f;
+	//obj_proper4.translate = glm::vec3(1.0f, 60.0f, 0.0f);
+	//
+	//m_shapegen3->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 1, obj_material4, obj_proper4);
+
+	//m_ShapeGenList.push_back(m_lightCasterShape);
+
+
+
+#pragma endregion
 	
 	//m_skybox = new SkyBox();
 	
@@ -119,16 +144,24 @@ void Renderer::Init()
 
 	m_Quad = new Shader("Shaders/Quad.vs", "Shaders/Quad.fs");
 
-	m_lightCaster = new LightCaster();
+	m_blurShader = new Shader("Shaders/Blur.vs", "Shaders/Blur.fs");
 
-	m_lightCaster->Initialize("Shaders/BlurLight.vs", "Shaders/BlurLight.fs");
+	m_blurFinalLight = new Shader("Shaders/BloomFinal.vs", "Shaders/BloomFinal.fs");
+
+	//m_lightCaster = new LightCaster();
+
+	//m_lightCaster->Initialize("Shaders/BlurLight.vs", "Shaders/BlurLight.fs");
 
 
+	//=======================================================
 	//Function Initializes
+	//=======================================================
+	
 	//ReflectionInitilaize();
 
-	GBufferInitialize();
+	//GBufferInitialize();
 	
+	BloomInitialize();
 
 }
 
@@ -145,6 +178,109 @@ void Renderer::ReflectionInitilaize()
 
 	m_reflectionShader = new Shader("Shaders/Reflection.vs", "Shaders/Reflection.fs");
 	m_reflectionShader->Use();
+
+}
+
+void Renderer::BloomInitialize()
+{
+	//===================================================================================================
+	//Bloom FBO
+	//===================================================================================================
+	glGenFramebuffers(1, &m_BloomFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_BloomFBO);
+
+	//===================================================================================================
+	glGenTextures(1, &m_bloomtex1);
+
+	//Bind Texture
+	glBindTexture(GL_TEXTURE_2D, m_bloomtex1);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, Screen_Width, Screen_Height, 0, GL_RGB, GL_FLOAT, NULL);
+
+	//Texture Properties
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_bloomtex1, 0);
+
+	//===================================================================================================
+	glGenTextures(1, &m_bloomtex2);
+
+	//Bind Texture
+	glBindTexture(GL_TEXTURE_2D, m_bloomtex2);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, Screen_Width, Screen_Height, 0, GL_RGB, GL_FLOAT, NULL);
+
+	//Texture Properties
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, m_bloomtex2, 0);
+	//===================================================================================================
+
+	unsigned int bloom_attachments[] = { GL_COLOR_ATTACHMENT0,GL_COLOR_ATTACHMENT1 };
+
+	glDrawBuffers(2, bloom_attachments);
+	
+	GLenum eStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+	if (eStatus != GL_FRAMEBUFFER_COMPLETE)
+	{
+		std::cout << " Bloom FBO Error, status: " << eStatus << std::endl;
+	}
+
+	//UnBind FBO
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+
+
+
+	//Blur Ping-Pong FBO
+
+	glGenFramebuffers(2, m_PingPongBlurFBO);
+	glGenTextures(2, m_blurtex);
+
+	for (unsigned int i = 0; i < 2; ++i)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_PingPongBlurFBO[i]);
+
+		glBindTexture(GL_TEXTURE_2D, m_blurtex[i]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, Screen_Width, Screen_Height, 0, GL_RGB, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_blurtex[i], 0);
+		
+		GLenum eStatus2 = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+		if (eStatus2 != GL_FRAMEBUFFER_COMPLETE)
+		{
+			std::cout << "Ping Pong FBO Error, status: " << eStatus2 << std::endl;
+		}
+	}
+	
+	//UnBind FBO
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+
+	
+
+	//UnBind FBO
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	
+
 
 }
 
@@ -306,8 +442,8 @@ void Renderer::RenderQuadForFBO()
 
 	}
 
-	glm::mat4 modeling = glm::translate(glm::mat4(1), glm::vec3(1000, 600, 0)) * glm::scale(glm::mat4(1), glm::vec3(200, 200, 200));
-	m_Quad->SetUniformMatrix4fv(m_Quad->GetShaderID(), "modelmat", modeling);
+	/*glm::mat4 modeling = glm::translate(glm::mat4(1), glm::vec3(1000, 600, 0)) * glm::scale(glm::mat4(1), glm::vec3(200, 200, 200));
+	m_Quad->SetUniformMatrix4fv(m_Quad->GetShaderID(), "modelmat", modeling);*/
 
 	glm::mat4 viewmat = Camera::getInstance()->GetViewmat();
 	m_Quad->SetUniformMatrix4fv(m_Quad->GetShaderID(), "viewmat", viewmat);
@@ -316,21 +452,7 @@ void Renderer::RenderQuadForFBO()
 	m_Quad->SetUniformMatrix4fv(m_Quad->GetShaderID(), "projectionmat", projectionmat);
 
 
-	//m_Quad->SetInt(m_Quad->GetShaderID(), "reflectionUp", 0);
-	//m_Quad->SetInt(m_Quad->GetShaderID(), "reflectionDown", 1);
-
-	m_Quad->SetInt(m_Quad->GetShaderID(), "gPosition", 0);
-	/*m_Quad->SetInt(m_Quad->GetShaderID(), "gNormal", 1);
-	m_Quad->SetInt(m_Quad->GetShaderID(), "gAlbedoSpec", 2);*/
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, gposition);
-
-	/*glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, gnormal);
-
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, galbedospec);*/
+	
 
 	glBindVertexArray(uQuadVAO);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -367,16 +489,30 @@ void Renderer::GBufferPass()
 	// Draw Debug Window
 	//============================================
 
-	m_Quad->Use();
+	/*m_Quad->Use();
 
 	//glViewport(0, 0, Screen_Width, Screen_Height);
 	//glClearColor(0.5, 0.5, 0.5, 1.0);
 	//glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
+	m_Quad->SetInt(m_Quad->GetShaderID(), "gPosition", 0);
+	m_Quad->SetInt(m_Quad->GetShaderID(), "gNormal", 1);
+	m_Quad->SetInt(m_Quad->GetShaderID(), "gAlbedoSpec", 2);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, gposition);
+
+	/*glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, gnormal);
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, galbedospec);
+
+
 
 	RenderQuadForFBO();
 
-	m_Quad->UnUse();
+	m_Quad->UnUse();*/
 
 }
 
@@ -460,7 +596,10 @@ void Renderer::ReflectionPass()
 	glClearColor(0.5, 0.5, 0.5, 1.0);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
+	//m_Quad->SetInt(m_Quad->GetShaderID(), "reflectionUp", 0);
+	//m_Quad->SetInt(m_Quad->GetShaderID(), "reflectionDown", 1);
 
+	
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_reflectionDownFBO->getTexture());
@@ -474,40 +613,175 @@ void Renderer::ReflectionPass()
 }
 
 
-
-
-void Renderer::FinalPass()
+void Renderer::LightingPass()
 {
 	m_useShader->Use();
 
 
-	m_useShader->SetInt(m_useShader->GetShaderID(), "reflectionUp", 0);
-	m_useShader->SetInt(m_useShader->GetShaderID(), "reflectionDown", 1);
+	
 
 	int reflection_enabled = 0;
 	m_useShader->SetInt(m_useShader->GetShaderID(), "IsReflection", reflection_enabled);
 
-	if (reflection_enabled != 0)
+	if (reflection_enabled == 1)
 	{
+		m_useShader->SetInt(m_useShader->GetShaderID(), "reflectionUp", 0);
+		m_useShader->SetInt(m_useShader->GetShaderID(), "reflectionDown", 1);
+
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(m_useShader->GetShaderID(), m_reflectionUpFBO->getFBO());
 
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(m_useShader->GetShaderID(), m_reflectionDownFBO->getFBO());
 	}
-	
 
+	int bloom_enabled = 1;
+	m_useShader->SetInt(m_useShader->GetShaderID(), "IsBloom", bloom_enabled);
+
+	if (bloom_enabled == 1)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_BloomFBO);
+	}
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	#pragma region	ShapeLists-Draw
 	for (unsigned int i = 0; i < m_ShapeGenList.size(); ++i)
 	{
-		m_ShapeGenList[i]->Update(m_useShader);
+		m_ShapeGenList[i]->Update();
 	}
 	#pragma endregion
 
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	m_useShader->UnUse();
+	
+#pragma region Debug-Draw
+	////Quad Draw
+	//glViewport(0, 0, Screen_Width, Screen_Height);
+	//glClearColor(0.5, 0.5, 0.5, 1.0);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//m_Quad->Use();
+
+	//m_Quad->SetInt(m_Quad->GetShaderID(), "gPosition", 0);
+	//
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, m_bloomtex2);
+
+	//RenderQuadForFBO();
+
+	//m_Quad->UnUse();
+#pragma endregion
+	
 
 	//m_skybox->Draw();
-	m_lightCaster->Draw();
+	//m_lightCaster->Draw();
+
+
+}
+
+bool horizontal = true;
+bool firstpass = true;
+
+void Renderer::BlurPass()
+{
+	
+
+	unsigned int amt = 10;
+		
+	m_blurShader->Use();
+	for (unsigned int i = 0; i < amt; ++i)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_PingPongBlurFBO[horizontal]);
+
+		m_blurShader->SetInt(m_blurShader->GetShaderID(), "IsHorizontal", horizontal);
+
+		m_blurShader->SetInt(m_blurShader->GetShaderID(), "Image", 0);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, firstpass ? m_bloomtex2 : m_blurtex[!horizontal]);
+		//glBindTexture(GL_TEXTURE_2D, m_bloomtex2);
+		
+		RenderQuadForFBO();
+		
+		horizontal = !horizontal;
+		if (firstpass)
+		{
+			firstpass = false;
+		}
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	m_blurShader->UnUse();
+
+	#pragma region Debug-Draw
+	////Quad Draw
+	//glViewport(0, 0, Screen_Width, Screen_Height);
+	//glClearColor(0.5, 0.5, 0.5, 1.0);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//m_Quad->Use();
+
+	//m_Quad->SetInt(m_Quad->GetShaderID(), "gPosition", 0);
+
+	//glm::mat4 modeling = glm::translate(glm::mat4(1), glm::vec3(1000, 600, 0)) * glm::scale(glm::mat4(1), glm::vec3(200, 200, 200));
+	//m_Quad->SetUniformMatrix4fv(m_Quad->GetShaderID(), "modelmat", modeling);
+
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, m_blurtex[0]);//m_blurtex[1]
+
+	//RenderQuadForFBO();
+
+	//m_Quad->UnUse();
+
+
+	////Quad Draw
+
+	//m_Quad->Use();
+
+	//m_Quad->SetInt(m_Quad->GetShaderID(), "gPosition", 0);
+
+	//modeling = glm::translate(glm::mat4(1), glm::vec3(1000, 200, 0)) * glm::scale(glm::mat4(1), glm::vec3(200, 200, 200));
+	//m_Quad->SetUniformMatrix4fv(m_Quad->GetShaderID(), "modelmat", modeling);
+
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, m_blurtex[1]);
+
+	//RenderQuadForFBO();
+
+	//m_Quad->UnUse();
+#pragma endregion
+
+
+}
+
+void Renderer::FinalPass()
+{
+	glViewport(0, 0, Screen_Width, Screen_Height);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//ShaderUse
+	m_blurFinalLight->Use();
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_bloomtex1);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, m_blurtex[0]);
+
+	//m_blurFinalLight->Use();
+	m_blurFinalLight->SetInt(m_blurFinalLight->GetShaderID(), "FragColorTexture", 0);
+	m_blurFinalLight->SetInt(m_blurFinalLight->GetShaderID(), "BlurredTexture", 1);
+
+	m_blurFinalLight->SetUniform1f(m_blurFinalLight->GetShaderID(), "exposure", 1.0f);
+
+	bool isbloomon = ImguiManager::getInstance()->getBloomStatus();
+	m_blurFinalLight->SetInt(m_blurFinalLight->GetShaderID(), "IsBloom", isbloomon);
+	
+	
+
+	RenderQuadForFBO();
+
+
 }
 
 
@@ -519,12 +793,16 @@ void Renderer::RendererUpdate()
 	if (mode == 0)
 	{
 		//ReflectionPass();
+		LightingPass();
+		BlurPass();
 		FinalPass();
+
 	}
 	//DEFERRED_RENDERING
 	else
 	{
 		//GBUFFER PASS
+		
 		//GBufferPass();
 		
 		//LIGHT PASS

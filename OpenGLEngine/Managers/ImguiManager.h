@@ -14,6 +14,7 @@ private:
 	float		m_lightIntensity;
 	int			m_specularIntensity;
 	int			m_renderMode;
+	bool		m_IsBloom;
 
 
 protected:
@@ -31,6 +32,7 @@ public:
 	inline glm::vec3	getLightPosition();
 	inline float		getLightIntensity();
 	inline int			getRenderMode();
+	inline int			getBloomStatus();
 	
 	void ImguiInit(GLFWwindow* window);
 	void ImguiUpdate();
@@ -50,4 +52,9 @@ inline float ImguiManager::getLightIntensity()
 inline int ImguiManager::getRenderMode()
 {
 	return m_renderMode;
+}
+
+inline int ImguiManager::getBloomStatus()
+{
+	return m_IsBloom;
 }

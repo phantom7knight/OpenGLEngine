@@ -5,7 +5,7 @@ ImguiManager* ImguiManager::m_Instance = nullptr;
 
 
 
-ImguiManager::ImguiManager():m_LightPosition(glm::vec3(0,0,10)), m_lightIntensity(0.5f), m_specularIntensity(3)
+ImguiManager::ImguiManager():m_LightPosition(glm::vec3(0.0, 0.0, 0.0)), m_lightIntensity(0.5f), m_specularIntensity(3), m_IsBloom(true)
 {
 }
 
@@ -36,6 +36,8 @@ void ImguiManager::ShowLightProperties()
 	ImGui::SliderFloat("Z POS", &m_LightPosition.z, -50.0f, 50.0f);
 
 	ImGui::SliderFloat("Intensity", &m_lightIntensity, 0.0f, 1.0f);
+
+	ImGui::Checkbox("Bloom", &m_IsBloom);
 
 	ImGui::End();
 }
