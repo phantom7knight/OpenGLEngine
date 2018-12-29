@@ -1,5 +1,7 @@
 #version 330 core
 
+out vec4 FragColor;
+
 uniform sampler2D FragColorTexture;
 uniform sampler2D BlurredTexture;
 
@@ -9,17 +11,15 @@ uniform int IsBloom;
 
 in vec2 TexCoords;
 
-out vec4 FragColor;
-
 
 void main()
 {
     const float gamma = 2.2;
-    vec3 fragcolor1 = texture(FragColorTexture,TexCoords).rgb;
-    vec3 bloomcolor = texture(BlurredTexture,TexCoords).rgb;
+    vec3 fragcolor1 =   texture(FragColorTexture,TexCoords).rgb;
+    vec3 bloomcolor =   texture(BlurredTexture,TexCoords).rgb;
 
     //Additive Blending
-   // if(IsBloom == 1)
+    if(IsBloom == 1)
         fragcolor1 += bloomcolor;
 
     //Tone Mapping

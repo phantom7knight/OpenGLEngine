@@ -28,10 +28,7 @@ protected:
 	void	GBufferPass();
 	void	ShadowPass();
 	void	ReflectionPass();
-	void	LightingPass();
-	void	BlurPass();
-	void	FinalPass();
-
+	void	LightingBloomPass();
 
 private:
 	static Renderer* m_Instance;
@@ -85,8 +82,10 @@ private:
 
 	//Textures
 
+	//Textures for bloom 
 	unsigned int m_bloomtex1;
 	unsigned int m_bloomtex2;
 
+	//Textures for Blur
 	unsigned int m_blurtex[2];
 };

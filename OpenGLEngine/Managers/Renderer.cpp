@@ -81,7 +81,7 @@ void Renderer::Init()
 	m_shapegen3 = new ShapeGenerator();
 
 	Material obj_material3;
-	obj_material3.objectColor = glm::vec3(1.0,0.0,0.0);
+	obj_material3.objectColor = glm::vec3(0.5,0.5,0.5);
 
 	ObjectProperties obj_proper3;
 	obj_proper3.scalefactor = 12.8f;
@@ -272,15 +272,16 @@ void Renderer::BloomInitialize()
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 
-	
 
 	//UnBind FBO
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	
-
+	m_blurFinalLight->Use();
+	m_blurFinalLight->SetInt(m_blurFinalLight->GetShaderID(), "FragColorTexture", 0);
+	m_blurFinalLight->SetInt(m_blurFinalLight->GetShaderID(), "BlurredTexture", 1);
+	m_blurFinalLight->UnUse();
 
 }
 
@@ -613,7 +614,7 @@ void Renderer::ReflectionPass()
 }
 
 
-void Renderer::LightingPass()
+void Renderer::LightingBloomPass()
 {
 	m_useShader->Use();
 
@@ -673,36 +674,28 @@ void Renderer::LightingPass()
 	//m_Quad->UnUse();
 #pragma endregion
 	
-
 	//m_skybox->Draw();
 	//m_lightCaster->Draw();
-
-
-}
-
-bool horizontal = true;
-bool firstpass = true;
-
-void Renderer::BlurPass()
-{
-	
+#pragma region Blur-Pass
+	bool horizontal = true;
+	bool firstpass = true;
 
 	unsigned int amt = 10;
-		
+
 	m_blurShader->Use();
 	for (unsigned int i = 0; i < amt; ++i)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_PingPongBlurFBO[horizontal]);
 
-		m_blurShader->SetInt(m_blurShader->GetShaderID(), "IsHorizontal", horizontal);
+		m_blurShader->SetInt(m_blurShader->GetShaderID(), "horizontal", horizontal);
 
 		m_blurShader->SetInt(m_blurShader->GetShaderID(), "Image", 0);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, firstpass ? m_bloomtex2 : m_blurtex[!horizontal]);
 		//glBindTexture(GL_TEXTURE_2D, m_bloomtex2);
-		
+
 		RenderQuadForFBO();
-		
+
 		horizontal = !horizontal;
 		if (firstpass)
 		{
@@ -711,6 +704,7 @@ void Renderer::BlurPass()
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//glBindTexture(GL_TEXTURE_2D, 0);
 	m_blurShader->UnUse();
 
 	#pragma region Debug-Draw
@@ -744,43 +738,37 @@ void Renderer::BlurPass()
 	//m_Quad->SetUniformMatrix4fv(m_Quad->GetShaderID(), "modelmat", modeling);
 
 	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, m_blurtex[1]);
+	//glBindTexture(GL_TEXTURE_2D, m_blurtex[1]);//
 
 	//RenderQuadForFBO();
 
 	//m_Quad->UnUse();
 #pragma endregion
 
+#pragma endregion
 
-}
-
-void Renderer::FinalPass()
-{
-	glViewport(0, 0, Screen_Width, Screen_Height);
+#pragma region Final-Pass
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	glViewport(0, 0, Screen_Width, Screen_Height);
 	//ShaderUse
 	m_blurFinalLight->Use();
+
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_bloomtex1);
 
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, m_blurtex[0]);
-
-	//m_blurFinalLight->Use();
-	m_blurFinalLight->SetInt(m_blurFinalLight->GetShaderID(), "FragColorTexture", 0);
-	m_blurFinalLight->SetInt(m_blurFinalLight->GetShaderID(), "BlurredTexture", 1);
+	glBindTexture(GL_TEXTURE_2D, m_blurtex[1]);
 
 	m_blurFinalLight->SetUniform1f(m_blurFinalLight->GetShaderID(), "exposure", 1.0f);
 
 	bool isbloomon = ImguiManager::getInstance()->getBloomStatus();
 	m_blurFinalLight->SetInt(m_blurFinalLight->GetShaderID(), "IsBloom", isbloomon);
-	
-	
+
+
 
 	RenderQuadForFBO();
-
+#pragma endregion
 
 }
 
@@ -792,11 +780,12 @@ void Renderer::RendererUpdate()
 	//FWD_RENDDERING
 	if (mode == 0)
 	{
+		//This is the Reflection Pass
 		//ReflectionPass();
-		LightingPass();
-		BlurPass();
-		FinalPass();
 
+		//This contains all LIGHT + BLUR + LIGHTBLURCOMBO passes
+		LightingBloomPass();
+		
 	}
 	//DEFERRED_RENDERING
 	else
