@@ -81,7 +81,7 @@ void Renderer::Init()
 	obj_material2.objectColor = glm::vec3(1.0, 1.0, 0.8);
 
 	ObjectProperties obj_proper2;
-	obj_proper2.scalefactor = 0.5f;
+	obj_proper2.scalefactor = 0.8f;
 	obj_proper2.translate = glm::vec3(-1.8f, 0.0f, 10.0f);
 	
 	
@@ -118,7 +118,7 @@ void Renderer::Init()
 
 void Renderer::ShadowPass()
 {
-	//m_pFrameBuffer->SetFrameBuffer(m_depthMapFBO, m_Shadowmap);
+	m_pFrameBuffer->SetFrameBuffer(m_depthMapFBO, m_Shadowmap);
 
 
 }
@@ -126,15 +126,20 @@ void Renderer::ShadowPass()
 void Renderer::RendererUpdate()
 {
 
-	#pragma region	ShapeLists-Draw
+	ShadowPass();
+
+
+	//set viewport
+	//clear screen
+
+
+	//set viewport and draw
+	//Update all the shapes
 	for (unsigned int i = 0; i < m_ShapeGenList.size(); ++i)
 	{
 		m_ShapeGenList[i]->Update();
 	}
-	#pragma endregion
 
-
-	//m_skybox->Draw();
-
+	m_skybox->Draw();
 }
 
