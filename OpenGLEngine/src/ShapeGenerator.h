@@ -30,6 +30,7 @@ struct ObjectProperties
 {
 	glm::vec3	translate;
 	float		scalefactor;
+	glm::vec3	rotation;
 
 	glm::vec3	LightColor;
 

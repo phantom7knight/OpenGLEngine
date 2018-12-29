@@ -89,7 +89,6 @@ void ImguiManager::ImguiUpdate()
 	//===============================================================
 	//Info to be printed on IMGUI
 	
-	{
 		
 	ImGui::Checkbox("Controls", &show_another_window);
 	
