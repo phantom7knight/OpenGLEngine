@@ -4,8 +4,8 @@ Camera* Camera::m_Instance = nullptr;
 
 Camera::Camera()
 {
-
-	Camera_Pos_ = glm::vec3(0.0f, 0.0f, 10.0f);
+	 
+	Camera_Pos_ = glm::vec3(0.0f, 0.0f, 50.0f);
 	Camera_Up_ = glm::vec3(0.0f, 1.0f, 0.0f);
 	Camera_Front_ = glm::vec3(0.0f, 0.0f, -1.0f);
 
@@ -16,7 +16,7 @@ Camera::Camera()
 	Yaw = -90.0f;
 	Pitch = 0.0f;
 
-	m_MouseSensitivity = 0.1;
+	m_MouseSensitivity = 0.1f;
 	
 	CameraUpdate();
 
@@ -26,13 +26,23 @@ Camera::Camera()
 	float fov_ = glm::radians(angle);
 	float AspectRatio = (4.0f / 3.0f);
 	float NearPlane = 0.1f;
-	float FarPlane = 1000.0f;
+	float FarPlane = 10000.0f;
 
 	projectionmat = glm::perspective(fov_, AspectRatio, NearPlane, FarPlane);
-	//viewmat = glm::lookAt(Camera_Pos_, Camera_Pos_ + Camera_Front_, Camera_Up_);
 	
 	#pragma endregion
 
+
+#pragma region Orthographic-Matrix
+	
+	float left = 0.0f;
+	float right = 1366;
+	float bottom = 0.0f;
+	float top = 768;
+	
+	Orthonmat = glm::ortho(left,right,bottom,top,-1.0f, FarPlane);
+
+#pragma endregion
 
 }
 

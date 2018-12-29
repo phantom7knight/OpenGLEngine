@@ -16,6 +16,7 @@ public:
 	bool							InitializeSkyBox(const GLchar* VertexShaderPath, const GLchar* PixelShaderPath);
 	void							LoadSkyBox();
 	unsigned int					LoadTexture();
+	unsigned int					LoadSkyBoxTexture();
 	void							Draw();
 
 private:
@@ -28,4 +29,5 @@ private:
 	unsigned int					m_ibo;
 
 	std::vector<std::string>		m_CubeFaces;
+	std::string						m_HDRTexture;
 };

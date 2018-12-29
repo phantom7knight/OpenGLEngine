@@ -56,6 +56,15 @@ void InputManager::InputmanagerUpdate(GLFWwindow* window)
 		
 	}
 
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+	{
+		//Camera::getInstance()->Camera_Pos_.x -= .1;
+		Camera::getInstance()->Camera_Pos_ = glm::vec3(0, 0, 100);
+
+	}
+
+
+	
 	
 	Camera::getInstance()->CameraUpdate();
 

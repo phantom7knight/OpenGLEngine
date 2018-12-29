@@ -122,9 +122,7 @@ bool Game::Init()
 	Renderer::getInstance()->Init();
 
 	ImguiManager::getInstance()->ImguiInit(m_pwindow);
-
-
-
+	
 
 	return true;
 }
@@ -140,7 +138,7 @@ void Game::Run()
 		//This closes the window if Esc key is pressed Like an exit condition
 		processinput(m_pwindow);
 
-		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+		glClearColor(0.0,0.0,0.0, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 		glEnable(GL_MULTISAMPLE);
@@ -172,9 +170,6 @@ void Game::Run()
 
 
 
-
-
-//int counter = 0;
 void Game::Update()
 {
 

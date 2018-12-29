@@ -5,16 +5,19 @@
 //#include <glad.h>
 #include "src/Shader.h"
 #include "glfw3.h"
-
 #include <glm.hpp>
 
-#define Screen_Width  1366
-#define Screen_Height  768 
+
+#include "src/Constants.h"
+
+//#define Screen_Width  1600
+//#define Screen_Height  900 
 
 
 
 class Game
 {
+
 public:
 	Game();
 	~Game();

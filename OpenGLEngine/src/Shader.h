@@ -17,6 +17,7 @@ public:
 
 	Shader(const GLchar* vertexshader,const GLchar* fragmentshader);
 	void Use();
+	void UnUse();
 	void LinkShader();
 	void ClearShader();
 	inline unsigned int GetShaderID(){

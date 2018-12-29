@@ -109,6 +109,11 @@ void Shader::Use()
 	glUseProgram(shader_ID);
 }
 
+void Shader::UnUse()
+{
+	glUseProgram(0);
+}
+
 
 void Shader::ClearShader()
 {
@@ -117,7 +122,7 @@ void Shader::ClearShader()
 
 void Shader::SetInt(unsigned int shader_ID, const char * uniname, int v1)
 {
-	glUniform1d(glGetUniformLocation(shader_ID, uniname), v1);
+	glUniform1i(glGetUniformLocation(shader_ID, uniname), v1);
 }
 
 void Shader::SetUniform1f(unsigned int shader_ID, const char * uniname, float v1)

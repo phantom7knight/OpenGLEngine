@@ -8,7 +8,10 @@
 #include <string.h>
 
 #include "../Managers/Camera.h"
+#include "../Managers/ImguiManager.h"
+#include <vector>
 
+#define PI 3.14
 
 ShapeGenerator::ShapeGenerator():m_useShader(0)
 {
@@ -41,10 +44,19 @@ void ShapeGenerator::Initialize(const GLchar* vertexshaderpath, const GLchar* fr
 	{
 		m_type = 1;
 		Plane_Generator();
-	} 
+	}
+	else if (type == 2)
+	{
+		m_type = 2;
+		Sphere_Generator();
+	}
 
-	m_useShader->SetInt(m_useShader->GetShaderID(),"defaultAlbedo", 0);
-	m_useShader->SetInt(m_useShader->GetShaderID(),"shadpwmap", 1);
+
+	#pragma region Texture-Mapping
+	//m_useShader->SetInt(m_useShader->GetShaderID(),"defaultAlbedo", 0);
+	//m_useShader->SetInt(m_useShader->GetShaderID(),"shadpwmap", 1);
+	#pragma endregion
+
 
 }
 
@@ -208,21 +220,137 @@ void ShapeGenerator::Plane_Generator()
 	glBindVertexArray(0);
 }
 
-void ShapeGenerator::Update()
+void ShapeGenerator::Sphere_Generator()
 {
 
+	glGenVertexArrays(1, &m_VAO);
 
-	m_useShader->Use();
+	//unsigned int vbo, ebo;
+	glGenBuffers(1, &m_VBO);
+	glGenBuffers(1, &m_IBO);
+
+	std::vector<glm::vec3> positions;
+	std::vector<glm::vec2> uv;
+	std::vector<glm::vec3> normals;
+	std::vector<unsigned int> indices;
+
+	const unsigned int X_SEGMENTS = 60;
+	const unsigned int Y_SEGMENTS = 60;
+	//const float PI = 3.14159265359;
+	for (unsigned int y = 0; y <= Y_SEGMENTS; ++y)
+	{
+		for (unsigned int x = 0; x <= X_SEGMENTS; ++x)
+		{
+			float xSegment = (float)x / (float)X_SEGMENTS;
+			float ySegment = (float)y / (float)Y_SEGMENTS;
+			float xPos = (float)std::cos(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
+			float yPos = (float)std::cos(ySegment * PI);
+			float zPos = (float)std::sin(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
+
+			positions.push_back(glm::vec3(xPos, yPos, zPos));
+			uv.push_back(glm::vec2(xSegment, ySegment));
+			normals.push_back(glm::vec3(xPos, yPos, zPos));
+		}
+	}
+
+	bool oddRow = false;
+	for (int y = 0; y < Y_SEGMENTS; ++y)
+	{
+		if (!oddRow) // even rows: y == 0, y == 2; and so on
+		{
+			for (int x = 0; x <= X_SEGMENTS; ++x)
+			{
+				indices.push_back(y       * (X_SEGMENTS + 1) + x);
+				indices.push_back((y + 1) * (X_SEGMENTS + 1) + x);
+			}
+		}
+		else
+		{
+			for (int x = X_SEGMENTS; x >= 0; --x)
+			{
+				indices.push_back((y + 1) * (X_SEGMENTS + 1) + x);
+				indices.push_back(y       * (X_SEGMENTS + 1) + x);
+			}
+		}
+		oddRow = !oddRow;
+	}
+	m_indexCount = indices.size();
+
+	std::vector<float> data;
+	for (size_t i = 0; i < positions.size(); ++i)
+	{
+		data.push_back(positions[i].x);
+		data.push_back(positions[i].y);
+		data.push_back(positions[i].z);
+		if (uv.size() > 0)
+		{
+			data.push_back(uv[i].x);
+			data.push_back(uv[i].y);
+		}
+		if (normals.size() > 0)
+		{
+			data.push_back(normals[i].x);
+			data.push_back(normals[i].y);
+			data.push_back(normals[i].z);
+		}
+	}
+
+	glBindVertexArray(m_VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(float), &data[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+
+	GLsizei stride = (3 + 2 + 3) * sizeof(float);
+
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, stride, (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+
+}
+
+void ShapeGenerator::Update(Shader* a_useShader)
+{ 
+	//If no shader is assigned
+	if (a_useShader == NULL)
+	{
+		a_useShader = m_useShader;	//Set the default shader
+		a_useShader->Use();
+	}
+
 
 
 	//Object Color
-	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "objectCol", m_material.objectColor.x, m_material.objectColor.y, m_material.objectColor.z);
+	a_useShader->SetUniform3f(a_useShader->GetShaderID(), "objectCol", m_material.objectColor.x, m_material.objectColor.y, m_material.objectColor.z);
+	#pragma endregion
 
 	//eyepos
-	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "cameraPos", Camera::getInstance()->Camera_Pos_.x, Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
+	a_useShader->SetUniform3f(a_useShader->GetShaderID(), "cameraPos", Camera::getInstance()->Camera_Pos_.x, Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
 
 	//Light Position
-	m_useShader->SetUniform3f(m_useShader->GetShaderID(), "lightPos", 0.0f, 0.0f, 10.0f);
+	glm::vec3 lightposition = ImguiManager::getInstance()->getLightPosition();
+	a_useShader->SetUniform3f(a_useShader->GetShaderID(), "lightPos", lightposition.x, lightposition.y, lightposition.z);
+
+	//Light intensity
+	float lightInten = ImguiManager::getInstance()->getLightIntensity();
+	a_useShader->SetUniform1f(a_useShader->GetShaderID(), "Lightintensity", lightInten);
+
+
+	glm::vec3 lightcolor_here = m_ObjectProperties.LightColor;
+	a_useShader->SetUniform3f(a_useShader->GetShaderID(), "LightColor", lightcolor_here.x, lightcolor_here.y, lightcolor_here.z);
+
+
+	#pragma endregion
+
 
 	#pragma region MVP
 	//=======================================================================================================
@@ -239,7 +367,7 @@ void ShapeGenerator::Update()
 
 	glm::mat4 modelmat = translatemat * rotatemat * scalemat;
 
-	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "modelmat", modelmat);
+	a_useShader->SetUniformMatrix4fv(a_useShader->GetShaderID(), "modelmat", modelmat);
 	
 	//=======================================================================================================
 	//View Matrix
@@ -247,7 +375,7 @@ void ShapeGenerator::Update()
 
 	glm::mat4 viewmat;
 	viewmat = Camera::getInstance()->GetViewmat();
-	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "viewmat", viewmat);
+	a_useShader->SetUniformMatrix4fv(a_useShader->GetShaderID(), "viewmat", viewmat);
 
 	//=======================================================================================================
 	//Projection Matrix
@@ -256,25 +384,25 @@ void ShapeGenerator::Update()
 	glm::mat4 projectionmat;
 
 	projectionmat = Camera::getInstance()->GetProjmat();
-	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "projectionmat", projectionmat);
+	a_useShader->SetUniformMatrix4fv(a_useShader->GetShaderID(), "projectionmat", projectionmat);
 
 	//=======================================================================================================
 	//ModelViewProjection Matix
 	//=======================================================================================================
 
-	glm::mat4 MVP_matrix = projectionmat * viewmat* modelmat;
-	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "MVP_matrix", MVP_matrix);
+	//glm::mat4 MVP_matrix = projectionmat * viewmat* modelmat;
+	//a_useShader->SetUniformMatrix4fv(a_useShader->GetShaderID(), "MVP_matrix", MVP_matrix);
 
 	#pragma	endregion
 
 
-	if (m_type == 0)
+	if (m_type == 0)//Cube
 	{
 		glBindVertexArray(m_VAO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
 		glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
 	}
-	else if (m_type == 1)
+	else if (m_type == 1)//Plane
 	{
 		glBindVertexArray(m_VAO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
@@ -282,5 +410,9 @@ void ShapeGenerator::Update()
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
-
+	else if (m_type == 2)//Sphere
+	{
+		glBindVertexArray(m_VAO);
+		glDrawElements(GL_TRIANGLE_STRIP, (GLsizei)m_indexCount, GL_UNSIGNED_INT, (void*)0);
+	}
 }
