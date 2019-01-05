@@ -45,12 +45,13 @@ public:
 	~Renderer();
 	static Renderer* getInstance();
 
- 	void Init();
-	void RendererUpdate();
-	void GBufferInitialize();
-	void ReflectionInitilaize();
-	void BloomInitialize();
-	void RenderQuadForFBO();
+ 	void	Init();
+	void	RendererUpdate();
+	void	GBufferInitialize();
+	void	ReflectionInitilaize();
+	void	BloomInitialize();
+	void	ParticleSystemInitialize();
+	void	RenderQuadForFBO();
 
 private:
 	
@@ -59,6 +60,7 @@ private:
 	Shader* m_GbufferShader;
 	Shader* m_blurShader;
 	Shader* m_blurFinalLight;
+	Shader* m_ComputeShaderParticles;
 
 
 	ShapeGenerator* m_shapegen;

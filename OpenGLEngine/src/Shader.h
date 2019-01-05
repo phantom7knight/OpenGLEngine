@@ -13,15 +13,22 @@ class Shader
 {
 public:
 
-	unsigned int shader_ID;
-
+	
+	Shader() {}
 	Shader(const GLchar* vertexshader,const GLchar* fragmentshader);
 	void Use();
 	void UnUse();
-	void LinkShader();
+	void LinkShader(unsigned int ID);
 	void ClearShader();
-	inline unsigned int GetShaderID(){
+
+	void ComputeShaderSetUp(const GLchar* computeShaderpath);
+
+	inline unsigned int GetShaderID(){	
 		return shader_ID;
+	}
+
+	inline unsigned int GetComputeShaderID() {
+		return compute_ID;
 	}
 
 	void SetInt(unsigned int shader_ID, const char * uniname, int v1);
@@ -32,6 +39,12 @@ public:
 	void SetUniform4f(unsigned int shader_ID, const char* uniname, float v1, float v2, float v3, float v4);
 	
 	void SetUniformMatrix4fv(unsigned int shader_ID, const char* uniname, glm::mat4 matrix4x4);
+
+
+private:
+
+	unsigned int compute_ID;
+	unsigned int shader_ID;
 
 };
 

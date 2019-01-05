@@ -45,6 +45,8 @@ Renderer::~Renderer()
 	SAFE_DELETE(m_pFrameBuffer);
 	SAFE_DELETE(m_skybox);
 
+	SAFE_DELETE(m_ComputeShader);
+
 	SAFE_DELETE(m_reflectionShader);
 
 	SAFE_DELETE(m_Instance);
@@ -148,6 +150,10 @@ void Renderer::Init()
 
 	m_blurFinalLight = new Shader("Shaders/BloomFinal.vs", "Shaders/BloomFinal.fs");
 
+	m_ComputeShaderParticles = new Shader();
+
+	m_ComputeShaderParticles->ComputeShaderSetUp("Shaders/Particle.compute");
+
 	
 	//=======================================================
 	//Function Initializes
@@ -158,6 +164,8 @@ void Renderer::Init()
 	//GBufferInitialize();
 	
 	BloomInitialize();
+
+	ParticleSystemInitialize();
 
 }
 
@@ -402,6 +410,11 @@ void Renderer::GBufferInitialize()
 
 	m_GbufferShader = new Shader("Shaders/GBuffer.vs", "Shaders/GBuffer.fs");
 	m_GbufferShader->Use();
+
+}
+
+void Renderer::ParticleSystemInitialize()
+{
 
 }
 
@@ -671,6 +684,7 @@ void Renderer::LightingPass()
 
 void Renderer::PostProcessingPass()
 {
+	
 	#pragma region Blur-Pass
 	bool horizontal = true;
 	bool firstpass = true;
@@ -765,6 +779,7 @@ void Renderer::PostProcessingPass()
 	RenderQuadForFBO();
 
 #pragma endregion
+
 }
 
 void Renderer::RendererUpdate()
@@ -803,7 +818,7 @@ void Renderer::RendererUpdate()
 	//DEFERRED_RENDERING
 	//======================
 
-	else
+	else if(mode == 1)
 	{
 		//======================
 		//GBUFFER PASS
@@ -818,5 +833,15 @@ void Renderer::RendererUpdate()
 		//LightingPass();
 	}
 	
+	//======================
+	//PARTICLE SYSTEM DEMO
+	//======================
+
+	else if (mode == 2)
+	{
+
+	}
+
+
 }
 

@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\LightCaster.cpp" />
+    <ClCompile Include="src\ParticleSystem.cpp" />
     <ClCompile Include="src\SkyBox.cpp" />
     <ClCompile Include="src\FrameBuffer.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -162,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\LightCaster.h" />
+    <ClInclude Include="src\ParticleSystem.h" />
     <ClInclude Include="src\SkyBox.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\FrameBuffer.h" />
