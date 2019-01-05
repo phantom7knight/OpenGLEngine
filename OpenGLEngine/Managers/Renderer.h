@@ -28,7 +28,8 @@ protected:
 	void	GBufferPass();
 	void	ShadowPass();
 	void	ReflectionPass();
-	void	LightingBloomPass();
+	void	LightingPass();
+	void	PostProcessingPass();
 
 private:
 	static Renderer* m_Instance;

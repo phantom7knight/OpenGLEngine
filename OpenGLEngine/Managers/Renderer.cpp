@@ -136,9 +136,9 @@ void Renderer::Init()
 
 #pragma endregion
 	
-	//m_skybox = new SkyBox();
+	m_skybox = new SkyBox();
 	
-	//m_skybox->InitializeSkyBox("Shaders/SkyBox.vs", "Shaders/SkyBox.fs");
+	m_skybox->InitializeSkyBox("Shaders/SkyBox.vs", "Shaders/SkyBox.fs");
 
 	m_useShader = new Shader("Shaders/Light.vs", "Shaders/Light.fs");
 
@@ -148,11 +148,7 @@ void Renderer::Init()
 
 	m_blurFinalLight = new Shader("Shaders/BloomFinal.vs", "Shaders/BloomFinal.fs");
 
-	//m_lightCaster = new LightCaster();
-
-	//m_lightCaster->Initialize("Shaders/BlurLight.vs", "Shaders/BlurLight.fs");
-
-
+	
 	//=======================================================
 	//Function Initializes
 	//=======================================================
@@ -411,9 +407,7 @@ void Renderer::GBufferInitialize()
 
 void Renderer::RenderQuadForFBO()
 {
-
-
-
+	
 	unsigned int uQuadVAO = 0;
 	unsigned int uQuadVBO;
 	if (uQuadVAO == 0)
@@ -451,7 +445,6 @@ void Renderer::RenderQuadForFBO()
 
 	glm::mat4 projectionmat = Camera::getInstance()->GetOrthographicmat();
 	m_Quad->SetUniformMatrix4fv(m_Quad->GetShaderID(), "projectionmat", projectionmat);
-
 
 	
 
@@ -614,13 +607,10 @@ void Renderer::ReflectionPass()
 }
 
 
-void Renderer::LightingBloomPass()
+void Renderer::LightingPass()
 {
 	m_useShader->Use();
-
-
 	
-
 	int reflection_enabled = 0;
 	m_useShader->SetInt(m_useShader->GetShaderID(), "IsReflection", reflection_enabled);
 
@@ -636,7 +626,7 @@ void Renderer::LightingBloomPass()
 		glBindTexture(m_useShader->GetShaderID(), m_reflectionDownFBO->getFBO());
 	}
 
-	int bloom_enabled = 1;
+	int bloom_enabled = ImguiManager::getInstance()->getBloomStatus();
 	m_useShader->SetInt(m_useShader->GetShaderID(), "IsBloom", bloom_enabled);
 
 	if (bloom_enabled == 1)
@@ -656,7 +646,7 @@ void Renderer::LightingBloomPass()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	m_useShader->UnUse();
 	
-#pragma region Debug-Draw
+	#pragma region Debug-Draw
 	////Quad Draw
 	//glViewport(0, 0, Screen_Width, Screen_Height);
 	//glClearColor(0.5, 0.5, 0.5, 1.0);
@@ -674,9 +664,14 @@ void Renderer::LightingBloomPass()
 	//m_Quad->UnUse();
 #pragma endregion
 	
-	//m_skybox->Draw();
-	//m_lightCaster->Draw();
-#pragma region Blur-Pass
+	/*m_skybox->Draw();*/
+	
+	
+}
+
+void Renderer::PostProcessingPass()
+{
+	#pragma region Blur-Pass
 	bool horizontal = true;
 	bool firstpass = true;
 
@@ -707,7 +702,7 @@ void Renderer::LightingBloomPass()
 	//glBindTexture(GL_TEXTURE_2D, 0);
 	m_blurShader->UnUse();
 
-	#pragma region Debug-Draw
+#pragma region Debug-Draw
 	////Quad Draw
 	//glViewport(0, 0, Screen_Width, Screen_Height);
 	//glClearColor(0.5, 0.5, 0.5, 1.0);
@@ -747,7 +742,7 @@ void Renderer::LightingBloomPass()
 
 #pragma endregion
 
-#pragma region Final-Pass
+	#pragma region Final-Pass
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, Screen_Width, Screen_Height);
 	//ShaderUse
@@ -768,35 +763,59 @@ void Renderer::LightingBloomPass()
 
 
 	RenderQuadForFBO();
+
 #pragma endregion
-
 }
-
 
 void Renderer::RendererUpdate()
 {
 	int mode = ImguiManager::getInstance()->getRenderMode();
-
+	
+	//======================
 	//FWD_RENDDERING
+	//======================
 	if (mode == 0)
-	{
-		//This is the Reflection Pass
+	{	
+		//======================
+		//Reflection Pass
+		//======================
+
 		//ReflectionPass();
 
-		//This contains all LIGHT + BLUR + LIGHTBLURCOMBO passes
-		LightingBloomPass();
+
+		//======================
+		//Light Pass
+		//======================
+
+		LightingPass();
+
+
+		//======================
+		//Post Processing Pass
+		//======================
 		
+		PostProcessingPass();
+
+		//m_skybox->Draw();
 	}
+
+	//======================
 	//DEFERRED_RENDERING
+	//======================
+
 	else
 	{
+		//======================
 		//GBUFFER PASS
+		//======================
 		
 		//GBufferPass();
 		
+		//======================
 		//LIGHT PASS
+		//======================
 		
-		// LightPass();
+		//LightingPass();
 	}
 	
 }

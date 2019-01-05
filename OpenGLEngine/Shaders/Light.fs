@@ -1,4 +1,4 @@
-#version 330 core
+#version 430 core
 
 #define PI 3.14
 
@@ -249,20 +249,13 @@ vec3 CalculateDirectionalLight()
 
 void main()
 {
-	// BrightColor = vec4(0.0,0.0,0.0,1.0);
-	// FragColor = vec4(1.0,0.0,0.0,1.0);
 	
-	// vec3 result_Dir = CalculateDirectionalLight();
 	
-	// if(IsBloom == 0)
-	// {
-	// 	fragColor = vec4(result_Dir,1.0);
-	// }
-//===========================================================================
-//Bloom calculations
-//===========================================================================
-
-	vec3 	kd 		= vec3(0.7,0.7,0.7);//strmaterial.diffuse;
+	
+	//===========================================================================
+	//Bloom calculations
+	//===========================================================================
+	/*vec3 	kd 		= vec3(0.7,0.7,0.7);//strmaterial.diffuse;
 	vec3 	ks 		= vec3(0.5,0.5,0.5);//strmaterial.specular;
 	float   alpha 	= 2;
 	
@@ -305,11 +298,25 @@ void main()
 	{
 		BrightColor = vec4(0.0,0.0,0.0,1.0);
 	}
-	FragColor = vec4(final_BRDF * objectCol , 1.0f);
+	FragColor = vec4(final_BRDF * objectCol , 1.0f);*/
 
 //===========================================================================
 
 
+vec3 final_BRDF;
+	
+final_BRDF = CalculateDirectionalLight(); 
+
+float brigtness = dot(final_BRDF,threshold);
+if(brigtness > 1)
+{
+	BrightColor = vec4(final_BRDF,1.0);
+}
+else
+{
+	BrightColor = vec4(0.0,0.0,0.0,1.0);
+}
+FragColor = vec4(final_BRDF , 1.0f);
 
 
 }

@@ -91,7 +91,13 @@ bool Game::Init()
 
 	if (!glfwInit())
 		return false;
-
+	
+	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	//glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+	//glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
+	
 	
 	/* Create a windowed mode window and its OpenGL context */
 	m_pwindow = glfwCreateWindow(Screen_Width, Screen_Height, "Hello World", NULL, NULL);
@@ -114,7 +120,7 @@ bool Game::Init()
 
 	}
 
-
+	
 	Renderer::getInstance()->Init();
 
 	ImguiManager::getInstance()->ImguiInit(m_pwindow);
