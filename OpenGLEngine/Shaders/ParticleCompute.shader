@@ -7,7 +7,7 @@ layout(std140, binding = 0) buffer Pos{
 }
 
 
-layout(std140,binding = 1) buffer Vel{
+layout(std140, binding = 1) buffer Vel{
     vec4 Velocities[ ];
 }
 

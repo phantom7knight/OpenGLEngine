@@ -106,8 +106,7 @@ bool Game::Init()
 		glfwTerminate();
 		return false;
 	}
-
-
+	
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(m_pwindow);
@@ -132,6 +131,18 @@ bool Game::Init()
 int counter = 0;
 void Game::Run()
 {
+	const GLubyte* renderer = glGetString(GL_RENDERER);
+	const GLubyte* version = glGetString(GL_VERSION);
+
+	std::cout << renderer << std::endl;
+	std::cout << version << std::endl;
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 	while (!glfwWindowShouldClose(m_pwindow))
 	{
 

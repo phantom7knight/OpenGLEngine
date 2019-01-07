@@ -1,8 +1,8 @@
 #version 430
 
-in vec3 particlePos;
+in vec3 Positions;
 
 void main()
 {
-    gl_Position = vec4(particlePos,1.0);
+    gl_Position = vec4(Positions,1.0);
 }

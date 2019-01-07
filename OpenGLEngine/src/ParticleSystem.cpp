@@ -103,7 +103,7 @@ unsigned int SetUpComputeShader(const GLchar* computeShaderpath)
 	glCompileShader(cs);
 	glGetShaderiv(cs, GL_COMPILE_STATUS, &compilevalue);
 
-	if (!cs)
+	if (!compilevalue)
 	{
 		glGetShaderInfoLog(cs, 512, NULL, compileLog);
 		std::cout << "COMPUTE SHADER FAILED TO COMPILE -" << compileLog << std::endl;
@@ -118,11 +118,12 @@ unsigned int SetUpComputeShader(const GLchar* computeShaderpath)
 
 	GLint value = GL_FALSE;
 	glGetProgramiv(program, GL_LINK_STATUS, &value);
+	GLint error_num = glGetError();
 	if (!value)
 	{
 		char buffer[1024];
 		glGetShaderInfoLog(program, 1024, 0, buffer);
-		std::cout << "Compute Shader for particles failed to link: " << buffer << std::endl;
+		std::cout << "Compute Shader for particles failed to link: " << error_num<< std::endl;
 
 	}
 
