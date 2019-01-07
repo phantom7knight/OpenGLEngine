@@ -31,9 +31,16 @@ public:
 	
 	static Game* getInstance();
 
+	inline GLFWwindow* getWindow();
+
 private:
 	
 	static Game * m_Instance;
+	GLFWwindow* m_pwindow;
 
 };
 
+inline GLFWwindow * Game::getWindow()
+{
+	return m_pwindow;
+}

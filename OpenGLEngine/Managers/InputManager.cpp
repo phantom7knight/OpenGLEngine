@@ -3,7 +3,7 @@
 
 InputManager* InputManager::m_Instance = nullptr;
 
-InputManager::InputManager()
+InputManager::InputManager():m_multiplier(0.15f)
 {
 }
 
@@ -63,7 +63,17 @@ void InputManager::InputmanagerUpdate(GLFWwindow* window)
 
 	}
 
-
+	//Increase the multiplier
+	if(glfwGetKey(window, GLFW_KEY_KP_ADD) == GLFW_PRESS)
+	{
+		m_multiplier += 0.025f;
+	}
+	
+	//Decrease the multiplier
+	if(glfwGetKey(window, GLFW_KEY_KP_SUBTRACT) == GLFW_PRESS)
+	{
+		m_multiplier -= 0.025f;
+	}
 	
 	
 	Camera::getInstance()->CameraUpdate();

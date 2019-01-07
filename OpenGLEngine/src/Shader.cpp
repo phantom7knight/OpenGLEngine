@@ -113,7 +113,7 @@ void Shader::ComputeShaderSetUp(const GLchar * computeShaderpath)
 	GLchar log[510];
 
 
-	//Vertex Shader
+	//Compute Shader
 
 	GLint compute;
 	compute = glCreateShader(GL_COMPUTE_SHADER);
@@ -144,6 +144,11 @@ void Shader::Use()
 	glUseProgram(shader_ID);
 }
 
+void Shader::ComputeShaderUse()
+{
+	glUseProgram(compute_ID);
+}
+
 void Shader::UnUse()
 {
 	glUseProgram(0);
@@ -153,6 +158,7 @@ void Shader::UnUse()
 void Shader::ClearShader()
 {
 	glDeleteProgram(shader_ID);
+	//glDeleteProgram(compute_ID);
 }
 
 

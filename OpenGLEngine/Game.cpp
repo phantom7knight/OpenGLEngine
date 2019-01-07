@@ -84,7 +84,7 @@ Game::~Game()
 {
 }
 
-GLFWwindow* m_pwindow;
+
 
 bool Game::Init()
 {

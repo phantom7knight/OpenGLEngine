@@ -12,7 +12,8 @@ class Camera;
 class InputManager
 {
 private:
-	static InputManager* m_Instance;
+	static	InputManager* m_Instance;
+	float	m_multiplier;
 
 
 public:
@@ -21,6 +22,9 @@ public:
 
 	static InputManager* getInstance();
 	void InputmanagerUpdate(GLFWwindow* window);
-
+	inline float getMultiplier()
+	{
+		return m_multiplier;
+	}
 };
 

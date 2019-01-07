@@ -53,4 +53,9 @@ private:
 	Shader*			m_useShader;
 	Shader*			m_computeShader;
 
+	unsigned int	m_computeID;
+
+	float			m_DeltaTime;
+
+	glm::vec4		m_particleColor;
 };

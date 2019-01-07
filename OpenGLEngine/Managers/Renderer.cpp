@@ -31,6 +31,8 @@ Renderer::Renderer():m_shapegen(nullptr)
 	m_ShadowShader = nullptr;
 
 	m_pFrameBuffer = new FrameBuffer();
+
+	m_particleSystem = new ParticleSystem();
 }
 
 //Destructor
@@ -45,7 +47,7 @@ Renderer::~Renderer()
 	SAFE_DELETE(m_pFrameBuffer);
 	SAFE_DELETE(m_skybox);
 
-	SAFE_DELETE(m_ComputeShader);
+	SAFE_DELETE(m_particleSystem);
 
 	SAFE_DELETE(m_reflectionShader);
 
@@ -138,10 +140,15 @@ void Renderer::Init()
 
 #pragma endregion
 	
+
+
 	m_skybox = new SkyBox();
 	
 	m_skybox->InitializeSkyBox("Shaders/SkyBox.vs", "Shaders/SkyBox.fs");
 
+	//=======================================================
+	//Shader Initilizes
+	//=======================================================
 	m_useShader = new Shader("Shaders/Light.vs", "Shaders/Light.fs");
 
 	m_Quad = new Shader("Shaders/Quad.vs", "Shaders/Quad.fs");
@@ -150,10 +157,7 @@ void Renderer::Init()
 
 	m_blurFinalLight = new Shader("Shaders/BloomFinal.vs", "Shaders/BloomFinal.fs");
 
-	m_ComputeShaderParticles = new Shader();
-
-	m_ComputeShaderParticles->ComputeShaderSetUp("Shaders/Particle.compute");
-
+	
 	
 	//=======================================================
 	//Function Initializes
@@ -163,7 +167,7 @@ void Renderer::Init()
 
 	//GBufferInitialize();
 	
-	BloomInitialize();
+	//BloomInitialize();
 
 	ParticleSystemInitialize();
 
@@ -415,7 +419,7 @@ void Renderer::GBufferInitialize()
 
 void Renderer::ParticleSystemInitialize()
 {
-
+	m_particleSystem->Initialize();
 }
 
 void Renderer::RenderQuadForFBO()
@@ -839,7 +843,7 @@ void Renderer::RendererUpdate()
 
 	else if (mode == 2)
 	{
-
+		m_particleSystem->Draw();
 	}
 
 

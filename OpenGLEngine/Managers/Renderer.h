@@ -12,6 +12,7 @@
 #include "../src/FrameBuffer.h"
 #include "../src/SkyBox.h"
 #include "../src/LightCaster.h"
+#include "../src/ParticleSystem.h"
 
 #include <vector>
 
@@ -19,6 +20,7 @@
 class ShapeGenerator;
 class FrameBuffer;
 class LightCaster;
+class ParticleSystem;
 
 
 class Renderer
@@ -60,7 +62,7 @@ private:
 	Shader* m_GbufferShader;
 	Shader* m_blurShader;
 	Shader* m_blurFinalLight;
-	Shader* m_ComputeShaderParticles;
+	
 
 
 	ShapeGenerator* m_shapegen;
@@ -77,6 +79,8 @@ private:
 	FrameBuffer* m_gbuffer;
 
 	LightCaster* m_lightCaster;
+
+	ParticleSystem* m_particleSystem;
 
 	//FBO'S
 	unsigned int m_BloomFBO;
