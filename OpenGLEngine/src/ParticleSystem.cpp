@@ -235,7 +235,7 @@ void ParticleSystem::SetUpBuffer()
 	//====================================
 
 	//Unbind VAO
-	glBindBuffer(GL_VERTEX_ARRAY, 0);
+	//glBindBuffer(GL_VERTEX_ARRAY, 0);
 
 
 }
@@ -256,6 +256,11 @@ void ParticleSystem::Draw()
 
 	//m_computeShader->ComputeShaderUse();
 	glUseProgram(m_computeID);
+
+	/*glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_SSBOPos);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, m_SSBOVel);*/
+
+
 	glUniform1f(glGetUniformLocation(m_computeID, "DT"), m_DeltaTime * (InputManager::getInstance()->getMultiplier()));
 	glUniform2f(glGetUniformLocation(m_computeID, "vpdim"), 1, 1);
 	glUniform1i(glGetUniformLocation(m_computeID, "borderclamp"), true);
@@ -263,9 +268,6 @@ void ParticleSystem::Draw()
 	//m_computeShader->SetUniform1f(m_computeShader->GetComputeShaderID(), "DT", m_DeltaTime * (InputManager::getInstance()->getMultiplier()));
 	//m_computeShader->SetUniform2f(m_computeShader->GetComputeShaderID(), "vpdim", 1,1);
 	//m_computeShader->SetInt(m_computeShader->GetComputeShaderID(), "borderclamp", true);
-
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_SSBOPos);
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, m_SSBOVel);
 
 	int work_group_size = 16;
 	int workingGroup = PARTICLE_COUNT / work_group_size;
@@ -277,8 +279,8 @@ void ParticleSystem::Draw()
 
 	glMemoryBarrier(GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT);
 
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, 0);
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
+	/*glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, 0);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);*/
 
 	//Set the Vertex & Pixel Shader for Particle's
 
@@ -288,7 +290,7 @@ void ParticleSystem::Draw()
 	
 	glBindTexture(GL_TEXTURE_2D, m_particleTextureID);
 
-	GLuint posAttib = glGetAttribLocation(m_useShader->GetShaderID(), "particlePos");
+	GLuint posAttib = glGetAttribLocation(m_useShader->GetShaderID(), "Positions");
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_SSBOPos);
 
@@ -298,7 +300,8 @@ void ParticleSystem::Draw()
 	glPointSize(16);
 	glDrawArrays(GL_POINTS, 0, PARTICLE_COUNT);
 
+	//glfwSwapBuffers(Game::getInstance()->getWindow());
 
-//	m_DeltaTime = ( (float)glfwGetTime() - startTime)*100.0f;
+	m_DeltaTime = ( (float)glfwGetTime() - startTime)*100.0f;
 
 }

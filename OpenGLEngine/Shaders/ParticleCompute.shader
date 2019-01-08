@@ -1,18 +1,20 @@
 #version 430
 
+
 //SSBO Data
 
-layout(std140, binding = 0) buffer Pos{
+layout(std140, binding = 0) buffer Pos {
     vec4 Positions[ ];
-}
+};
 
 
-layout(std140, binding = 1) buffer Vel{
+layout(std140, binding = 1) buffer Vel {
     vec4 Velocities[ ];
-}
+};
 
 //Compute Shader Work Groups
 layout(local_size_x = 16,local_size_y = 16) in;
+
 
 
 //Uniform Variable's
@@ -21,7 +23,7 @@ uniform float DT;
 uniform vec2 vpdim;
 uniform int borderclamp;
 
-void main()
+void main()   
 {
     uint index = gl_GlobalInvocationID.x;
 
