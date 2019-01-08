@@ -66,6 +66,12 @@
     <ClCompile Include="src\SkyBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\LightCaster.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticleSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Shader.h">
@@ -128,6 +134,12 @@
     <ClInclude Include="src\SkyBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\LightCaster.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticleSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Default.vs" />
@@ -147,6 +159,12 @@
     <None Include="packages.config" />
     <None Include="Shaders\SkyBox.fs" />
     <None Include="Shaders\SkyBox.vs" />
+    <None Include="Shaders\GBuffer.fs" />
+    <None Include="Shaders\GBuffer.vs" />
+    <None Include="Shaders\Quad.fs" />
+    <None Include="Shaders\Quad.vs" />
+    <None Include="Shaders\Reflection.fs" />
+    <None Include="Shaders\Reflection.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\spaceship.png">

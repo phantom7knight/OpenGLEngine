@@ -1,10 +1,11 @@
 #include "ImguiManager.h"
+#include "../src/Constants.h"
 
 ImguiManager* ImguiManager::m_Instance = nullptr;
 
 
 
-ImguiManager::ImguiManager():m_LightPosition(glm::vec3(0,0,10)), m_lightIntensity(0.5f), m_specularIntensity(3)
+ImguiManager::ImguiManager():m_LightPosition(glm::vec3(0.0, 0.0, 0.0)), m_lightIntensity(0.5f), m_specularIntensity(3), m_IsBloom(true)
 {
 }
 
@@ -36,6 +37,8 @@ void ImguiManager::ShowLightProperties()
 
 	ImGui::SliderFloat("Intensity", &m_lightIntensity, 0.0f, 1.0f);
 
+	ImGui::Checkbox("Bloom", &m_IsBloom);
+
 	ImGui::End();
 }
 
@@ -45,6 +48,21 @@ void ImguiManager::ShowControlsProperties()
 	
 	ImGui::Text("	NUMPAD7	 NUMPAD8	NUMPAD9\n");
 	ImGui::Text("		NUMPAD4 NUMPAD5 NUMPAD6\n");
+
+	ImGui::End();
+}
+
+void ImguiManager::RenderingMode()
+{
+	ImGui::Begin("Render Options");
+
+	const char* items[] = { "FWD_RENDERERING","DEFERRED_RENDERERING","PARTICLE_SYSTEM" };
+	int size = 3;
+	static int current_item = 2;
+
+	ImGui::Combo("Render Mode", &current_item, items, size);
+	
+	m_renderMode = current_item;
 
 	ImGui::End();
 }
@@ -61,6 +79,7 @@ void ImguiManager::ImguiInit(GLFWwindow* window)
 
 bool show_another_window	= false;
 bool show_another_window2	= true;
+bool show_another_window3	= true;
 
 
 void ImguiManager::ImguiUpdate()
@@ -83,14 +102,20 @@ void ImguiManager::ImguiUpdate()
 	ImGui::Checkbox("Light", &show_another_window2);
 
 
+
 	if (show_another_window)
 	{
 		ShowControlsProperties();
-	} 
+	}
 
 	if (show_another_window2)
 	{
 		ShowLightProperties();
+	}
+
+	if (show_another_window3)
+	{
+		RenderingMode();
 	}
 
 	//===============================================================

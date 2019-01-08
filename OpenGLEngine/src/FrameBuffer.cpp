@@ -4,14 +4,13 @@
 //#include "glfw3.h"
 #include "../Game.h"
 
-#define Screen_Width1  1366
-#define Screen_Height1  768 
+#define Screen_Width1  1600
+#define Screen_Height1  900 
 
 
 
 FrameBuffer::FrameBuffer()
 {
-	//TextureList.reserve(10);
 }
 
 
@@ -34,16 +33,17 @@ void FrameBuffer::CreateTextureFBO(unsigned int& texture_name, int internal_form
 	glTexImage2D(GL_TEXTURE_2D, 0, internal_format, Screen_Width1, Screen_Height1, 0, format, GL_FLOAT, NULL);
 
 	//Texture Properties
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 
 }
 
-void FrameBuffer::SetFrameBuffer()
+void FrameBuffer::SetFrameBuffer(int mode)
 {
+	int num_colorAttachments;
 
 	//Generate FBO
 	glGenFramebuffers(1, &m_uFbo);
@@ -51,22 +51,72 @@ void FrameBuffer::SetFrameBuffer()
 	//Bind FBO	
 	BindFrameBuffer();
 
-	//Create Texture and make color attachments
+	//Reflection
+	if (mode == 0)
+	{
+		//Create Texture and make color attachments
+		
+		CreateTextureFBO(m_texture, GL_RGBA32F_ARB, GL_RGBA);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture, 0);
 
-	CreateTextureFBO(m_texture, GL_RGB16F, GL_RGB);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture, 0);
 
-	
+		GLuint colorattachments[] = {
+			GL_COLOR_ATTACHMENT0
+		};
+
+		glDrawBuffers(1, colorattachments);
+
+	}
+	//Deferred Rendering
+	else if (mode == 1)
+	{
+
+		//Create Texture and make color attachments
+
+		/*CreateTextureFBO(m_position, GL_RGB16F, GL_RGB);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_position, 0);
+
+		CreateTextureFBO(m_normal, GL_RGB16F, GL_RGB);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, m_normal, 0);
+
+		CreateTextureFBO(m_albedospec, GL_RGBA, GL_RGBA);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, m_albedospec, 0);
+
+		GLuint colorattachments[] = {
+			GL_COLOR_ATTACHMENT0,
+			GL_COLOR_ATTACHMENT1,
+			GL_COLOR_ATTACHMENT2
+		};
+
+		num_colorAttachments = 3;
+
+		glDrawBuffers(num_colorAttachments, colorattachments);*/
+
+	}
+
+	//=======================================================================
+	CreateTextureFBO(m_position, GL_RGB16F, GL_RGB);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_position, 0);
+
+	CreateTextureFBO(m_normal, GL_RGB16F, GL_RGB);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, m_normal, 0);
+
+	CreateTextureFBO(m_albedospec, GL_RGBA, GL_RGBA);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, m_albedospec, 0);
+
 	GLuint colorattachments[] = {
-		GL_COLOR_ATTACHMENT0
+		GL_COLOR_ATTACHMENT0,
+		GL_COLOR_ATTACHMENT1,
+		GL_COLOR_ATTACHMENT2
 	};
 
-	glDrawBuffers(1, colorattachments);
+	num_colorAttachments = 3;
 
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
-
+	glDrawBuffers(num_colorAttachments, colorattachments);
 	
+	
+	
+	//=======================================================================
 	GLenum eStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 
 	if (eStatus != GL_FRAMEBUFFER_COMPLETE)

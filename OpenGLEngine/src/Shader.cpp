@@ -79,29 +79,64 @@ Shader::Shader(const GLchar* vertexshaderpath, const GLchar* fragmentshaderpath)
 	glAttachShader(shader_ID, vert);
 	glAttachShader(shader_ID, frag);
 
-	LinkShader();
+	LinkShader(shader_ID);
 
 	glDeleteShader(vert);
 	glDeleteShader(frag);
 
 }
 
-void Shader::LinkShader()
+void Shader::LinkShader(unsigned int ID)
 {
 	int value;
 	char log[255];
 
-	glLinkProgram(shader_ID);
-	glValidateProgram(shader_ID);
+	glLinkProgram(ID);
+	glValidateProgram(ID);
 
-	glGetProgramiv(shader_ID, GL_LINK_STATUS, &value);
+	glGetProgramiv(ID, GL_LINK_STATUS, &value);
 
 	if (!value)
 	{
-		glGetShaderInfoLog(shader_ID, 255, NULL, log);
+		glGetShaderInfoLog(ID, 255, NULL, log);
 		std::cout << "ERROR IN LINKING BETWEEN FRAGMENT AND VERTEX SHADER -" << log << std::endl;
 	}
 }
+
+void Shader::ComputeShaderSetUp(const GLchar * computeShaderpath)
+{
+	std::string  computecode_str = ReadFile(computeShaderpath);
+
+	const char* computecode = computecode_str.c_str();
+
+	int value;
+	GLchar log[510];
+
+
+	//Compute Shader
+
+	GLint compute;
+	compute = glCreateShader(GL_COMPUTE_SHADER);
+	glShaderSource(compute, 1, &computecode, NULL);
+	glCompileShader(compute);
+	glGetShaderiv(compute, GL_COMPILE_STATUS, &value);
+
+	if (!compute)
+	{
+		glGetShaderInfoLog(compute, 512, NULL, log);
+		std::cout << "COMPUTE SHADER FAILED TO COMPILE - " << log << std::endl;
+	}
+
+	compute_ID = glCreateProgram();
+
+	glAttachShader(compute_ID, compute);
+
+	LinkShader(compute_ID);
+
+	glDeleteShader(compute);
+
+}
+
 
 
 void Shader::Use()
@@ -109,15 +144,27 @@ void Shader::Use()
 	glUseProgram(shader_ID);
 }
 
+void Shader::ComputeShaderUse()
+{
+	glUseProgram(compute_ID);
+}
+
+void Shader::UnUse()
+{
+	glUseProgram(0);
+}
+
 
 void Shader::ClearShader()
 {
 	glDeleteProgram(shader_ID);
+	//glDeleteProgram(compute_ID);
 }
+
 
 void Shader::SetInt(unsigned int shader_ID, const char * uniname, int v1)
 {
-	glUniform1d(glGetUniformLocation(shader_ID, uniname), v1);
+	glUniform1i(glGetUniformLocation(shader_ID, uniname), v1);
 }
 
 void Shader::SetUniform1f(unsigned int shader_ID, const char * uniname, float v1)

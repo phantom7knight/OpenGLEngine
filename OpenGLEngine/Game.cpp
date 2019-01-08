@@ -84,14 +84,20 @@ Game::~Game()
 {
 }
 
-GLFWwindow* m_pwindow;
+
 
 bool Game::Init()
 {
 
 	if (!glfwInit())
 		return false;
-
+	
+	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	//glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+	//glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
+	
 	
 	/* Create a windowed mode window and its OpenGL context */
 	m_pwindow = glfwCreateWindow(Screen_Width, Screen_Height, "Hello World", NULL, NULL);
@@ -100,8 +106,7 @@ bool Game::Init()
 		glfwTerminate();
 		return false;
 	}
-
-
+	
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(m_pwindow);
@@ -114,7 +119,7 @@ bool Game::Init()
 
 	}
 
-
+	
 	Renderer::getInstance()->Init();
 
 	ImguiManager::getInstance()->ImguiInit(m_pwindow);
@@ -126,6 +131,18 @@ bool Game::Init()
 int counter = 0;
 void Game::Run()
 {
+	const GLubyte* renderer = glGetString(GL_RENDERER);
+	const GLubyte* version = glGetString(GL_VERSION);
+
+	std::cout << renderer << std::endl;
+	std::cout << version << std::endl;
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 	while (!glfwWindowShouldClose(m_pwindow))
 	{
 
@@ -134,13 +151,13 @@ void Game::Run()
 		//This closes the window if Esc key is pressed Like an exit condition
 		processinput(m_pwindow);
 
-		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+		glClearColor(0.0,0.0,0.0, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		glEnable(GL_MULTISAMPLE);
 		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		/*glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);*/
 
 		++counter;
 		if (counter % 5000 == 0)

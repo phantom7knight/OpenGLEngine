@@ -5,11 +5,13 @@
 //#include <glad.h>
 #include "src/Shader.h"
 #include "glfw3.h"
-
 #include <glm.hpp>
 
-#define Screen_Width  1366
-#define Screen_Height  768 
+
+#include "src/Constants.h"
+
+//#define Screen_Width  1600
+//#define Screen_Height  900 
 
 
 
@@ -29,9 +31,16 @@ public:
 	
 	static Game* getInstance();
 
+	inline GLFWwindow* getWindow();
+
 private:
 	
 	static Game * m_Instance;
+	GLFWwindow* m_pwindow;
 
 };
 
+inline GLFWwindow * Game::getWindow()
+{
+	return m_pwindow;
+}

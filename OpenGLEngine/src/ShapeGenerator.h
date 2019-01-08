@@ -32,12 +32,15 @@ struct ObjectProperties
 	float		scalefactor;
 	glm::vec3	rotation;
 
+	glm::vec3	LightColor;
+
 
 	ObjectProperties()
 	{
 		translate	= glm::vec3(0.0f, 0.0f, 0.0f);
 		scalefactor = 1.0f;
 		rotation = glm::vec3(0.0, 0.0, 0.0);
+		LightColor = glm::vec3(1.0f, 1.0f, 1.0f);
 	}
 };
 
@@ -53,8 +56,9 @@ public:
 
 	void	Cube_Generator();
 	void	Plane_Generator();
+	void	Sphere_Generator();
 
-	void	Update(Shader* a_useShader);
+	void	Update(Shader* a_useShader = NULL);
 	
 	inline	Material getMaterial()
 	{
@@ -71,6 +75,7 @@ private:
 	unsigned int		m_VAO;
 	unsigned int		m_VBO;
 	unsigned int		m_IBO;
+	unsigned int		m_indexCount;
 
 	int					m_type;
 
