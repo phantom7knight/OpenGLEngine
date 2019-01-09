@@ -1,4 +1,4 @@
-#version 430 core
+#version 430
 
 uniform vec4 ParticleColor;
 uniform sampler2D ParticleTex;

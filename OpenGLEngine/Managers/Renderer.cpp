@@ -843,7 +843,9 @@ void Renderer::RendererUpdate()
 
 	else if (mode == 2)
 	{
+		float start_time = glfwGetTime();
 		m_particleSystem->Draw();
+
 	}
 
 

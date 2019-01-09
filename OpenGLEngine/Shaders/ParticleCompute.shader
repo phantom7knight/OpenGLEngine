@@ -30,6 +30,7 @@ void main()
     vec3 PositionParticle = Positions[index].xyz;
     vec3 VelocityParticle = Velocities[index].xyz;
 
+    VelocityParticle += 0.001*DT;
 
     PositionParticle += VelocityParticle * DT;
 

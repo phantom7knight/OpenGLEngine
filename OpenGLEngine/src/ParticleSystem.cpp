@@ -188,20 +188,24 @@ void ParticleSystem::SetUpBuffer()
 	//Add Data here
 	for (int i = 0; i < PARTICLE_COUNT; ++i)
 	{
-		float randnumber = (float)rand() / 100.0f;// (float)(RAND_MAX);
+		float randnumber = (float)rand() / (float)(RAND_MAX);
 		float randnumber1 = (float)rand() / (float)(10000.0f/ (360.0f*2.0f*PI));
 		float randnumber2 = (float)rand() / (float)(10000.0f / 0.2f);
 
 		points_pos[i].x = (float)(Screen_Width / 2 - 0.5 + cos(randnumber) *randnumber1);
 		points_pos[i].y = (float)(Screen_Height / 2 - 0.5 + sin(randnumber) *randnumber1);
-		points_pos[i].z = 0.0f;
+		points_pos[i].z = 10.0f;
 		points_pos[i].w = 1.0f;
 	}
+
+
+
 
 	//UnBind SSBO Position
 	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_SSBOPos);
+
 
 	//====================================
 	//SSBO Velocity
@@ -235,7 +239,7 @@ void ParticleSystem::SetUpBuffer()
 	//====================================
 
 	//Unbind VAO
-	//glBindBuffer(GL_VERTEX_ARRAY, 0);
+	glBindVertexArray(0);
 
 
 }
@@ -261,7 +265,7 @@ void ParticleSystem::Draw()
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, m_SSBOVel);*/
 
 
-	glUniform1f(glGetUniformLocation(m_computeID, "DT"), m_DeltaTime * (InputManager::getInstance()->getMultiplier()));
+	glUniform1f(glGetUniformLocation(m_computeID, "DT"), 1.0f * (InputManager::getInstance()->getMultiplier()));
 	glUniform2f(glGetUniformLocation(m_computeID, "vpdim"), 1, 1);
 	glUniform1i(glGetUniformLocation(m_computeID, "borderclamp"), true);
 
@@ -290,7 +294,7 @@ void ParticleSystem::Draw()
 	
 	glBindTexture(GL_TEXTURE_2D, m_particleTextureID);
 
-	GLuint posAttib = glGetAttribLocation(m_useShader->GetShaderID(), "Positions");
+	GLuint posAttib = glGetAttribLocation(m_useShader->GetShaderID(), "Pos");
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_SSBOPos);
 
@@ -302,6 +306,6 @@ void ParticleSystem::Draw()
 
 	//glfwSwapBuffers(Game::getInstance()->getWindow());
 
-	m_DeltaTime = ( (float)glfwGetTime() - startTime)*100.0f;
+	//m_DeltaTime = ( (float)glfwGetTime() - startTime)*100.0f;
 
 }
