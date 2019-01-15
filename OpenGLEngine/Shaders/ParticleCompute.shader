@@ -63,7 +63,7 @@ void main()
     // }
 
     Positions[index].xyz  = PositionParticle;
-    Velocities[index].xyz = VelocityParticle;
+    Velocities[index].xyz = vec3(0.1,0.1,0.1);
 
 
 }

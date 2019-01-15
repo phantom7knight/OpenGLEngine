@@ -193,18 +193,25 @@ void ParticleSystem::SetUpBuffer()
 	
 	for (int i = 0; i < PARTICLE_COUNT; ++i)
 	{
-		float randnumber = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
-		float randnumber1 = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
-		float randnumber2 = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 
-		//float randnumber = (float)rand() / (float)(RAND_MAX);
-		//float randnumber1 = (float)rand() / (float)(RAND_MAX / (360.0f*2.0f*PI));
-		//float randnumber2 = (float)rand() / (float)(RAND_MAX * 0.2f);
+		
+		/*float rand1 = LO + static_cast<float>(rand() / (static_cast<float>(RAND_MAX / (HI - LO))));
+		float rand2 = LO + static_cast<float>(rand() / (static_cast<float>(RAND_MAX / (HI - LO))));
+		float rand3 = LO + static_cast<float>(rand() / (static_cast<float>(RAND_MAX / (HI - LO))));*/
 
-		points_pos[i].x = randnumber;// (float)(Screen_Width / 2 - 0.5 + cos(randnumber) *randnumber1);
-		points_pos[i].y = randnumber1;// (float)(Screen_Height / 2 - 0.5 + sin(randnumber) *randnumber1);
-		points_pos[i].z = randnumber2;// 10.0f;
-		points_pos[i].w = 1.0f;
+		float randnumber = (float)rand() / (float)(RAND_MAX);
+		float randnumber1 = (float)rand() / (float)(RAND_MAX / (360.0f*2.0f*PI));
+		float randnumber2 = (float)rand() / (float)(RAND_MAX * 0.2f);
+
+		points_pos[i].x = (float)(Screen_Width / 2 - 0.5 + cos(randnumber) *randnumber1);
+		points_pos[i].y =  (float)(Screen_Height / 2 - 0.5 + sin(randnumber) *randnumber1);
+		points_pos[i].z =  1.0f;
+		points_pos[i].w = 0.0f;
+
+		/*randnumber; /
+			randnumber1;
+		randnumber2;
+		1.0f;*/
 
 		/*points_pos[i].x = 0.0f;
 		points_pos[i].y = 0.0f;
@@ -302,17 +309,20 @@ void ParticleSystem::Draw()
 	m_useShader->Use();
 
 	m_useShader->SetUniform4f(m_useShader->GetShaderID(), "ParticleColor", m_particleColor.x, m_particleColor.y, m_particleColor.z, m_particleColor.w);
+
+	//===========================================
+	//Send View and Projection Matrix
+	//===========================================
+
+	glm::mat4 proj_matrix = Camera::getInstance()->GetProjmat();
+	glm::mat4 view_matrix = Camera::getInstance()->GetViewmat();
+
+	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "ProjMatrix", proj_matrix);
+	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "ViewMatrix", view_matrix);
 	
 	glGetError();
 	glBindTexture(GL_TEXTURE_2D, m_particleTextureID);
-	/*glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_SSBOPos);
-
-	glPointSize(16);
-	glDrawArrays(GL_POINTS, 0, PARTICLE_COUNT);
-
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
-	glUseProgram(0);*/
-
+	
 	GLuint posAttib = glGetAttribLocation(m_useShader->GetShaderID(), "aPos");
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_SSBOPos);
@@ -320,7 +330,7 @@ void ParticleSystem::Draw()
 	glVertexAttribPointer(posAttib, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(posAttib);
 
-	glPointSize(16);
+	glPointSize(15);
 	glDrawArrays(GL_POINTS, 0, PARTICLE_COUNT);
 
 	//glfwSwapBuffers(Game::getInstance()->getWindow());
