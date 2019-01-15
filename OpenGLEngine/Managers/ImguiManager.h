@@ -15,12 +15,14 @@ private:
 	int			m_specularIntensity;
 	int			m_renderMode;
 	bool		m_IsBloom;
+	glm::vec3	m_particleColor;
 
 
 protected:
 	void ShowLightProperties();
 	void ShowControlsProperties();
 	void RenderingMode();
+	void ParticleProperties();
 
 
 public:
@@ -33,6 +35,7 @@ public:
 	inline float		getLightIntensity();
 	inline int			getRenderMode();
 	inline int			getBloomStatus();
+	inline glm::vec3	getParticleColor();
 	
 	void ImguiInit(GLFWwindow* window);
 	void ImguiUpdate();
@@ -57,4 +60,9 @@ inline int ImguiManager::getRenderMode()
 inline int ImguiManager::getBloomStatus()
 {
 	return m_IsBloom;
+}
+
+inline glm::vec3 ImguiManager::getParticleColor()
+{
+	return m_particleColor;
 }

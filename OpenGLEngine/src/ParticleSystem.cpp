@@ -40,7 +40,7 @@ std::string ReadaFile(std::string filename) {
 ParticleSystem::ParticleSystem():m_DeltaTime(0.0f)
 {
 	m_particleTexture = "Assets/Textures/particle.png";
-	m_particleColor = glm::vec4(1.0, 0.0, 1.0, 1.0);
+	m_particleColor = glm::vec3(1.0, 1.0, 1.0);
 
 }
 
@@ -188,24 +188,24 @@ void ParticleSystem::SetUpBuffer()
 	//Add Data here
 
 	//temp
-	float LO = -1.0f;
-	float HI = 1.0f;
+	float LO = 1.0f;
+	float HI = 10.0f;
 	
 	for (int i = 0; i < PARTICLE_COUNT; ++i)
 	{
 
 		
-		/*float rand1 = LO + static_cast<float>(rand() / (static_cast<float>(RAND_MAX / (HI - LO))));
+		float rand1 = LO + static_cast<float>(rand() / (static_cast<float>(RAND_MAX / (HI - LO))));
 		float rand2 = LO + static_cast<float>(rand() / (static_cast<float>(RAND_MAX / (HI - LO))));
-		float rand3 = LO + static_cast<float>(rand() / (static_cast<float>(RAND_MAX / (HI - LO))));*/
+		float rand3 = LO + static_cast<float>(rand() / (static_cast<float>(RAND_MAX / (HI - LO))));
 
-		float randnumber = (float)rand() / (float)(RAND_MAX);
-		float randnumber1 = (float)rand() / (float)(RAND_MAX / (360.0f*2.0f*PI));
-		float randnumber2 = (float)rand() / (float)(RAND_MAX * 0.2f);
+		//float randnumber = (float)rand() / (float)(RAND_MAX);
+		//float randnumber1 = (float)rand() / (float)(RAND_MAX / (360.0f*2.0f*PI));
+		//float randnumber2 = (float)rand() / (float)(RAND_MAX * 0.2f);
 
-		points_pos[i].x = (float)(Screen_Width / 2 - 0.5 + cos(randnumber) *randnumber1);
-		points_pos[i].y =  (float)(Screen_Height / 2 - 0.5 + sin(randnumber) *randnumber1);
-		points_pos[i].z =  1.0f;
+		points_pos[i].x = rand1;//(float)(Screen_Width / 2 - 0.5 + cos(randnumber) *randnumber1);
+		points_pos[i].y = rand2;//(float)(Screen_Height / 2 - 0.5 + sin(randnumber) *randnumber1);
+		points_pos[i].z = rand3;//1.0f;
 		points_pos[i].w = 0.0f;
 
 		/*randnumber; /
@@ -267,6 +267,13 @@ void ParticleSystem::Draw()
 
 	float startTime = (float)glfwGetTime();
 
+
+	//====================================
+	//Generate new particle Color
+	//====================================
+
+
+
 	//Add blending for particle texture
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -280,7 +287,7 @@ void ParticleSystem::Draw()
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_SSBOPos);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, m_SSBOVel);
 	
-	glUniform1f(glGetUniformLocation(m_computeID, "DT"), 1.0f * (InputManager::getInstance()->getMultiplier()));
+	glUniform1f(glGetUniformLocation(m_computeID, "DT"), m_DeltaTime * (InputManager::getInstance()->getMultiplier()));
 	glUniform2f(glGetUniformLocation(m_computeID, "vpdim"), 1, 1);
 	glUniform1i(glGetUniformLocation(m_computeID, "borderclamp"), true);
 	
@@ -302,13 +309,15 @@ void ParticleSystem::Draw()
 	
 	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
 
-	//===========================================
+	//============================================
 	//Set the Vertex & Pixel Shader for Particle's
-	//===========================================
+	//============================================
 
 	m_useShader->Use();
 
-	m_useShader->SetUniform4f(m_useShader->GetShaderID(), "ParticleColor", m_particleColor.x, m_particleColor.y, m_particleColor.z, m_particleColor.w);
+	m_particleColor = ImguiManager::getInstance()->getParticleColor();
+
+	m_useShader->SetUniform4f(m_useShader->GetShaderID(), "ParticleColor", m_particleColor.x, m_particleColor.y, m_particleColor.z, 1.0f);
 
 	//===========================================
 	//Send View and Projection Matrix
@@ -330,11 +339,11 @@ void ParticleSystem::Draw()
 	glVertexAttribPointer(posAttib, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(posAttib);
 
-	glPointSize(15);
+	glPointSize(5);
 	glDrawArrays(GL_POINTS, 0, PARTICLE_COUNT);
 
-	//glfwSwapBuffers(Game::getInstance()->getWindow());
-
-	//m_DeltaTime = ( (float)glfwGetTime() - startTime)*100.0f;
+	//std::cout << "start_time:" << startTime << "     " ;
+	m_DeltaTime = ( (float)glfwGetTime() - startTime)*100.0f;
+	//std::cout << "end_time:" << m_DeltaTime<< std::endl;
 
 }

@@ -5,7 +5,7 @@ ImguiManager* ImguiManager::m_Instance = nullptr;
 
 
 
-ImguiManager::ImguiManager():m_LightPosition(glm::vec3(0.0, 0.0, 0.0)), m_lightIntensity(0.5f), m_specularIntensity(3), m_IsBloom(true)
+ImguiManager::ImguiManager():m_LightPosition(glm::vec3(0.0, 0.0, 0.0)), m_lightIntensity(0.5f), m_specularIntensity(3), m_IsBloom(true), m_particleColor(glm::vec3(0.391,0.076,0.0))
 {
 }
 
@@ -67,6 +67,17 @@ void ImguiManager::RenderingMode()
 	ImGui::End();
 }
 
+void ImguiManager::ParticleProperties()
+{
+	ImGui::Begin("Particle Properties");
+	
+	ImGui::SliderFloat("Color X", &m_particleColor.x, 0.0f, 1.0f);
+	ImGui::SliderFloat("Color Y", &m_particleColor.y, 0.0f, 1.0f);
+	ImGui::SliderFloat("Color Z", &m_particleColor.z, 0.0f, 1.0f);
+
+	ImGui::End();
+}
+
 
 void ImguiManager::ImguiInit(GLFWwindow* window)
 {
@@ -80,6 +91,7 @@ void ImguiManager::ImguiInit(GLFWwindow* window)
 bool show_another_window	= false;
 bool show_another_window2	= true;
 bool show_another_window3	= true;
+bool show_another_window4	= true;
 
 
 void ImguiManager::ImguiUpdate()
@@ -100,6 +112,7 @@ void ImguiManager::ImguiUpdate()
 	(Camera::getInstance()->Camera_Pos_.x), Camera::getInstance()->Camera_Pos_.y, Camera::getInstance()->Camera_Pos_.z);
 
 	ImGui::Checkbox("Light", &show_another_window2);
+	ImGui::Checkbox("Particle", &show_another_window4);
 
 
 
@@ -116,6 +129,11 @@ void ImguiManager::ImguiUpdate()
 	if (show_another_window3)
 	{
 		RenderingMode();
+	}
+	
+	if (show_another_window4)
+	{
+		ParticleProperties();
 	}
 
 	//===============================================================

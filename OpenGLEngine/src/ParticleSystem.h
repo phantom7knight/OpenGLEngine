@@ -51,5 +51,5 @@ private:
 
 	float			m_DeltaTime;
 
-	glm::vec4		m_particleColor;
+	glm::vec3		m_particleColor;
 };

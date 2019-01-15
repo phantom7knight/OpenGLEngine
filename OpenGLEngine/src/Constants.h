@@ -32,3 +32,4 @@ return false;								\
 #define PRINT_LOG(infohere) \
 printf(infohere);			\
 
+#define GET_RANDOM_WITHIN(LIMIT1,LIMIT2)
