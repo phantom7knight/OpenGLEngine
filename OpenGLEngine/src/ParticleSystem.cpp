@@ -183,23 +183,34 @@ void ParticleSystem::SetUpBuffer()
 	GLint flagmasks = GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT;
 
 	//Create the particle pos buffer to send it to GPU
-	struct ParticlePos* points_pos = (struct ParticlePos*)glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, PARTICLE_COUNT * sizeof(ParticlePos), flagmasks);
+	ParticlePos* points_pos = ( ParticlePos*)glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, PARTICLE_COUNT * sizeof(ParticlePos), GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
 	
 	//Add Data here
+
+	//temp
+	float LO = -1.0f;
+	float HI = 1.0f;
+	
 	for (int i = 0; i < PARTICLE_COUNT; ++i)
 	{
-		float randnumber = (float)rand() / (float)(RAND_MAX);
-		float randnumber1 = (float)rand() / (float)(10000.0f/ (360.0f*2.0f*PI));
-		float randnumber2 = (float)rand() / (float)(10000.0f / 0.2f);
+		float randnumber = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
+		float randnumber1 = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
+		float randnumber2 = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 
-		points_pos[i].x = (float)(Screen_Width / 2 - 0.5 + cos(randnumber) *randnumber1);
-		points_pos[i].y = (float)(Screen_Height / 2 - 0.5 + sin(randnumber) *randnumber1);
-		points_pos[i].z = 10.0f;
+		//float randnumber = (float)rand() / (float)(RAND_MAX);
+		//float randnumber1 = (float)rand() / (float)(RAND_MAX / (360.0f*2.0f*PI));
+		//float randnumber2 = (float)rand() / (float)(RAND_MAX * 0.2f);
+
+		points_pos[i].x = randnumber;// (float)(Screen_Width / 2 - 0.5 + cos(randnumber) *randnumber1);
+		points_pos[i].y = randnumber1;// (float)(Screen_Height / 2 - 0.5 + sin(randnumber) *randnumber1);
+		points_pos[i].z = randnumber2;// 10.0f;
 		points_pos[i].w = 1.0f;
+
+		/*points_pos[i].x = 0.0f;
+		points_pos[i].y = 0.0f;
+		points_pos[i].z = 0.0f;
+		points_pos[i].w = 0.0f;*/
 	}
-
-
-
 
 	//UnBind SSBO Position
 	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
@@ -218,10 +229,10 @@ void ParticleSystem::SetUpBuffer()
 
 	glGenBuffers(1, &m_SSBOVel);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_SSBOVel);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, PARTICLE_COUNT * sizeof(ParticleVel), NULL, GL_STATIC_DRAW);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, PARTICLE_COUNT * sizeof(struct ParticleVel), NULL, GL_STATIC_DRAW);
 
 
-	struct ParticleVel* particle_vel = (struct ParticleVel*)glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, PARTICLE_COUNT * sizeof(ParticleVel), flagmasks);
+	struct ParticleVel* particle_vel = (struct ParticleVel*)glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, PARTICLE_COUNT * sizeof(struct ParticleVel), GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
 
 
 	for (int i = 0; i < PARTICLE_COUNT; ++i)
@@ -238,10 +249,7 @@ void ParticleSystem::SetUpBuffer()
 	
 	//====================================
 
-	//Unbind VAO
-	glBindVertexArray(0);
-
-
+	
 }
 
 
@@ -255,46 +263,57 @@ void ParticleSystem::Draw()
 	//Add blending for particle texture
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-
-	//Set Compute Shader Related Data
+	
+	
 
 	//m_computeShader->ComputeShaderUse();
 	glUseProgram(m_computeID);
-
-	/*glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_SSBOPos);
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, m_SSBOVel);*/
-
-
+	
+	//Set Compute Shader Related Data
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_SSBOPos);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, m_SSBOVel);
+	
 	glUniform1f(glGetUniformLocation(m_computeID, "DT"), 1.0f * (InputManager::getInstance()->getMultiplier()));
 	glUniform2f(glGetUniformLocation(m_computeID, "vpdim"), 1, 1);
 	glUniform1i(glGetUniformLocation(m_computeID, "borderclamp"), true);
-
+	
 	//m_computeShader->SetUniform1f(m_computeShader->GetComputeShaderID(), "DT", m_DeltaTime * (InputManager::getInstance()->getMultiplier()));
 	//m_computeShader->SetUniform2f(m_computeShader->GetComputeShaderID(), "vpdim", 1,1);
 	//m_computeShader->SetInt(m_computeShader->GetComputeShaderID(), "borderclamp", true);
-
+	
 	int work_group_size = 16;
 	int workingGroup = PARTICLE_COUNT / work_group_size;
-
+	
 	glDispatchCompute(workingGroup, 1, 1);
-
+	
+	//Set Compute Shader Related Data
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, 0);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
+	
 	glUseProgram(0);
 	//m_computeShader->UnUse();
+	
+	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
 
-	glMemoryBarrier(GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT);
-
-	/*glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, 0);
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);*/
-
+	//===========================================
 	//Set the Vertex & Pixel Shader for Particle's
+	//===========================================
 
 	m_useShader->Use();
 
 	m_useShader->SetUniform4f(m_useShader->GetShaderID(), "ParticleColor", m_particleColor.x, m_particleColor.y, m_particleColor.z, m_particleColor.w);
 	
+	glGetError();
 	glBindTexture(GL_TEXTURE_2D, m_particleTextureID);
+	/*glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_SSBOPos);
 
-	GLuint posAttib = glGetAttribLocation(m_useShader->GetShaderID(), "Pos");
+	glPointSize(16);
+	glDrawArrays(GL_POINTS, 0, PARTICLE_COUNT);
+
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
+	glUseProgram(0);*/
+
+	GLuint posAttib = glGetAttribLocation(m_useShader->GetShaderID(), "aPos");
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_SSBOPos);
 

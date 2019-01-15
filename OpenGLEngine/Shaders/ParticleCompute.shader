@@ -3,6 +3,7 @@
 
 //SSBO Data
 
+
 layout(std140, binding = 0) buffer Pos {
     vec4 Positions[ ];
 };
@@ -34,35 +35,34 @@ void main()
 
     PositionParticle += VelocityParticle * DT;
 
-    if(borderclamp == 1.0f)
-    {
-        if(PositionParticle.x < -vpdim.x)
-        {
-            PositionParticle.x = -vpdim.x;
-            VelocityParticle.x = -VelocityParticle.x;
-        }
+    // if(borderclamp == 1.0f)
+    // {
+    //     if(PositionParticle.x < -vpdim.x)
+    //     {
+    //         PositionParticle.x = -vpdim.x;
+    //         VelocityParticle.x = -VelocityParticle.x;
+    //     }
 
-        if(PositionParticle.x > -vpdim.x)
-        {
-            PositionParticle.x = vpdim.x;
-            VelocityParticle.x = -VelocityParticle.x;
-        }
+    //     if(PositionParticle.x > -vpdim.x)
+    //     {
+    //         PositionParticle.x = vpdim.x;
+    //         VelocityParticle.x = -VelocityParticle.x;
+    //     }
 
-        if(PositionParticle.y < -vpdim.y)
-        {
-            PositionParticle.y = -vpdim.y;
-            VelocityParticle.y = -VelocityParticle.y;
-        }
+    //     if(PositionParticle.y < -vpdim.y)
+    //     {
+    //         PositionParticle.y = -vpdim.y;
+    //         VelocityParticle.y = -VelocityParticle.y;
+    //     }
 
-        if(PositionParticle.y > -vpdim.y)
-        {
-            PositionParticle.y = vpdim.y;
-            VelocityParticle.y = -VelocityParticle.y;
-        }
+    //     if(PositionParticle.y > -vpdim.y)
+    //     {
+    //         PositionParticle.y = vpdim.y;
+    //         VelocityParticle.y = -VelocityParticle.y;
+    //     }
+    // }
 
-    }
-
-    Positions[index].xyz = PositionParticle;
+    Positions[index].xyz  = PositionParticle;
     Velocities[index].xyz = VelocityParticle;
 
 

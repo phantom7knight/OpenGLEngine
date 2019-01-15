@@ -9,19 +9,13 @@
 
 struct ParticlePos
 {
-	float x;
-	float y;
-	float z;
-	float w;
+	GLfloat x, y, z, w;
 };
 
 
 struct ParticleVel
 {
-	float x;
-	float y;
-	float z;
-	float w;
+	GLfloat x, y, z, w;
 };
 
 #define PARTICLE_COUNT 1024*1024
@@ -44,8 +38,8 @@ private:
 
 	unsigned int	m_VAO;
 
-	unsigned int	m_SSBOPos;
-	unsigned int	m_SSBOVel;
+	GLuint 	m_SSBOPos;
+	GLuint 	m_SSBOVel;
 
 	std::string		m_particleTexture;
 	unsigned int	m_particleTextureID;
