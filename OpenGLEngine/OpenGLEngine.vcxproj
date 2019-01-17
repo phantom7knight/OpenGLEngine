@@ -214,6 +214,9 @@
     <Image Include="Assets\Textures\LetterA.png" />
     <Image Include="Assets\Textures\spaceship.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Bugs.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\Assimp.redist.3.0.0\build\native\Assimp.redist.targets" Condition="Exists('..\packages\Assimp.redist.3.0.0\build\native\Assimp.redist.targets')" />

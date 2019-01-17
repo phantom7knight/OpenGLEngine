@@ -1,8 +1,5 @@
 
-
 #include "ShapeGenerator.h"
-
-//#include "src/Shader.h"
 
 #include "Shader.h"
 #include <string.h>
@@ -16,7 +13,6 @@
 ShapeGenerator::ShapeGenerator():m_useShader(0)
 {
 }
-
 
 ShapeGenerator::~ShapeGenerator()
 {
@@ -57,10 +53,7 @@ void ShapeGenerator::Initialize(const GLchar* vertexshaderpath, const GLchar* fr
 	//m_useShader->SetInt(m_useShader->GetShaderID(),"shadpwmap", 1);
 	#pragma endregion
 
-
 }
-
-
 
 void ShapeGenerator::Cube_Generator()
 {
@@ -220,6 +213,9 @@ void ShapeGenerator::Plane_Generator()
 	glBindVertexArray(0);
 }
 
+//==============================================
+//CREDIT: JOEY DE VRIES
+//==============================================
 void ShapeGenerator::Sphere_Generator()
 {
 
