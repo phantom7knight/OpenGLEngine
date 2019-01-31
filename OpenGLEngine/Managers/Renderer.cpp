@@ -115,7 +115,7 @@ void Renderer::Init()
 	obj_proper2.translate = lightpos_here;//glm::vec3(-1.8f, 1.0f, 10.0f); //glm::vec3(0.0f, 0.0f, 0.0f); ;// glm::vec3(-1.8f, 0.0f, 10.0f);
 
 
-	m_shapegen2->Initialize("Shaders/BloomLight.vs", "Shaders/BloomLight.fs", 0, obj_material2, obj_proper2);
+	m_shapegen2->Initialize("Shaders/Light.vs", "Shaders/Light.fs", 0, obj_material2, obj_proper2);
 
 	m_ShapeGenList.push_back(m_shapegen2);
 
