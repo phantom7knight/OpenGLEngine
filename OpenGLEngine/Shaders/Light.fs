@@ -22,7 +22,6 @@ uniform vec3	cameraPos;
 uniform vec3	lightPos;
 uniform float 	Lightintensity;
 int lightMode = 1;
-uniform vec3 LightColor;
 
 
 
@@ -256,10 +255,10 @@ void main()
 
 	final_BRDF = CalculateDirectionalLight(); 
 
-	float brigtness = dot(LightColor,threshold);
+	float brigtness = dot(final_BRDF,threshold);
 	if(brigtness > 1)
 	{
-		BrightColor = vec4(LightColor.rgb,1.0);
+		BrightColor = vec4(final_BRDF,1.0);
 	}
 	else
 	{
@@ -267,5 +266,6 @@ void main()
 	}
 	
 	FragColor = vec4(final_BRDF , 1.0f);
+
 
 }

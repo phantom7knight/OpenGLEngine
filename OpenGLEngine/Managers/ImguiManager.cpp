@@ -58,7 +58,7 @@ void ImguiManager::RenderingMode()
 
 	const char* items[] = { "FWD_RENDERERING","DEFERRED_RENDERERING","PARTICLE_SYSTEM" };
 	int size = 3;
-	static int current_item = 0;
+	static int current_item = 2;
 
 	ImGui::Combo("Render Mode", &current_item, items, size);
 	
