@@ -71,9 +71,9 @@ void ImguiManager::ParticleProperties()
 {
 	ImGui::Begin("Particle Properties");
 	
-	ImGui::SliderFloat("Color X", &m_particleColor.x, 0.0f, 1.0f);
-	ImGui::SliderFloat("Color Y", &m_particleColor.y, 0.0f, 1.0f);
-	ImGui::SliderFloat("Color Z", &m_particleColor.z, 0.0f, 1.0f);
+	ImGui::SliderFloat("Color X", &m_particleColor.x, 0.0f, 10.0f);
+	ImGui::SliderFloat("Color Y", &m_particleColor.y, 0.0f, 10.0f);
+	ImGui::SliderFloat("Color Z", &m_particleColor.z, 0.0f, 10.0f);
 
 	ImGui::End();
 }
