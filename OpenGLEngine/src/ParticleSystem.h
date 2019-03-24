@@ -29,6 +29,7 @@ public:
 				   ~ParticleSystem();
 
    void				Initialize();
+   void				Quad();
    void				SetUpBuffer();
    unsigned int		TextureSetup();
    void				Draw();
@@ -37,6 +38,9 @@ public:
 private:
 
 	unsigned int	m_VAO;
+	unsigned int	m_QuadVAO;
+	unsigned int	m_VBO;
+	unsigned int	m_IBO;
 
 	GLuint 	m_SSBOPos;
 	GLuint 	m_SSBOVel;

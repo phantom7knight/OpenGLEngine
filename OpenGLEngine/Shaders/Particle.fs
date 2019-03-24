@@ -7,5 +7,8 @@ out vec4 FragColor;
 
 void main()
 {
-    FragColor = ParticleColor;//vec4(1,0,1,1);//vec4(texture(ParticleTex,gl_PointCoord) * ParticleColor);
+	
+	
+	
+    FragColor = vec4(texture(ParticleTex,gl_PointCoord) * ParticleColor);//ParticleColor;//vec4(1,0,1,1);//vec4(texture(ParticleTex,gl_PointCoord) * ParticleColor);
 }

@@ -64,15 +64,16 @@ unsigned int ParticleSystem::TextureSetup()
 		glGenTextures(1, &m_particleTextureID);
 		glBindTexture(GL_TEXTURE_2D, m_particleTextureID);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, iWidth, iHeight, 0, GL_RGB, GL_FLOAT, pData);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, iWidth, iHeight, 0, GL_BGR, GL_UNSIGNED_BYTE, pData);
 
 		// set the texture wrapping/filtering options (on the currently bound texture object)
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glGenerateMipmap(GL_TEXTURE_2D);
 
 		stbi_image_free(pData);
 
@@ -137,6 +138,54 @@ unsigned int SetUpComputeShader(const GLchar* computeShaderpath)
 }
 
 
+
+void ParticleSystem::Quad()
+{
+	float fQuadVertices[] =
+	{
+		// Positions			// TexCoord
+		 0.5f, 	0.0f,   0.5f,	1.0f, 1.0f,
+		 0.5f, 	0.0f,  -0.5f,	1.0f, 0.0f,
+		-0.5f, 	0.0f,  -0.5f,	0.0f, 0.0f,
+		-0.5f, 	0.0f,   0.5f,	0.0f, 1.0f
+	};
+
+	unsigned int uQuadIndices[] =
+	{
+		0,1,3,
+		3,2,1
+	};
+
+	//Generate Buffers
+	glGenVertexArrays(1, &m_QuadVAO);
+	glGenBuffers(1, &m_VBO);
+	glGenBuffers(1, &m_IBO);
+
+
+	//Bind Buffers and arrays
+	glBindVertexArray(m_QuadVAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_QuadVAO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(fQuadVertices), fQuadVertices, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uQuadIndices), uQuadIndices, GL_STATIC_DRAW);
+
+	//Send the data as Input layout i.e Locations
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void *)0);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+
+	//unbind the vbo and ibo
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+}
+
+
+
 void ParticleSystem::Initialize()
 {
 	//====================================
@@ -150,6 +199,7 @@ void ParticleSystem::Initialize()
 	//SSBO->SHADER STORAGE BUFFER OBJECT
 	//====================================
 	SetUpBuffer();
+	//Quad();
 
 	//====================================
 	//Shader Initialize
@@ -158,6 +208,9 @@ void ParticleSystem::Initialize()
 	m_useShader = new Shader("Shaders/Particle.vs", "Shaders/Particle.fs");
 
 	m_computeID = SetUpComputeShader("Shaders/ParticleCompute.shader");
+
+	m_useShader->Use();
+	m_useShader->SetInt(m_useShader->GetShaderID(), "ParticleTex", 0);
 
 }
 
@@ -279,8 +332,6 @@ void ParticleSystem::Draw()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	
 	
-
-	//m_computeShader->ComputeShaderUse();
 	glUseProgram(m_computeID);
 	
 	//Set Compute Shader Related Data
@@ -290,11 +341,7 @@ void ParticleSystem::Draw()
 	glUniform1f(glGetUniformLocation(m_computeID, "DT"), m_DeltaTime * (InputManager::getInstance()->getMultiplier()));
 	glUniform2f(glGetUniformLocation(m_computeID, "vpdim"), 1, 1);
 	glUniform1i(glGetUniformLocation(m_computeID, "borderclamp"), true);
-	
-	//m_computeShader->SetUniform1f(m_computeShader->GetComputeShaderID(), "DT", m_DeltaTime * (InputManager::getInstance()->getMultiplier()));
-	//m_computeShader->SetUniform2f(m_computeShader->GetComputeShaderID(), "vpdim", 1,1);
-	//m_computeShader->SetInt(m_computeShader->GetComputeShaderID(), "borderclamp", true);
-	
+		
 	int work_group_size = 16;
 	int workingGroup = PARTICLE_COUNT / work_group_size;
 	
@@ -305,7 +352,6 @@ void ParticleSystem::Draw()
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
 	
 	glUseProgram(0);
-	//m_computeShader->UnUse();
 	
 	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
 
@@ -330,6 +376,8 @@ void ParticleSystem::Draw()
 	m_useShader->SetUniformMatrix4fv(m_useShader->GetShaderID(), "ViewMatrix", view_matrix);
 	
 	glGetError();
+
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_particleTextureID);
 	
 	GLuint posAttib = glGetAttribLocation(m_useShader->GetShaderID(), "aPos");
@@ -339,7 +387,10 @@ void ParticleSystem::Draw()
 	glVertexAttribPointer(posAttib, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(posAttib);
 
-	glPointSize(5);
+
+
+
+	glPointSize(25);
 	glDrawArrays(GL_POINTS, 0, PARTICLE_COUNT);
 
 	//std::cout << "start_time:" << startTime << "     " ;
