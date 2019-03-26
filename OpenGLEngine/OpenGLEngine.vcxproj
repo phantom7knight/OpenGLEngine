@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\LightCaster.cpp" />
+    <ClCompile Include="src\MathDefs.cpp" />
     <ClCompile Include="src\ParticleSystem.cpp" />
     <ClCompile Include="src\SkyBox.cpp" />
     <ClCompile Include="src\FrameBuffer.cpp" />
@@ -163,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\LightCaster.h" />
+    <ClInclude Include="src\MathDefs.h" />
     <ClInclude Include="src\ParticleSystem.h" />
     <ClInclude Include="src\SkyBox.h" />
     <ClInclude Include="src\Constants.h" />

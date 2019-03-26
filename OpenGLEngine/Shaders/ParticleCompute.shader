@@ -20,9 +20,10 @@ layout(local_size_x = 16,local_size_y = 16) in;
 
 //Uniform Variable's
 
-uniform float DT;
-uniform vec2 vpdim;
-uniform int borderclamp;
+uniform float 	DT;
+uniform vec2 	vpdim;
+uniform int 	borderclamp;
+uniform vec3 	destPosition;
 
 void main()   
 {
@@ -31,36 +32,36 @@ void main()
     vec3 PositionParticle = Positions[index].xyz;
     vec3 VelocityParticle = Velocities[index].xyz;
 
-    VelocityParticle += 0.001*DT;
+    VelocityParticle += normalize(destPosition - PositionParticle) * 3* DT;
 
-    PositionParticle += VelocityParticle * DT;
+    PositionParticle += VelocityParticle ;//
 
-    // if(borderclamp == 1.0f)
-    // {
-    //     if(PositionParticle.x < -vpdim.x)
-    //     {
-    //         PositionParticle.x = -vpdim.x;
-    //         VelocityParticle.x = -VelocityParticle.x;
-    //     }
-
-    //     if(PositionParticle.x > -vpdim.x)
-    //     {
-    //         PositionParticle.x = vpdim.x;
-    //         VelocityParticle.x = -VelocityParticle.x;
-    //     }
-
-    //     if(PositionParticle.y < -vpdim.y)
-    //     {
-    //         PositionParticle.y = -vpdim.y;
-    //         VelocityParticle.y = -VelocityParticle.y;
-    //     }
-
-    //     if(PositionParticle.y > -vpdim.y)
-    //     {
-    //         PositionParticle.y = vpdim.y;
-    //         VelocityParticle.y = -VelocityParticle.y;
-    //     }
-    // }
+     // if(borderclamp == 1.0f)
+     // {
+        // if(PositionParticle.x < -vpdim.x)
+        // {
+            // PositionParticle.x = -vpdim.x;
+            // VelocityParticle.x = -VelocityParticle.x;
+        // }
+     
+        // if(PositionParticle.x > -vpdim.x)
+        // {
+            // PositionParticle.x = vpdim.x;
+            // VelocityParticle.x = -VelocityParticle.x;
+        // }
+     
+        // if(PositionParticle.y < -vpdim.y)
+        // {
+            // PositionParticle.y = -vpdim.y;
+            // VelocityParticle.y = -VelocityParticle.y;
+        // }
+     
+        // if(PositionParticle.y > -vpdim.y)
+        // {
+            // PositionParticle.y = vpdim.y;
+            // VelocityParticle.y = -VelocityParticle.y;
+        // }
+      // }
 
     Positions[index].xyz  = PositionParticle;
     Velocities[index].xyz = vec3(0.1,0.1,0.1);

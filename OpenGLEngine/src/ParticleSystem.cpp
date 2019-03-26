@@ -328,8 +328,8 @@ void ParticleSystem::Draw()
 
 
 	//Add blending for particle texture
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	
 	
 	glUseProgram(m_computeID);
@@ -337,10 +337,17 @@ void ParticleSystem::Draw()
 	//Set Compute Shader Related Data
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_SSBOPos);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, m_SSBOVel);
+
+
+	double mouseX, mouseY;
+	glfwGetCursorPos(Game::getInstance()->getWindow() , &mouseX, &mouseY);
+
+	float randNos = GetRandomNumberBetween(5,10);
 	
 	glUniform1f(glGetUniformLocation(m_computeID, "DT"), m_DeltaTime * (InputManager::getInstance()->getMultiplier()));
 	glUniform2f(glGetUniformLocation(m_computeID, "vpdim"), 1, 1);
 	glUniform1i(glGetUniformLocation(m_computeID, "borderclamp"), true);
+	glUniform3i(glGetUniformLocation(m_computeID, "destPosition"), mouseX,mouseY,0);
 		
 	int work_group_size = 16;
 	int workingGroup = PARTICLE_COUNT / work_group_size;
