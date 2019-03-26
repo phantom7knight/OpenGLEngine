@@ -6,7 +6,7 @@
 #include "../Managers/InputManager.h"
 #include "../Game.h"
 #include "stb_image.h"
-
+#include "MathDefs.h"
 
 std::string ReadaFile(std::string filename) {
 
@@ -342,7 +342,7 @@ void ParticleSystem::Draw()
 	double mouseX, mouseY;
 	glfwGetCursorPos(Game::getInstance()->getWindow() , &mouseX, &mouseY);
 
-	float randNos = GetRandomNumberBetween(5,10);
+	float randNos = MathDefs::getInstance()->GetRandomNumberBetween(5,10);
 	
 	glUniform1f(glGetUniformLocation(m_computeID, "DT"), m_DeltaTime * (InputManager::getInstance()->getMultiplier()));
 	glUniform2f(glGetUniformLocation(m_computeID, "vpdim"), 1, 1);
