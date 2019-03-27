@@ -5,7 +5,9 @@ ImguiManager* ImguiManager::m_Instance = nullptr;
 
 
 
-ImguiManager::ImguiManager():m_LightPosition(glm::vec3(0.0, 0.0, 0.0)), m_lightIntensity(0.5f), m_specularIntensity(3), m_IsBloom(true), m_particleColor(glm::vec3(0.391,0.076,0.0))
+ImguiManager::ImguiManager():m_LightPosition(glm::vec3(0.0, 0.0, 0.0)), m_lightIntensity(0.5f), m_specularIntensity(3), 
+							 m_IsBloom(true), m_particleColor(glm::vec3(0.391,0.076,0.0)),
+							 m_NoiseFreq(10.0f),m_NoiseStrength(0.001f)
 {
 }
 
@@ -74,6 +76,9 @@ void ImguiManager::ParticleProperties()
 	ImGui::SliderFloat("Color X", &m_particleColor.x, 0.0f, 10.0f);
 	ImGui::SliderFloat("Color Y", &m_particleColor.y, 0.0f, 10.0f);
 	ImGui::SliderFloat("Color Z", &m_particleColor.z, 0.0f, 10.0f);
+
+	ImGui::SliderFloat("Noise Strength ", &m_NoiseStrength, 0.0f, 0.1f);
+	ImGui::SliderFloat("Noise Frequency ", &m_NoiseFreq, 0.0f, 20.0f);
 
 	ImGui::End();
 }

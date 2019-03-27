@@ -17,8 +17,8 @@ private:
 	bool		m_IsBloom;
 	glm::vec3	m_particleColor;
 
-	float		m_FreqNoise;
-	float		m_FreqStrength;
+	float		m_NoiseFreq;
+	float		m_NoiseStrength;
 
 
 protected:
@@ -46,12 +46,12 @@ public:
 
 	inline const float &getNoiseFreq()
 	{
-		return m_FreqNoise;
+		return m_NoiseFreq;
 	}
 	
 	inline const float &getNoiseStrength()
 	{
-		return m_FreqStrength;
+		return m_NoiseStrength;
 	}
 
 

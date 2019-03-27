@@ -26,6 +26,10 @@ uniform int 	borderclamp;
 uniform vec3 	destPosition;
 
 
+uniform float noiseStrength;
+uniform float noiseFreq;
+
+
 
 //========================================================================
 //Simplex Perlin Noise
@@ -158,8 +162,6 @@ void main()
 {
     uint index = gl_GlobalInvocationID.x;
 	
-	float noiseFreq = 10.0f;
-	float noiseStrength = 0.001f;
 
 
     vec3 PositionParticle = Positions[index].xyz;

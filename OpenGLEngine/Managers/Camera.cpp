@@ -11,7 +11,7 @@ Camera::Camera()
 
 	Camera_WorldUp_ = Camera_Up_;
 
-	camera_move_speed_ = 0.75f;
+	camera_move_speed_ = 1.75f;
 
 	Yaw = -90.0f;
 	Pitch = 0.0f;
