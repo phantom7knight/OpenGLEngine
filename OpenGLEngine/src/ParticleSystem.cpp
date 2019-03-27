@@ -339,11 +339,14 @@ void ParticleSystem::Draw()
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, m_SSBOVel);
 
 
-	float randNos = MathDefs::getInstance()->GetRandomNumberBetween(5,10);
+	float randNos = MathDefs::getInstance()->GetRandomNumberBetween(0,1);
+	double mouseX, mouseY;
+	glfwGetCursorPos(Game::getInstance()->getWindow(), &mouseX, &mouseY);
 	
 	glUniform1f(glGetUniformLocation(m_computeID, "DT"), m_DeltaTime * (InputManager::getInstance()->getMultiplier()));
 	glUniform1f(glGetUniformLocation(m_computeID, "noiseFreq"), ImguiManager::getInstance()->getNoiseFreq());
 	glUniform1f(glGetUniformLocation(m_computeID, "noiseStrength"), ImguiManager::getInstance()->getNoiseStrength());
+	glUniform3f(glGetUniformLocation(m_computeID, "destPosition"), mouseX, mouseY, 0);
 	
 		
 	int work_group_size = 16;

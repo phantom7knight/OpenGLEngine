@@ -21,8 +21,6 @@ layout(local_size_x = 16,local_size_y = 16) in;
 //Uniform Variable's
 
 uniform float 	DT;
-uniform vec2 	vpdim;
-uniform int 	borderclamp;
 uniform vec3 	destPosition;
 
 
@@ -167,9 +165,10 @@ void main()
     vec3 PositionParticle = Positions[index].xyz;
     vec3 VelocityParticle = Velocities[index].xyz;
 
-	VelocityParticle += GenerateFractalBrownianMotion(PositionParticle * noiseFreq , 4 , 2.0 , 0.5) * noiseStrength;				//normalize(destPosition - PositionParticle) * 3* DT;
+	VelocityParticle += GenerateFractalBrownianMotion(PositionParticle * noiseFreq , 4 , 2.0 , 0.5) * noiseStrength;
+	//VelocityParticle += normalize(destPosition - PositionParticle) * 20 * DT;
     PositionParticle += VelocityParticle ;
-
+	
 
 
     Positions[index].xyz  = PositionParticle;

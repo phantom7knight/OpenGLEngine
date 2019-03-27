@@ -33,8 +33,8 @@ void processinput(GLFWwindow* window)
 }
 
 bool firstMouse = true;
-float lastX = (float)Screen_Width	/ 2.0f;
-float lastY = (float)Screen_Height	/ 2.0f;
+float lastX = (float)1920.0f	/ 2.0f;
+float lastY = (float)1080.0f/ 2.0f;
 
 //===================================================================================
 //CREDITS : learnopengl.com[JOEY DE VRIES]
@@ -100,7 +100,7 @@ bool Game::Init()
 	
 	
 	/* Create a windowed mode window and its OpenGL context */
-	m_pwindow = glfwCreateWindow(Screen_Width, Screen_Height, "Hello World", NULL, NULL);
+	m_pwindow = glfwCreateWindow(1920, 1080, "Hello World", NULL, NULL);
 	if (!m_pwindow)
 	{
 		glfwTerminate();
