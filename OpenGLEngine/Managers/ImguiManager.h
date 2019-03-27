@@ -17,6 +17,9 @@ private:
 	bool		m_IsBloom;
 	glm::vec3	m_particleColor;
 
+	float		m_FreqNoise;
+	float		m_FreqStrength;
+
 
 protected:
 	void ShowLightProperties();
@@ -40,6 +43,19 @@ public:
 	void ImguiInit(GLFWwindow* window);
 	void ImguiUpdate();
 	void ImguiDestroy();
+
+	inline const float &getNoiseFreq()
+	{
+		return m_FreqNoise;
+	}
+	
+	inline const float &getNoiseStrength()
+	{
+		return m_FreqStrength;
+	}
+
+
+
 };
 
 inline glm::vec3 ImguiManager::getLightPosition()
