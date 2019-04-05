@@ -19,6 +19,7 @@ private:
 
 	float		m_NoiseFreq;
 	float		m_NoiseStrength;
+	float		m_PSize = 0.5;
 
 
 protected:
@@ -52,6 +53,11 @@ public:
 	inline const float &getNoiseStrength()
 	{
 		return m_NoiseStrength;
+	}
+	
+	inline const float &getParticleSize()
+	{
+		return m_PSize;
 	}
 
 

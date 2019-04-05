@@ -79,6 +79,7 @@ void ImguiManager::ParticleProperties()
 
 	ImGui::SliderFloat("Noise Strength ", &m_NoiseStrength, 0.0f, 0.1f);
 	ImGui::SliderFloat("Noise Frequency ", &m_NoiseFreq, 0.0f, 20.0f);
+	ImGui::SliderFloat("Particle Size ", &m_PSize, 0.5, 5.0);
 
 	ImGui::End();
 }

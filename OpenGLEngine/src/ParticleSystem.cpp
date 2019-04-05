@@ -397,7 +397,8 @@ void ParticleSystem::Draw()
 
 
 
-	glPointSize(0.5);
+	//glPointSize(0.5);
+	glPointSize(ImguiManager::getInstance()->getParticleSize());
 	glDrawArrays(GL_POINTS, 0, PARTICLE_COUNT);
 
 	//std::cout << "start_time:" << startTime << "     " ;
