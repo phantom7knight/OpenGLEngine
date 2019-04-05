@@ -203,7 +203,7 @@ void Renderer::BloomInitialize()
 	//Bind Texture
 	glBindTexture(GL_TEXTURE_2D, m_bloomtex1);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, Screen_Width, Screen_Height, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 1920, 1080, 0, GL_RGB, GL_FLOAT, NULL);
 
 	//Texture Properties
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -219,7 +219,7 @@ void Renderer::BloomInitialize()
 	//Bind Texture
 	glBindTexture(GL_TEXTURE_2D, m_bloomtex2);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, Screen_Width, Screen_Height, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 1920,1080, 0, GL_RGB, GL_FLOAT, NULL);
 
 	//Texture Properties
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -259,7 +259,7 @@ void Renderer::BloomInitialize()
 		glBindFramebuffer(GL_FRAMEBUFFER, m_PingPongBlurFBO[i]);
 
 		glBindTexture(GL_TEXTURE_2D, m_blurtex[i]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, Screen_Width, Screen_Height, 0, GL_RGB, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 1920, 1080, 0, GL_RGB, GL_FLOAT, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -323,7 +323,7 @@ void Renderer::GBufferInitialize()
 	//Bind Texture
 	glBindTexture(GL_TEXTURE_2D, gposition);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, Screen_Width, Screen_Height, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 1920, 1080, 0, GL_RGB, GL_FLOAT, NULL);
 
 	//Texture Properties
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -475,7 +475,7 @@ void Renderer::RenderQuadForFBO()
 void Renderer::GBufferPass()
 {
 
-	glViewport(0, 0, Screen_Width, Screen_Height);
+	glViewport(0, 0, 1920, 1080);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, m_gbufferfbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -762,7 +762,7 @@ void Renderer::PostProcessingPass()
 
 	#pragma region Final-Pass
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glViewport(0, 0, Screen_Width, Screen_Height);
+	glViewport(0, 0, 1920, 1080);
 	//ShaderUse
 	m_blurFinalLight->Use();
 

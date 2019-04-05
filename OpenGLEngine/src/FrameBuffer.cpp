@@ -30,7 +30,7 @@ void FrameBuffer::CreateTextureFBO(unsigned int& texture_name, int internal_form
 	//Bind Texture
 	glBindTexture(GL_TEXTURE_2D, texture_name);
 	
-	glTexImage2D(GL_TEXTURE_2D, 0, internal_format, Screen_Width1, Screen_Height1, 0, format, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, internal_format, 1920, 1080, 0, format, GL_FLOAT, NULL);
 
 	//Texture Properties
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
